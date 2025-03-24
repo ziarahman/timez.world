@@ -24,55 +24,24 @@ import SortableTimezoneList from './components/SortableTimezoneList'
 import { Timezone } from './types'
 import { getAvailableTimezones } from './data/timezones'
 
-// Storage keys
-const STORAGE_KEYS = {
-  TIMEZONES: 'worldtimez_timezones',
-  HOME_TIMEZONE: 'worldtimez_home_timezone'
-}
+// Storage key for timezones
+const STORAGE_KEY = 'worldtimez_timezones'
 
 // Load timezones from localStorage
-function loadSavedTimezones(): { timezones: Timezone[]; homeTimezone: Timezone } {
+function loadSavedTimezones(): Timezone[] {
   try {
-    const savedTimezones = localStorage.getItem(STORAGE_KEYS.TIMEZONES)
-    const savedHomeTimezone = localStorage.getItem(STORAGE_KEYS.HOME_TIMEZONE)
-    const localZone = DateTime.local().zoneName || 'UTC'
-    const zoneParts = localZone.split('/')
-    const defaultHome: Timezone = {
-      id: localZone,
-      name: localZone,
-      offset: DateTime.local().offset,
-      city: zoneParts[zoneParts.length - 1].replace('_', ' '),
-      country: zoneParts.length > 1 ? zoneParts[0].replace('_', ' ') : 'Unknown',
-      population: 0
-    }
-    
-    return {
-      timezones: savedTimezones ? JSON.parse(savedTimezones) : [],
-      homeTimezone: savedHomeTimezone ? JSON.parse(savedHomeTimezone) : defaultHome
-    }
+    const savedTimezones = localStorage.getItem(STORAGE_KEY)
+    return savedTimezones ? JSON.parse(savedTimezones) : []
   } catch (error) {
     console.error('Error loading saved timezones:', error)
-    const localZone = DateTime.local().zoneName || 'UTC'
-    const zoneParts = localZone.split('/')
-    return { 
-      timezones: [], 
-      homeTimezone: {
-        id: localZone,
-        name: localZone,
-        offset: DateTime.local().offset,
-        city: zoneParts[zoneParts.length - 1].replace('_', ' '),
-        country: zoneParts.length > 1 ? zoneParts[0].replace('_', ' ') : 'Unknown',
-        population: 0
-      }
-    }
+    return []
   }
 }
 
 // Save timezones to localStorage
-function saveTimezones(timezones: Timezone[], homeTimezone: Timezone) {
+function saveTimezones(timezones: Timezone[]) {
   try {
-    localStorage.setItem(STORAGE_KEYS.TIMEZONES, JSON.stringify(timezones))
-    localStorage.setItem(STORAGE_KEYS.HOME_TIMEZONE, JSON.stringify(homeTimezone))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(timezones))
   } catch (error) {
     console.error('Error saving timezones:', error)
   }
@@ -87,27 +56,14 @@ function App() {
   // Clear localStorage if there are any invalid timezone IDs
   useEffect(() => {
     try {
-      const savedTimezones = localStorage.getItem(STORAGE_KEYS.TIMEZONES)
-      const savedHomeTimezone = localStorage.getItem(STORAGE_KEYS.HOME_TIMEZONE)
-
-      let hasInvalidId = false
-
+      const savedTimezones = localStorage.getItem(STORAGE_KEY)
       if (savedTimezones) {
         const tzs = JSON.parse(savedTimezones)
-        hasInvalidId = tzs.some((tz: Timezone) => tz.id.includes('_'))
-      }
-
-      if (savedHomeTimezone) {
-        const home = JSON.parse(savedHomeTimezone)
-        if (home.id.includes('_')) {
-          hasInvalidId = true
+        const hasInvalidId = tzs.some((tz: Timezone) => tz.id.includes('_'))
+        if (hasInvalidId) {
+          localStorage.removeItem(STORAGE_KEY)
+          window.location.reload()
         }
-      }
-
-      if (hasInvalidId) {
-        localStorage.removeItem(STORAGE_KEYS.TIMEZONES)
-        localStorage.removeItem(STORAGE_KEYS.HOME_TIMEZONE)
-        window.location.reload()
       }
     } catch (error) {
       console.error('Error checking timezone IDs:', error)
@@ -115,15 +71,31 @@ function App() {
   }, [])
 
   const [selectedDateTime, setSelectedDateTime] = useState(DateTime.local())
-  const [timezones, setTimezones] = useState<Timezone[]>([])
-  const [homeTimezone, setHomeTimezone] = useState<Timezone | null>(null)
+  const [timezones, setTimezones] = useState<Timezone[]>(loadSavedTimezones())
 
-  // Load saved timezones on initial render
+  // Add user's local timezone if no timezones exist
   useEffect(() => {
-    const savedState = loadSavedTimezones()
-    setTimezones(savedState.timezones)
-    setHomeTimezone(savedState.homeTimezone)
+    if (timezones.length === 0) {
+      const localZone = DateTime.local().zoneName
+      if (localZone) {
+        const zoneParts = localZone.split('/')
+        const localTimezone: Timezone = {
+          id: localZone,
+          name: localZone,
+          offset: DateTime.local().offset,
+          city: zoneParts[zoneParts.length - 1].replace(/_/g, ' '),
+          country: zoneParts[0].replace(/_/g, ' '),
+          population: 0
+        }
+        setTimezones([localTimezone])
+      }
+    }
   }, [])
+
+  // Save timezones whenever they change
+  useEffect(() => {
+    saveTimezones(timezones)
+  }, [timezones])
 
   // Save theme preference
   useEffect(() => {
@@ -156,55 +128,33 @@ function App() {
 
   // Save timezones whenever they change
   useEffect(() => {
-    if (homeTimezone) {
-      console.log('Saving state:', {
-        timezones: timezones.map(tz => tz.city),
-        home: homeTimezone.city
-      })
-      saveTimezones(timezones, homeTimezone)
-    }
-  }, [timezones, homeTimezone])
+    console.log('Saving timezones:', timezones)
+    saveTimezones(timezones)
+  }, [timezones])
 
   const handleAddTimezone = (selectedTimezone: Timezone) => {
-    if (!homeTimezone) return
-
     console.log('Adding timezone:', selectedTimezone)
-    console.log('Current timezones:', JSON.stringify(timezones, null, 2))
-    console.log('Home timezone:', JSON.stringify(homeTimezone, null, 2))
 
-    // Only check if timezone exists in the list
-    const exists = timezones.some(tz => {
-      const match = tz.id === selectedTimezone.id && tz.city === selectedTimezone.city;
-      if (match) {
-        console.log('Found matching timezone in list:', JSON.stringify(tz, null, 2));
-      }
-      return match;
-    })
-
-    if (exists) {
-      console.log('City already exists in list')
+    // Check if timezone already exists
+    if (timezones.some(tz => tz.id === selectedTimezone.id && tz.name === selectedTimezone.name)) {
+      console.log('Timezone already exists')
       return
     }
 
-    // If it's the home timezone, use that data to ensure consistency
-    const dataToAdd = selectedTimezone.id === homeTimezone.id ? homeTimezone : selectedTimezone
-    const newTimezones = [...timezones, dataToAdd];
-    console.log('Setting new timezones:', JSON.stringify(newTimezones, null, 2))
+    const newTimezones = [...timezones, selectedTimezone]
+    console.log('Setting new timezones:', newTimezones)
     setTimezones(newTimezones)
   }
 
-  const handleDeleteTimezone = (index: number) => {
-    if (!homeTimezone) return
-
-    const deletedTimezone = timezones[index]
-    setTimezones(prev => prev.filter((_, i) => i !== index))
+  const handleDeleteTimezone = (timezoneToDelete: Timezone) => {
+    console.log('Deleting timezone:', timezoneToDelete)
     
-    // If we're deleting the home timezone, make the first remaining timezone the new home
-    if (deletedTimezone.id === homeTimezone.id && timezones.length > 1) {
-      const newHomeIndex = index === 0 ? 1 : 0
-      setHomeTimezone(timezones[newHomeIndex])
-      setTimezones(prev => prev.filter((_, i) => i !== newHomeIndex))
-    }
+    const newTimezones = timezones.filter(tz => 
+      !(tz.id === timezoneToDelete.id && tz.name === timezoneToDelete.name)
+    )
+    
+    console.log('New timezones:', newTimezones)
+    setTimezones(newTimezones)
   }
 
   const handleDeleteHomeTimezone = () => {
@@ -274,15 +224,19 @@ function App() {
                 spacing={2} 
                 sx={{ mb: 1 }}
               >
-                <Box sx={{ flex: { xs: '1', sm: '3' }, width: '100%' }}>
+                <Box sx={{ flex: { xs: '1', sm: '1' }, width: '100%' }}>
                   <Typography 
                     variant="subtitle1" 
                     component="h2" 
                     sx={{ mb: 1, fontWeight: 500 }}
                   >
-                    Home Timezone Settings
+                    Time Settings
                   </Typography>
-                  <Box>
+                  <Box sx={{ 
+                    '& .MuiTextField-root': { width: '100%' },
+                    '& .MuiInputBase-root': { width: '100%' },
+                    '& .MuiFormControl-root': { width: '100%' }
+                  }}>
                     <DateTimePicker
                       label="Select Date & Time"
                       value={selectedDateTime}
@@ -291,12 +245,11 @@ function App() {
                           setSelectedDateTime(newValue)
                         }
                       }}
-                      sx={{ width: '100%' }}
                     />
                   </Box>
                 </Box>
                 
-                <Box sx={{ flex: { xs: '1', sm: '2' }, width: '100%' }}>
+                <Box sx={{ flex: { xs: '1', sm: '1' }, width: '100%' }}>
                   <Typography 
                     variant="subtitle1" 
                     component="h2" 
@@ -314,25 +267,9 @@ function App() {
                 <SortableTimezoneList
                   timezones={timezones}
                   selectedDateTime={selectedDateTime}
-                  homeTimezone={homeTimezone}
                   onTimeSelect={handleTimeSelect}
-                  onDelete={(index) => {
-                    if (index === 0) {
-                      handleDeleteHomeTimezone()
-                    } else {
-                      handleDeleteTimezone(index - 1)
-                    }
-                  }}
-                  onSetHome={(timezone) => {
-                    if (timezone.id !== homeTimezone.id) {
-                      handleSetHomeTimezone(timezone)
-                    }
-                  }}
-                  onReorder={(newOrder) => {
-                    const [newHome, ...newTimezones] = newOrder
-                    setHomeTimezone(newHome)
-                    setTimezones(newTimezones)
-                  }}
+                  onDelete={handleDeleteTimezone}
+                  onReorder={setTimezones}
                 />
               </Stack>
             </Paper>

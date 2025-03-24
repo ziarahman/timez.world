@@ -19,18 +19,14 @@ interface TimezoneRowProps {
   timezone: Timezone;
   selectedTime: DateTime;
   onTimeSelect: (time: DateTime) => void;
-  onDelete: () => void;
-  onSetHome: () => void;
-  isHome?: boolean;
+  onDelete: (timezone: Timezone) => void;
 }
 
 export default function TimezoneRow({ 
   timezone, 
   selectedTime, 
   onTimeSelect, 
-  onDelete,
-  onSetHome,
-  isHome = false 
+  onDelete
 }: TimezoneRowProps) {
   // Convert selected time to this timezone
   const localTime = selectedTime.setZone(timezone.id)
@@ -106,46 +102,24 @@ export default function TimezoneRow({
           >
             {currentDate}
           </Typography>
-          {!isHome && (
-            <>
-              <Tooltip title="Set as home timezone">
-                <IconButton
-                  onClick={onSetHome}
-                  size="small"
-                  color="primary"
-                  sx={{ 
-                    padding: 0.5,
-                    '&:hover': { 
-                      backgroundColor: theme.palette.primary.main + '1A'
-                    },
-                    '& .MuiSvgIcon-root': {
-                      fontSize: '0.875rem'
-                    }
-                  }}
-                >
-                  <HomeIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Remove timezone">
-                <IconButton
-                  onClick={onDelete}
-                  size="small"
-                  color="error"
-                  sx={{ 
-                    padding: 0.5,
-                    '&:hover': { 
-                      backgroundColor: theme.palette.error.main + '1A'
-                    },
-                    '& .MuiSvgIcon-root': {
-                      fontSize: '0.875rem'
-                    }
-                  }}
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            </>
-          )}
+          <Tooltip title="Remove timezone">
+            <IconButton
+              onClick={() => onDelete(timezone)}
+              size="small"
+              color="error"
+              sx={{ 
+                padding: 0.5,
+                '&:hover': { 
+                  backgroundColor: theme.palette.error.main + '1A'
+                },
+                '& .MuiSvgIcon-root': {
+                  fontSize: '0.875rem'
+                }
+              }}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
       <Box 

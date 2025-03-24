@@ -23,10 +23,8 @@ interface SortableTimezoneListProps {
   timezones: Timezone[];
   selectedDateTime: DateTime;
   onTimeSelect: (time: DateTime) => void;
-  onDelete: (index: number) => void;
-  onSetHome: (timezone: Timezone) => void;
+  onDelete: (timezone: Timezone) => void;
   onReorder: (newOrder: Timezone[]) => void;
-  homeTimezone?: Timezone;
 }
 
 export default function SortableTimezoneList({
@@ -34,9 +32,7 @@ export default function SortableTimezoneList({
   selectedDateTime,
   onTimeSelect,
   onDelete,
-  onSetHome,
-  onReorder,
-  homeTimezone
+  onReorder
 }: SortableTimezoneListProps) {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -74,7 +70,7 @@ export default function SortableTimezoneList({
       onDragEnd={handleDragEnd}
     >
       <SortableContext
-        items={timezones.map(tz => ({ id: getTimezoneUniqueId(tz) }))}
+        items={timezones.map(tz => getTimezoneUniqueId(tz))}
         strategy={verticalListSortingStrategy}
       >
         <Stack spacing={1}>
@@ -84,9 +80,7 @@ export default function SortableTimezoneList({
               timezone={timezone}
               selectedTime={selectedDateTime}
               onTimeSelect={onTimeSelect}
-              onDelete={() => onDelete(index)}
-              onSetHome={() => onSetHome(timezone)}
-              isHome={homeTimezone?.id === timezone.id}
+              onDelete={() => onDelete(timezone)}
             />
           ))}
         </Stack>

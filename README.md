@@ -10,7 +10,7 @@ Worldtimez is a modern, user-friendly timezone comparison application built with
 ## ✨ Features
 
 - 🕒 Compare multiple timezones simultaneously
-- 🏠 Set and manage home timezone
+- 📅 Set specific date & time to compare
 - 🔄 Drag-and-drop interface for reordering timezones
 - 🌓 Dark/Light mode support
 - 📱 Responsive design for all devices
@@ -122,4 +122,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ by [Zia Rahman](https://github.com/ziarahman) + [Vibe Coding](https://en.wikipedia.org/wiki/Vibe_coding) with AI 🤖.
+Made with ❤️ by [Zia Rahman](https://github.com/ziarahman) + [Vibe Coding](https://en.wikipedia.org/wiki/Vibe_coding) with AI 🤖 using [Windsurf](https://windsurf.ai).

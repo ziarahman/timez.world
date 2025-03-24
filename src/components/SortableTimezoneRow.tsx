@@ -5,25 +5,21 @@ import { Box, IconButton, Paper, Tooltip, Typography, useTheme } from '@mui/mate
 import { DateTime } from 'luxon'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import DeleteIcon from '@mui/icons-material/Delete'
-import HomeIcon from '@mui/icons-material/Home'
+
 import { Timezone } from '../types'
 
 interface SortableTimezoneRowProps {
   timezone: Timezone
   selectedTime: DateTime
   onTimeSelect: (time: DateTime) => void
-  onDelete: () => void
-  onSetHome: () => void
-  isHome?: boolean
+  onDelete: (timezone: Timezone) => void
 }
 
 export default function SortableTimezoneRow({
   timezone,
   selectedTime,
   onTimeSelect,
-  onDelete,
-  onSetHome,
-  isHome = false
+  onDelete
 }: SortableTimezoneRowProps) {
   const theme = useTheme()
   const {
@@ -67,47 +63,32 @@ export default function SortableTimezoneRow({
   }, [selectedTime])
 
   // Generate time slots centered around the selected time
-  const timeSlots = Array.from({ length: 24 }, (_, i) => {
-    const hourOffset = i - 12
-    const utcSlotTime = utcTime.plus({ hours: hourOffset })
-    const localSlotTime = utcSlotTime.setZone(timezone.id)
+  const baseTime = selectedTime.setZone(timezone.id)
+  const timeSlots = Array.from({ length: 48 }, (_, i) => {
+    // Calculate offset from current hour (-12 to +11) with 30-minute intervals
+    const halfHourOffset = i - 24
+    const hourOffset = Math.floor(halfHourOffset / 2)
+    const isHalfHour = halfHourOffset % 2 !== 0
     
-    if (!localSlotTime.isValid) {
-      console.error(`Invalid time for timezone ${timezone.id}:`, { utcSlotTime, hourOffset })
+    // Get the time for this slot in the target timezone
+    const slotTime = baseTime
+      .plus({ hours: hourOffset })
+      .plus({ minutes: isHalfHour ? 30 : 0 })
+    
+    if (!slotTime.isValid) {
+      console.error(`Invalid time for timezone ${timezone.id}:`, { slotTime, hourOffset })
       return null
     }
     
-    const selectedInUTC = selectedTime.toUTC()
-    
-    // Create both hour and half-hour slots
-    const slots = []
-    
-    // Create the hour slot
-    const hourSlot = localSlotTime.set({ minute: 0 })
-    const hourSlotInUTC = hourSlot.toUTC()
-    slots.push({
-      hour: hourSlot.hour,
-      minute: 0,
-      period: hourSlot.toFormat('a'),
-      dateTime: hourSlot,
-      isSelected: hourSlotInUTC.toFormat('HH:mm') === selectedInUTC.toFormat('HH:mm'),
-      key: `${hourSlot.toFormat('HH')}-${hourOffset}`
-    })
-    
-    // Create the half-hour slot
-    const halfHourSlot = hourSlot.plus({ minutes: 30 })
-    const halfHourSlotInUTC = halfHourSlot.toUTC()
-    slots.push({
-      hour: halfHourSlot.hour,
-      minute: 30,
-      period: halfHourSlot.toFormat('a'),
-      dateTime: halfHourSlot,
-      isSelected: halfHourSlotInUTC.toFormat('HH:mm') === selectedInUTC.toFormat('HH:mm'),
-      key: `${halfHourSlot.toFormat('HH')}-${hourOffset}-30`
-    })
-    
-    return slots
-  }).flat().filter((slot): slot is NonNullable<typeof slot> => slot !== null)
+    return {
+      hour: slotTime.hour,
+      minute: slotTime.minute,
+      period: slotTime.toFormat('a'),
+      dateTime: slotTime,
+      isSelected: halfHourOffset === 0,
+      key: `${slotTime.toFormat('HH:mm')}-${halfHourOffset}`
+    }
+  }).filter((slot): slot is NonNullable<typeof slot> => slot !== null)
 
   return (
     <Paper 
@@ -160,38 +141,15 @@ export default function SortableTimezoneRow({
           >
             {currentDate}
           </Typography>
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <Tooltip title={isHome ? 'Home timezone' : 'Set as home timezone'}>
-              <IconButton 
-                size="small" 
-                onClick={onSetHome}
-                color={isHome ? 'primary' : 'default'}
-                sx={{
-                  p: 0.5,
-                  ...(isHome && {
-                    backgroundColor: 'primary.main',
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: 'primary.dark',
-                    }
-                  })
-                }}
-              >
-                <HomeIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-            {!isHome && (
-              <Tooltip title="Remove timezone">
-                <IconButton 
-                  size="small" 
-                  onClick={onDelete}
-                  sx={{ p: 0.5 }}
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            )}
-          </Box>
+          <Tooltip title="Remove timezone">
+            <IconButton 
+              size="small" 
+              onClick={() => onDelete(timezone)}
+              sx={{ p: 0.5 }}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
       <Box
