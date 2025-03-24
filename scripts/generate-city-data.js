@@ -1,49 +1,68 @@
-const fs = require('fs');
-const path = require('path');
-const zlib = require('zlib');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { generateAsianCities } from './cities/asia.js';
+import { generateEuropeanCities } from './cities/europe.js';
+import { generateAmericanCities } from './cities/americas.js';
+import { generateOceaniaCities } from './cities/oceania.js';
+import { generateAfricanCities } from './cities/africa.js';
 
-// This is a placeholder for the actual city data
-// In production, we would fetch this from GeoNames or similar service
-const generateCityData = () => {
-  const cities = [
-    // Example format for each city:
-    {
-      name: 'Toronto',
-      country: 'Canada',
-      population: 2731571,
-      timezone: 'America/Toronto',
-      lat: 43.7001,
-      lng: -79.4163,
-    }
-    // ... more cities would be added here
-  ];
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  return cities;
-};
+// Load static cities to avoid duplicates
+const staticCitiesFile = path.join(__dirname, '../src/data/timezones.ts');
+const staticCitiesContent = fs.readFileSync(staticCitiesFile, 'utf8');
+const staticCities = new Set();
+
+// Extract city names from static cities file using regex
+const cityRegex = /name: '([^']+)'/g;
+let match;
+while ((match = cityRegex.exec(staticCitiesContent)) !== null) {
+  staticCities.add(match[1]);
+}
+
+console.log(`Loaded ${staticCities.size} static cities`);
+
+// City data by region
+const generateCities = () => ({
+  asia: generateAsianCities(),
+  europe: generateEuropeanCities(),
+  americas: generateAmericanCities(),
+  oceania: generateOceaniaCities(),
+  africa: generateAfricanCities()
+});
 
 const main = async () => {
-  const cities = generateCityData();
-  
-  // Convert to JSON
-  const jsonData = JSON.stringify(cities);
-  
-  // Compress the data
-  const compressed = zlib.gzipSync(jsonData);
-  
-  // Write to public directory
-  const outputPath = path.join(__dirname, '../public/data');
-  
-  // Create directory if it doesn't exist
-  if (!fs.existsSync(outputPath)) {
-    fs.mkdirSync(outputPath, { recursive: true });
+  try {
+    console.log('Generating regional city data...');
+    
+    const cities = generateCities();
+    const outputPath = path.join(__dirname, '../public/data/cities');
+    
+    if (!fs.existsSync(outputPath)) {
+      fs.mkdirSync(outputPath, { recursive: true });
+    }
+    
+    let totalCities = 0;
+    for (const [region, regionCities] of Object.entries(cities)) {
+      // Filter out static cities
+      const filteredCities = regionCities.filter(city => !staticCities.has(city.name));
+      
+      fs.writeFileSync(
+        path.join(outputPath, `${region}.json`),
+        JSON.stringify(filteredCities, null, 2)
+      );
+      
+      totalCities += filteredCities.length;
+      console.log(`Generated ${region}.json with ${filteredCities.length} cities`);
+    }
+    
+    console.log(`Total additional cities generated: ${totalCities}`);
+  } catch (error) {
+    console.error('Error generating city data:', error);
+    process.exit(1);
   }
-  
-  fs.writeFileSync(
-    path.join(outputPath, 'world-cities.json.gz'),
-    compressed
-  );
-  
-  console.log('City data generated and compressed successfully!');
 };
 
-main().catch(console.error);
+main();

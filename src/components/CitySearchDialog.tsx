@@ -11,10 +11,14 @@ import {
   ListItemText,
   ListItemButton,
   CircularProgress,
-  Typography
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@mui/material';
-import { db, CityRecord } from '../db/CityDatabase';
 import { getAvailableTimezones } from '../data/timezones';
+import { cityService, City } from '../services/CityService';
 import { TimezoneCity } from '../data/timezones';
 
 interface CitySearchDialogProps {
@@ -25,30 +29,49 @@ interface CitySearchDialogProps {
 
 export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySearchDialogProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState('all');
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<CityRecord[]>([]);
+  const [results, setResults] = useState<City[]>([]);
   const [totalCities, setTotalCities] = useState<number>(0);
   const [staticCities] = useState(() => new Set(
     getAvailableTimezones().map(city => `${city.city}|${city.country}`)
   ));
 
-  // Load total city count when dialog opens
+  const regions = [
+    { id: 'all', name: 'All Regions' },
+    { id: 'asia', name: 'Asia' },
+    { id: 'europe', name: 'Europe' },
+    { id: 'americas', name: 'Americas' },
+    { id: 'africa', name: 'Africa' },
+    { id: 'oceania', name: 'Oceania' },
+  ];
+
+  // Load cities when dialog opens or region changes
   useEffect(() => {
     if (open) {
-      db.getTotalCityCount().then(count => setTotalCities(count));
+      setLoading(true);
+      cityService.searchCities('', selectedRegion)
+        .then(cities => {
+          setTotalCities(cities.length + staticCities.size);
+          if (selectedRegion !== 'all') {
+            setResults(cities);
+          }
+        })
+        .catch(console.error)
+        .finally(() => setLoading(false));
     }
-  }, [open]);
+  }, [open, selectedRegion, staticCities.size]);
 
   const handleSearch = async (query: string) => {
     setSearchQuery(query);
-    if (query.length < 2) {
+    if (query.length < 2 && selectedRegion === 'all') {
       setResults([]);
       return;
     }
 
     setLoading(true);
     try {
-      const searchResults = await db.searchCities(query);
+      const searchResults = await cityService.searchCities(query, selectedRegion);
       // Filter out cities that are already in the static list
       const filteredResults = searchResults.filter(city => 
         !staticCities.has(`${city.name}|${city.country}`)
@@ -62,7 +85,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
     }
   };
 
-  const handleSelect = (city: CityRecord) => {
+  const handleSelect = (city: City) => {
     const timezoneCity: TimezoneCity = {
       id: city.timezone,
       name: `${city.name}, ${city.country}`,
@@ -84,6 +107,24 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
         </Typography>
       </DialogTitle>
       <DialogContent>
+        <FormControl fullWidth margin="dense">
+          <InputLabel>Region</InputLabel>
+          <Select
+            value={selectedRegion}
+            label="Region"
+            onChange={(e) => {
+              setSelectedRegion(e.target.value);
+              handleSearch(searchQuery);
+            }}
+          >
+            {regions.map((region) => (
+              <MenuItem key={region.id} value={region.id}>
+                {region.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <TextField
           autoFocus
           margin="dense"
@@ -98,7 +139,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
         ) : results.length > 0 ? (
           <List sx={{ mt: 2 }}>
             {results.map((city) => (
-              <ListItem disablePadding key={`${city.name}-${city.country}`}>
+              <ListItem disablePadding key={`${city.name}-${city.country}-${city.timezone}`}>
                 <ListItemButton onClick={() => handleSelect(city)}>
                   <ListItemText
                     primary={`${city.name}, ${city.country}`}

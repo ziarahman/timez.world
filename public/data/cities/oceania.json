@@ -1,0 +1,442 @@
+[
+  {
+    "name": "Gold Coast",
+    "country": "Australia",
+    "population": 679127,
+    "timezone": "Australia/Brisbane",
+    "latitude": -28.0167,
+    "longitude": 153.4
+  },
+  {
+    "name": "Newcastle",
+    "country": "Australia",
+    "population": 322278,
+    "timezone": "Australia/Sydney",
+    "latitude": -32.9167,
+    "longitude": 151.75
+  },
+  {
+    "name": "Canberra",
+    "country": "Australia",
+    "population": 431380,
+    "timezone": "Australia/Sydney",
+    "latitude": -35.2809,
+    "longitude": 149.13
+  },
+  {
+    "name": "Wollongong",
+    "country": "Australia",
+    "population": 302739,
+    "timezone": "Australia/Sydney",
+    "latitude": -34.4331,
+    "longitude": 150.8831
+  },
+  {
+    "name": "Hobart",
+    "country": "Australia",
+    "population": 248983,
+    "timezone": "Australia/Hobart",
+    "latitude": -42.8821,
+    "longitude": 147.3272
+  },
+  {
+    "name": "Geelong",
+    "country": "Australia",
+    "population": 196393,
+    "timezone": "Australia/Melbourne",
+    "latitude": -38.15,
+    "longitude": 144.35
+  },
+  {
+    "name": "Townsville",
+    "country": "Australia",
+    "population": 180820,
+    "timezone": "Australia/Brisbane",
+    "latitude": -19.2564,
+    "longitude": 146.8183
+  },
+  {
+    "name": "Cairns",
+    "country": "Australia",
+    "population": 152729,
+    "timezone": "Australia/Brisbane",
+    "latitude": -16.9186,
+    "longitude": 145.7781
+  },
+  {
+    "name": "Darwin",
+    "country": "Australia",
+    "population": 147255,
+    "timezone": "Australia/Darwin",
+    "latitude": -12.4634,
+    "longitude": 130.8456
+  },
+  {
+    "name": "Toowoomba",
+    "country": "Australia",
+    "population": 136861,
+    "timezone": "Australia/Brisbane",
+    "latitude": -27.5667,
+    "longitude": 151.95
+  },
+  {
+    "name": "Hamilton",
+    "country": "New Zealand",
+    "population": 176500,
+    "timezone": "Pacific/Auckland",
+    "latitude": -37.7833,
+    "longitude": 175.2833
+  },
+  {
+    "name": "Tauranga",
+    "country": "New Zealand",
+    "population": 155200,
+    "timezone": "Pacific/Auckland",
+    "latitude": -37.6878,
+    "longitude": 176.1651
+  },
+  {
+    "name": "Lower Hutt",
+    "country": "New Zealand",
+    "population": 111800,
+    "timezone": "Pacific/Auckland",
+    "latitude": -41.2167,
+    "longitude": 174.9167
+  },
+  {
+    "name": "Dunedin",
+    "country": "New Zealand",
+    "population": 130100,
+    "timezone": "Pacific/Auckland",
+    "latitude": -45.8742,
+    "longitude": 170.5036
+  },
+  {
+    "name": "Palmerston North",
+    "country": "New Zealand",
+    "population": 88700,
+    "timezone": "Pacific/Auckland",
+    "latitude": -40.3556,
+    "longitude": 175.6167
+  },
+  {
+    "name": "Napier",
+    "country": "New Zealand",
+    "population": 66300,
+    "timezone": "Pacific/Auckland",
+    "latitude": -39.4833,
+    "longitude": 176.9167
+  },
+  {
+    "name": "Porirua",
+    "country": "New Zealand",
+    "population": 59100,
+    "timezone": "Pacific/Auckland",
+    "latitude": -41.1333,
+    "longitude": 174.85
+  },
+  {
+    "name": "Port Moresby",
+    "country": "Papua New Guinea",
+    "population": 364125,
+    "timezone": "Pacific/Port_Moresby",
+    "latitude": -9.4431,
+    "longitude": 147.1797
+  },
+  {
+    "name": "Lae",
+    "country": "Papua New Guinea",
+    "population": 76255,
+    "timezone": "Pacific/Port_Moresby",
+    "latitude": -6.7333,
+    "longitude": 146.9833
+  },
+  {
+    "name": "Mount Hagen",
+    "country": "Papua New Guinea",
+    "population": 46250,
+    "timezone": "Pacific/Port_Moresby",
+    "latitude": -5.8583,
+    "longitude": 144.2333
+  },
+  {
+    "name": "Madang",
+    "country": "Papua New Guinea",
+    "population": 27420,
+    "timezone": "Pacific/Port_Moresby",
+    "latitude": -5.2167,
+    "longitude": 145.7833
+  },
+  {
+    "name": "Suva",
+    "country": "Fiji",
+    "population": 93970,
+    "timezone": "Pacific/Fiji",
+    "latitude": -18.1416,
+    "longitude": 178.4419
+  },
+  {
+    "name": "Lautoka",
+    "country": "Fiji",
+    "population": 71573,
+    "timezone": "Pacific/Fiji",
+    "latitude": -17.6167,
+    "longitude": 177.45
+  },
+  {
+    "name": "Nadi",
+    "country": "Fiji",
+    "population": 50000,
+    "timezone": "Pacific/Fiji",
+    "latitude": -17.8,
+    "longitude": 177.4167
+  },
+  {
+    "name": "Nouméa",
+    "country": "New Caledonia",
+    "population": 94285,
+    "timezone": "Pacific/Noumea",
+    "latitude": -22.2758,
+    "longitude": 166.458
+  },
+  {
+    "name": "Mont-Dore",
+    "country": "New Caledonia",
+    "population": 27155,
+    "timezone": "Pacific/Noumea",
+    "latitude": -22.2667,
+    "longitude": 166.5667
+  },
+  {
+    "name": "Papeete",
+    "country": "French Polynesia",
+    "population": 26357,
+    "timezone": "Pacific/Tahiti",
+    "latitude": -17.5333,
+    "longitude": -149.5667
+  },
+  {
+    "name": "Faaa",
+    "country": "French Polynesia",
+    "population": 29851,
+    "timezone": "Pacific/Tahiti",
+    "latitude": -17.55,
+    "longitude": -149.6
+  },
+  {
+    "name": "Apia",
+    "country": "Samoa",
+    "population": 37708,
+    "timezone": "Pacific/Apia",
+    "latitude": -13.8333,
+    "longitude": -171.7667
+  },
+  {
+    "name": "Vaitele",
+    "country": "Samoa",
+    "population": 8500,
+    "timezone": "Pacific/Apia",
+    "latitude": -13.8167,
+    "longitude": -171.8
+  },
+  {
+    "name": "Port Vila",
+    "country": "Vanuatu",
+    "population": 51437,
+    "timezone": "Pacific/Efate",
+    "latitude": -17.7333,
+    "longitude": 168.3167
+  },
+  {
+    "name": "Luganville",
+    "country": "Vanuatu",
+    "population": 16312,
+    "timezone": "Pacific/Efate",
+    "latitude": -15.5333,
+    "longitude": 167.1667
+  },
+  {
+    "name": "Honiara",
+    "country": "Solomon Islands",
+    "population": 84520,
+    "timezone": "Pacific/Guadalcanal",
+    "latitude": -9.4333,
+    "longitude": 159.95
+  },
+  {
+    "name": "Auki",
+    "country": "Solomon Islands",
+    "population": 7896,
+    "timezone": "Pacific/Guadalcanal",
+    "latitude": -8.7667,
+    "longitude": 160.7
+  },
+  {
+    "name": "Nukuʻalofa",
+    "country": "Tonga",
+    "population": 22400,
+    "timezone": "Pacific/Tongatapu",
+    "latitude": -21.1333,
+    "longitude": -175.2
+  },
+  {
+    "name": "Pago Pago",
+    "country": "American Samoa",
+    "population": 3656,
+    "timezone": "Pacific/Pago_Pago",
+    "latitude": -14.2781,
+    "longitude": -170.7025
+  },
+  {
+    "name": "Adelaide",
+    "country": "Australia",
+    "population": 1345777,
+    "timezone": "Australia/Adelaide",
+    "latitude": -34.9285,
+    "longitude": 138.6007
+  },
+  {
+    "name": "Canberra",
+    "country": "Australia",
+    "population": 431380,
+    "timezone": "Australia/Sydney",
+    "latitude": -35.2809,
+    "longitude": 149.13
+  },
+  {
+    "name": "Newcastle",
+    "country": "Australia",
+    "population": 322278,
+    "timezone": "Australia/Sydney",
+    "latitude": -32.9283,
+    "longitude": 151.7817
+  },
+  {
+    "name": "Wollongong",
+    "country": "Australia",
+    "population": 302739,
+    "timezone": "Australia/Sydney",
+    "latitude": -34.4331,
+    "longitude": 150.8831
+  },
+  {
+    "name": "Hobart",
+    "country": "Australia",
+    "population": 248983,
+    "timezone": "Australia/Hobart",
+    "latitude": -42.8821,
+    "longitude": 147.3272
+  },
+  {
+    "name": "Geelong",
+    "country": "Australia",
+    "population": 196393,
+    "timezone": "Australia/Melbourne",
+    "latitude": -38.1499,
+    "longitude": 144.3617
+  },
+  {
+    "name": "Townsville",
+    "country": "Australia",
+    "population": 180820,
+    "timezone": "Australia/Brisbane",
+    "latitude": -19.259,
+    "longitude": 146.8169
+  },
+  {
+    "name": "Cairns",
+    "country": "Australia",
+    "population": 152729,
+    "timezone": "Australia/Brisbane",
+    "latitude": -16.9186,
+    "longitude": 145.7781
+  },
+  {
+    "name": "Darwin",
+    "country": "Australia",
+    "population": 147255,
+    "timezone": "Australia/Darwin",
+    "latitude": -12.4634,
+    "longitude": 130.8456
+  },
+  {
+    "name": "Christchurch",
+    "country": "New Zealand",
+    "population": 377200,
+    "timezone": "Pacific/Auckland",
+    "latitude": -43.532,
+    "longitude": 172.6306
+  },
+  {
+    "name": "Hamilton",
+    "country": "New Zealand",
+    "population": 176500,
+    "timezone": "Pacific/Auckland",
+    "latitude": -37.787,
+    "longitude": 175.2793
+  },
+  {
+    "name": "Tauranga",
+    "country": "New Zealand",
+    "population": 151300,
+    "timezone": "Pacific/Auckland",
+    "latitude": -37.6878,
+    "longitude": 176.1651
+  },
+  {
+    "name": "Dunedin",
+    "country": "New Zealand",
+    "population": 130100,
+    "timezone": "Pacific/Auckland",
+    "latitude": -45.8788,
+    "longitude": 170.5028
+  },
+  {
+    "name": "Palmerston North",
+    "country": "New Zealand",
+    "population": 88700,
+    "timezone": "Pacific/Auckland",
+    "latitude": -40.3564,
+    "longitude": 175.6147
+  },
+  {
+    "name": "Port Moresby",
+    "country": "Papua New Guinea",
+    "population": 364125,
+    "timezone": "Pacific/Port_Moresby",
+    "latitude": -9.4438,
+    "longitude": 147.1803
+  },
+  {
+    "name": "Lae",
+    "country": "Papua New Guinea",
+    "population": 76255,
+    "timezone": "Pacific/Port_Moresby",
+    "latitude": -6.733,
+    "longitude": 147
+  },
+  {
+    "name": "Suva",
+    "country": "Fiji",
+    "population": 93970,
+    "timezone": "Pacific/Fiji",
+    "latitude": -18.1416,
+    "longitude": 178.4419
+  },
+  {
+    "name": "Lautoka",
+    "country": "Fiji",
+    "population": 71573,
+    "timezone": "Pacific/Fiji",
+    "latitude": -17.6169,
+    "longitude": 177.4508
+  },
+  {
+    "name": "Nouméa",
+    "country": "New Caledonia",
+    "population": 94285,
+    "timezone": "Pacific/Noumea",
+    "latitude": -22.2758,
+    "longitude": 166.458
+  }
+]

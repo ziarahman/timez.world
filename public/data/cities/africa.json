@@ -1,0 +1,602 @@
+[
+  {
+    "name": "Giza",
+    "country": "Egypt",
+    "population": 3628062,
+    "timezone": "Africa/Cairo",
+    "latitude": 30.0131,
+    "longitude": 31.2089
+  },
+  {
+    "name": "Shubra El Kheima",
+    "country": "Egypt",
+    "population": 1099354,
+    "timezone": "Africa/Cairo",
+    "latitude": 30.1286,
+    "longitude": 31.2422
+  },
+  {
+    "name": "Port Said",
+    "country": "Egypt",
+    "population": 749371,
+    "timezone": "Africa/Cairo",
+    "latitude": 31.2567,
+    "longitude": 32.2989
+  },
+  {
+    "name": "Suez",
+    "country": "Egypt",
+    "population": 728180,
+    "timezone": "Africa/Cairo",
+    "latitude": 29.9668,
+    "longitude": 32.5498
+  },
+  {
+    "name": "Kano",
+    "country": "Nigeria",
+    "population": 3848885,
+    "timezone": "Africa/Lagos",
+    "latitude": 12,
+    "longitude": 8.5167
+  },
+  {
+    "name": "Ibadan",
+    "country": "Nigeria",
+    "population": 3565108,
+    "timezone": "Africa/Lagos",
+    "latitude": 7.3964,
+    "longitude": 3.9167
+  },
+  {
+    "name": "Abuja",
+    "country": "Nigeria",
+    "population": 3464123,
+    "timezone": "Africa/Lagos",
+    "latitude": 9.0765,
+    "longitude": 7.3986
+  },
+  {
+    "name": "Port Harcourt",
+    "country": "Nigeria",
+    "population": 1865000,
+    "timezone": "Africa/Lagos",
+    "latitude": 4.8156,
+    "longitude": 7.0498
+  },
+  {
+    "name": "Benin City",
+    "country": "Nigeria",
+    "population": 1496000,
+    "timezone": "Africa/Lagos",
+    "latitude": 6.3176,
+    "longitude": 5.6145
+  },
+  {
+    "name": "Kaduna",
+    "country": "Nigeria",
+    "population": 1582102,
+    "timezone": "Africa/Lagos",
+    "latitude": 10.5167,
+    "longitude": 7.4333
+  },
+  {
+    "name": "Durban",
+    "country": "South Africa",
+    "population": 3442361,
+    "timezone": "Africa/Johannesburg",
+    "latitude": -29.8587,
+    "longitude": 31.0218
+  },
+  {
+    "name": "Port Elizabeth",
+    "country": "South Africa",
+    "population": 967677,
+    "timezone": "Africa/Johannesburg",
+    "latitude": -33.9608,
+    "longitude": 25.6022
+  },
+  {
+    "name": "Pretoria",
+    "country": "South Africa",
+    "population": 741651,
+    "timezone": "Africa/Johannesburg",
+    "latitude": -25.7479,
+    "longitude": 28.2293
+  },
+  {
+    "name": "Bloemfontein",
+    "country": "South Africa",
+    "population": 556000,
+    "timezone": "Africa/Johannesburg",
+    "latitude": -29.0852,
+    "longitude": 26.1596
+  },
+  {
+    "name": "Rabat",
+    "country": "Morocco",
+    "population": 1655753,
+    "timezone": "Africa/Casablanca",
+    "latitude": 34.0209,
+    "longitude": -6.8416
+  },
+  {
+    "name": "Fez",
+    "country": "Morocco",
+    "population": 1112072,
+    "timezone": "Africa/Casablanca",
+    "latitude": 34.0333,
+    "longitude": -5
+  },
+  {
+    "name": "Marrakesh",
+    "country": "Morocco",
+    "population": 928850,
+    "timezone": "Africa/Casablanca",
+    "latitude": 31.6295,
+    "longitude": -7.9811
+  },
+  {
+    "name": "Tangier",
+    "country": "Morocco",
+    "population": 947952,
+    "timezone": "Africa/Casablanca",
+    "latitude": 35.7595,
+    "longitude": -5.834
+  },
+  {
+    "name": "Algiers",
+    "country": "Algeria",
+    "population": 3415811,
+    "timezone": "Africa/Algiers",
+    "latitude": 36.7538,
+    "longitude": 3.0588
+  },
+  {
+    "name": "Oran",
+    "country": "Algeria",
+    "population": 803329,
+    "timezone": "Africa/Algiers",
+    "latitude": 35.6969,
+    "longitude": -0.6331
+  },
+  {
+    "name": "Constantine",
+    "country": "Algeria",
+    "population": 450097,
+    "timezone": "Africa/Algiers",
+    "latitude": 36.365,
+    "longitude": 6.6147
+  },
+  {
+    "name": "Annaba",
+    "country": "Algeria",
+    "population": 342703,
+    "timezone": "Africa/Algiers",
+    "latitude": 36.9,
+    "longitude": 7.7667
+  },
+  {
+    "name": "Tunis",
+    "country": "Tunisia",
+    "population": 1056247,
+    "timezone": "Africa/Tunis",
+    "latitude": 36.8065,
+    "longitude": 10.1815
+  },
+  {
+    "name": "Sfax",
+    "country": "Tunisia",
+    "population": 330440,
+    "timezone": "Africa/Tunis",
+    "latitude": 34.74,
+    "longitude": 10.76
+  },
+  {
+    "name": "Sousse",
+    "country": "Tunisia",
+    "population": 271428,
+    "timezone": "Africa/Tunis",
+    "latitude": 35.8333,
+    "longitude": 10.6333
+  },
+  {
+    "name": "Mombasa",
+    "country": "Kenya",
+    "population": 1200000,
+    "timezone": "Africa/Nairobi",
+    "latitude": -4.0435,
+    "longitude": 39.6682
+  },
+  {
+    "name": "Nakuru",
+    "country": "Kenya",
+    "population": 570674,
+    "timezone": "Africa/Nairobi",
+    "latitude": -0.3031,
+    "longitude": 36.08
+  },
+  {
+    "name": "Dar es Salaam",
+    "country": "Tanzania",
+    "population": 6368000,
+    "timezone": "Africa/Dar_es_Salaam",
+    "latitude": -6.7924,
+    "longitude": 39.2083
+  },
+  {
+    "name": "Mwanza",
+    "country": "Tanzania",
+    "population": 1120000,
+    "timezone": "Africa/Dar_es_Salaam",
+    "latitude": -2.5167,
+    "longitude": 32.9
+  },
+  {
+    "name": "Arusha",
+    "country": "Tanzania",
+    "population": 416442,
+    "timezone": "Africa/Dar_es_Salaam",
+    "latitude": -3.3667,
+    "longitude": 36.6833
+  },
+  {
+    "name": "Addis Ababa",
+    "country": "Ethiopia",
+    "population": 3352000,
+    "timezone": "Africa/Addis_Ababa",
+    "latitude": 9.032,
+    "longitude": 38.7469
+  },
+  {
+    "name": "Dire Dawa",
+    "country": "Ethiopia",
+    "population": 440000,
+    "timezone": "Africa/Addis_Ababa",
+    "latitude": 9.593,
+    "longitude": 41.8661
+  },
+  {
+    "name": "Mek'ele",
+    "country": "Ethiopia",
+    "population": 323700,
+    "timezone": "Africa/Addis_Ababa",
+    "latitude": 13.4967,
+    "longitude": 39.4767
+  },
+  {
+    "name": "Kampala",
+    "country": "Uganda",
+    "population": 1507080,
+    "timezone": "Africa/Kampala",
+    "latitude": 0.3476,
+    "longitude": 32.5825
+  },
+  {
+    "name": "Gulu",
+    "country": "Uganda",
+    "population": 146858,
+    "timezone": "Africa/Kampala",
+    "latitude": 2.7747,
+    "longitude": 32.299
+  },
+  {
+    "name": "Accra",
+    "country": "Ghana",
+    "population": 2291352,
+    "timezone": "Africa/Accra",
+    "latitude": 5.556,
+    "longitude": -0.1969
+  },
+  {
+    "name": "Kumasi",
+    "country": "Ghana",
+    "population": 2069350,
+    "timezone": "Africa/Accra",
+    "latitude": 6.6885,
+    "longitude": -1.6244
+  },
+  {
+    "name": "Tamale",
+    "country": "Ghana",
+    "population": 360579,
+    "timezone": "Africa/Accra",
+    "latitude": 9.4075,
+    "longitude": -0.8533
+  },
+  {
+    "name": "Dakar",
+    "country": "Senegal",
+    "population": 3137196,
+    "timezone": "Africa/Dakar",
+    "latitude": 14.7167,
+    "longitude": -17.4677
+  },
+  {
+    "name": "Touba",
+    "country": "Senegal",
+    "population": 529176,
+    "timezone": "Africa/Dakar",
+    "latitude": 14.85,
+    "longitude": -15.8833
+  },
+  {
+    "name": "Luanda",
+    "country": "Angola",
+    "population": 2487000,
+    "timezone": "Africa/Luanda",
+    "latitude": -8.8383,
+    "longitude": 13.2344
+  },
+  {
+    "name": "Huambo",
+    "country": "Angola",
+    "population": 665574,
+    "timezone": "Africa/Luanda",
+    "latitude": -12.7761,
+    "longitude": 15.7392
+  },
+  {
+    "name": "Maputo",
+    "country": "Mozambique",
+    "population": 1101170,
+    "timezone": "Africa/Maputo",
+    "latitude": -25.9692,
+    "longitude": 32.5732
+  },
+  {
+    "name": "Matola",
+    "country": "Mozambique",
+    "population": 675422,
+    "timezone": "Africa/Maputo",
+    "latitude": -25.9622,
+    "longitude": 32.4589
+  },
+  {
+    "name": "Harare",
+    "country": "Zimbabwe",
+    "population": 1485231,
+    "timezone": "Africa/Harare",
+    "latitude": -17.8277,
+    "longitude": 31.0534
+  },
+  {
+    "name": "Bulawayo",
+    "country": "Zimbabwe",
+    "population": 653337,
+    "timezone": "Africa/Harare",
+    "latitude": -20.1325,
+    "longitude": 28.6262
+  },
+  {
+    "name": "Giza",
+    "country": "Egypt",
+    "population": 3628062,
+    "timezone": "Africa/Cairo",
+    "latitude": 30.0131,
+    "longitude": 31.2089
+  },
+  {
+    "name": "Shubra El Kheima",
+    "country": "Egypt",
+    "population": 1099354,
+    "timezone": "Africa/Cairo",
+    "latitude": 30.1286,
+    "longitude": 31.2422
+  },
+  {
+    "name": "Kano",
+    "country": "Nigeria",
+    "population": 3848885,
+    "timezone": "Africa/Lagos",
+    "latitude": 12.0022,
+    "longitude": 8.592
+  },
+  {
+    "name": "Ibadan",
+    "country": "Nigeria",
+    "population": 3565108,
+    "timezone": "Africa/Lagos",
+    "latitude": 7.3775,
+    "longitude": 3.947
+  },
+  {
+    "name": "Abuja",
+    "country": "Nigeria",
+    "population": 3464123,
+    "timezone": "Africa/Lagos",
+    "latitude": 9.0765,
+    "longitude": 7.3986
+  },
+  {
+    "name": "Port Harcourt",
+    "country": "Nigeria",
+    "population": 1865000,
+    "timezone": "Africa/Lagos",
+    "latitude": 4.8156,
+    "longitude": 7.0498
+  },
+  {
+    "name": "Pretoria",
+    "country": "South Africa",
+    "population": 2921488,
+    "timezone": "Africa/Johannesburg",
+    "latitude": -25.7479,
+    "longitude": 28.2293
+  },
+  {
+    "name": "Port Elizabeth",
+    "country": "South Africa",
+    "population": 967677,
+    "timezone": "Africa/Johannesburg",
+    "latitude": -33.9608,
+    "longitude": 25.6022
+  },
+  {
+    "name": "Bloemfontein",
+    "country": "South Africa",
+    "population": 556000,
+    "timezone": "Africa/Johannesburg",
+    "latitude": -29.0852,
+    "longitude": 26.1596
+  },
+  {
+    "name": "Rabat",
+    "country": "Morocco",
+    "population": 577827,
+    "timezone": "Africa/Casablanca",
+    "latitude": 34.0209,
+    "longitude": -6.8416
+  },
+  {
+    "name": "Fez",
+    "country": "Morocco",
+    "population": 1112072,
+    "timezone": "Africa/Casablanca",
+    "latitude": 34.0333,
+    "longitude": -5
+  },
+  {
+    "name": "Tangier",
+    "country": "Morocco",
+    "population": 947952,
+    "timezone": "Africa/Casablanca",
+    "latitude": 35.7595,
+    "longitude": -5.834
+  },
+  {
+    "name": "Algiers",
+    "country": "Algeria",
+    "population": 3415811,
+    "timezone": "Africa/Algiers",
+    "latitude": 36.7538,
+    "longitude": 3.0588
+  },
+  {
+    "name": "Oran",
+    "country": "Algeria",
+    "population": 803329,
+    "timezone": "Africa/Algiers",
+    "latitude": 35.6969,
+    "longitude": -0.6331
+  },
+  {
+    "name": "Constantine",
+    "country": "Algeria",
+    "population": 450097,
+    "timezone": "Africa/Algiers",
+    "latitude": 36.365,
+    "longitude": 6.6147
+  },
+  {
+    "name": "Tunis",
+    "country": "Tunisia",
+    "population": 693210,
+    "timezone": "Africa/Tunis",
+    "latitude": 36.8065,
+    "longitude": 10.1815
+  },
+  {
+    "name": "Sfax",
+    "country": "Tunisia",
+    "population": 330440,
+    "timezone": "Africa/Tunis",
+    "latitude": 34.74,
+    "longitude": 10.76
+  },
+  {
+    "name": "Mombasa",
+    "country": "Kenya",
+    "population": 1208333,
+    "timezone": "Africa/Nairobi",
+    "latitude": -4.0435,
+    "longitude": 39.6682
+  },
+  {
+    "name": "Nakuru",
+    "country": "Kenya",
+    "population": 570674,
+    "timezone": "Africa/Nairobi",
+    "latitude": -0.3031,
+    "longitude": 36.08
+  },
+  {
+    "name": "Dar es Salaam",
+    "country": "Tanzania",
+    "population": 6701650,
+    "timezone": "Africa/Dar_es_Salaam",
+    "latitude": -6.7924,
+    "longitude": 39.2083
+  },
+  {
+    "name": "Mwanza",
+    "country": "Tanzania",
+    "population": 1120000,
+    "timezone": "Africa/Dar_es_Salaam",
+    "latitude": -2.5167,
+    "longitude": 32.9
+  },
+  {
+    "name": "Kampala",
+    "country": "Uganda",
+    "population": 1507080,
+    "timezone": "Africa/Kampala",
+    "latitude": 0.3476,
+    "longitude": 32.5825
+  },
+  {
+    "name": "Gulu",
+    "country": "Uganda",
+    "population": 146858,
+    "timezone": "Africa/Kampala",
+    "latitude": 2.7747,
+    "longitude": 32.299
+  },
+  {
+    "name": "Accra",
+    "country": "Ghana",
+    "population": 2291352,
+    "timezone": "Africa/Accra",
+    "latitude": 5.6037,
+    "longitude": -0.187
+  },
+  {
+    "name": "Kumasi",
+    "country": "Ghana",
+    "population": 2069350,
+    "timezone": "Africa/Accra",
+    "latitude": 6.6885,
+    "longitude": -1.6244
+  },
+  {
+    "name": "Dire Dawa",
+    "country": "Ethiopia",
+    "population": 440000,
+    "timezone": "Africa/Addis_Ababa",
+    "latitude": 9.5933,
+    "longitude": 41.8661
+  },
+  {
+    "name": "Mek'ele",
+    "country": "Ethiopia",
+    "population": 323700,
+    "timezone": "Africa/Addis_Ababa",
+    "latitude": 13.4967,
+    "longitude": 39.4767
+  },
+  {
+    "name": "Khartoum",
+    "country": "Sudan",
+    "population": 5274321,
+    "timezone": "Africa/Khartoum",
+    "latitude": 15.5007,
+    "longitude": 32.5599
+  },
+  {
+    "name": "Omdurman",
+    "country": "Sudan",
+    "population": 2395159,
+    "timezone": "Africa/Khartoum",
+    "latitude": 15.6167,
+    "longitude": 32.48
+  }
+]

@@ -1,0 +1,682 @@
+[
+  {
+    "name": "Tianjin",
+    "country": "China",
+    "population": 13589078,
+    "timezone": "Asia/Shanghai",
+    "latitude": 39.3434,
+    "longitude": 117.3616
+  },
+  {
+    "name": "Dongguan",
+    "country": "China",
+    "population": 8220207,
+    "timezone": "Asia/Shanghai",
+    "latitude": 23.0489,
+    "longitude": 113.7447
+  },
+  {
+    "name": "Shenyang",
+    "country": "China",
+    "population": 8106171,
+    "timezone": "Asia/Shanghai",
+    "latitude": 41.8057,
+    "longitude": 123.4315
+  },
+  {
+    "name": "Foshan",
+    "country": "China",
+    "population": 7197394,
+    "timezone": "Asia/Shanghai",
+    "latitude": 23.0292,
+    "longitude": 113.1056
+  },
+  {
+    "name": "Harbin",
+    "country": "China",
+    "population": 5878939,
+    "timezone": "Asia/Shanghai",
+    "latitude": 45.8038,
+    "longitude": 126.534
+  },
+  {
+    "name": "Qingdao",
+    "country": "China",
+    "population": 5819866,
+    "timezone": "Asia/Shanghai",
+    "latitude": 36.0671,
+    "longitude": 120.3826
+  },
+  {
+    "name": "Dalian",
+    "country": "China",
+    "population": 5757283,
+    "timezone": "Asia/Shanghai",
+    "latitude": 38.914,
+    "longitude": 121.6147
+  },
+  {
+    "name": "Xiamen",
+    "country": "China",
+    "population": 4290000,
+    "timezone": "Asia/Shanghai",
+    "latitude": 24.4798,
+    "longitude": 118.0819
+  },
+  {
+    "name": "Fuzhou",
+    "country": "China",
+    "population": 4180000,
+    "timezone": "Asia/Shanghai",
+    "latitude": 26.0745,
+    "longitude": 119.2965
+  },
+  {
+    "name": "Kunming",
+    "country": "China",
+    "population": 3855346,
+    "timezone": "Asia/Shanghai",
+    "latitude": 25.0389,
+    "longitude": 102.7183
+  },
+  {
+    "name": "Shantou",
+    "country": "China",
+    "population": 3842304,
+    "timezone": "Asia/Shanghai",
+    "latitude": 23.354,
+    "longitude": 116.6817
+  },
+  {
+    "name": "Jinan",
+    "country": "China",
+    "population": 3681865,
+    "timezone": "Asia/Shanghai",
+    "latitude": 36.6512,
+    "longitude": 117.1201
+  },
+  {
+    "name": "Hefei",
+    "country": "China",
+    "population": 3670000,
+    "timezone": "Asia/Shanghai",
+    "latitude": 31.8206,
+    "longitude": 117.2272
+  },
+  {
+    "name": "Urumqi",
+    "country": "China",
+    "population": 3550000,
+    "timezone": "Asia/Shanghai",
+    "latitude": 43.8256,
+    "longitude": 87.6168
+  },
+  {
+    "name": "Shijiazhuang",
+    "country": "China",
+    "population": 3375000,
+    "timezone": "Asia/Shanghai",
+    "latitude": 38.0428,
+    "longitude": 114.5149
+  },
+  {
+    "name": "Yokohama",
+    "country": "Japan",
+    "population": 3725000,
+    "timezone": "Asia/Tokyo",
+    "latitude": 35.4437,
+    "longitude": 139.638
+  },
+  {
+    "name": "Kyoto",
+    "country": "Japan",
+    "population": 1475000,
+    "timezone": "Asia/Tokyo",
+    "latitude": 35.0116,
+    "longitude": 135.7681
+  },
+  {
+    "name": "Sendai",
+    "country": "Japan",
+    "population": 1082000,
+    "timezone": "Asia/Tokyo",
+    "latitude": 38.2682,
+    "longitude": 140.8694
+  },
+  {
+    "name": "Chiba",
+    "country": "Japan",
+    "population": 979768,
+    "timezone": "Asia/Tokyo",
+    "latitude": 35.6073,
+    "longitude": 140.1063
+  },
+  {
+    "name": "Niigata",
+    "country": "Japan",
+    "population": 810157,
+    "timezone": "Asia/Tokyo",
+    "latitude": 37.9161,
+    "longitude": 139.0364
+  },
+  {
+    "name": "Hamamatsu",
+    "country": "Japan",
+    "population": 797980,
+    "timezone": "Asia/Tokyo",
+    "latitude": 34.7104,
+    "longitude": 137.7273
+  },
+  {
+    "name": "Ulsan",
+    "country": "South Korea",
+    "population": 1166033,
+    "timezone": "Asia/Seoul",
+    "latitude": 35.5384,
+    "longitude": 129.3114
+  },
+  {
+    "name": "Changwon",
+    "country": "South Korea",
+    "population": 1059241,
+    "timezone": "Asia/Seoul",
+    "latitude": 35.228,
+    "longitude": 128.6811
+  },
+  {
+    "name": "Suwon",
+    "country": "South Korea",
+    "population": 1242724,
+    "timezone": "Asia/Seoul",
+    "latitude": 37.2636,
+    "longitude": 127.0286
+  },
+  {
+    "name": "Goyang",
+    "country": "South Korea",
+    "population": 990073,
+    "timezone": "Asia/Seoul",
+    "latitude": 37.6564,
+    "longitude": 126.835
+  },
+  {
+    "name": "Bekasi",
+    "country": "Indonesia",
+    "population": 2510000,
+    "timezone": "Asia/Jakarta",
+    "latitude": -6.2349,
+    "longitude": 106.9896
+  },
+  {
+    "name": "Tangerang",
+    "country": "Indonesia",
+    "population": 2001925,
+    "timezone": "Asia/Jakarta",
+    "latitude": -6.1783,
+    "longitude": 106.6319
+  },
+  {
+    "name": "Depok",
+    "country": "Indonesia",
+    "population": 1869681,
+    "timezone": "Asia/Jakarta",
+    "latitude": -6.4025,
+    "longitude": 106.7942
+  },
+  {
+    "name": "Semarang",
+    "country": "Indonesia",
+    "population": 1555984,
+    "timezone": "Asia/Jakarta",
+    "latitude": -6.9932,
+    "longitude": 110.4203
+  },
+  {
+    "name": "Palembang",
+    "country": "Indonesia",
+    "population": 1548064,
+    "timezone": "Asia/Jakarta",
+    "latitude": -2.9761,
+    "longitude": 104.7754
+  },
+  {
+    "name": "Makassar",
+    "country": "Indonesia",
+    "population": 1423877,
+    "timezone": "Asia/Jakarta",
+    "latitude": -5.1477,
+    "longitude": 119.4327
+  },
+  {
+    "name": "Nakhon Ratchasima",
+    "country": "Thailand",
+    "population": 2639000,
+    "timezone": "Asia/Bangkok",
+    "latitude": 14.9798,
+    "longitude": 102.0978
+  },
+  {
+    "name": "Udon Thani",
+    "country": "Thailand",
+    "population": 399000,
+    "timezone": "Asia/Bangkok",
+    "latitude": 17.4137,
+    "longitude": 102.7872
+  },
+  {
+    "name": "Hat Yai",
+    "country": "Thailand",
+    "population": 359813,
+    "timezone": "Asia/Bangkok",
+    "latitude": 7.0086,
+    "longitude": 100.4747
+  },
+  {
+    "name": "Bien Hoa",
+    "country": "Vietnam",
+    "population": 1104000,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "latitude": 10.9508,
+    "longitude": 106.8221
+  },
+  {
+    "name": "Hue",
+    "country": "Vietnam",
+    "population": 455000,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "latitude": 16.4637,
+    "longitude": 107.5909
+  },
+  {
+    "name": "Nha Trang",
+    "country": "Vietnam",
+    "population": 446000,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "latitude": 12.2388,
+    "longitude": 109.1967
+  },
+  {
+    "name": "Petaling Jaya",
+    "country": "Malaysia",
+    "population": 613977,
+    "timezone": "Asia/Kuala_Lumpur",
+    "latitude": 3.1067,
+    "longitude": 101.6056
+  },
+  {
+    "name": "Shah Alam",
+    "country": "Malaysia",
+    "population": 541306,
+    "timezone": "Asia/Kuala_Lumpur",
+    "latitude": 3.0733,
+    "longitude": 101.5185
+  },
+  {
+    "name": "Malacca City",
+    "country": "Malaysia",
+    "population": 484885,
+    "timezone": "Asia/Kuala_Lumpur",
+    "latitude": 2.1896,
+    "longitude": 102.2501
+  },
+  {
+    "name": "Caloocan",
+    "country": "Philippines",
+    "population": 1583978,
+    "timezone": "Asia/Manila",
+    "latitude": 14.65,
+    "longitude": 120.9667
+  },
+  {
+    "name": "Zamboanga",
+    "country": "Philippines",
+    "population": 861799,
+    "timezone": "Asia/Manila",
+    "latitude": 6.9167,
+    "longitude": 122.0833
+  },
+  {
+    "name": "Pasig",
+    "country": "Philippines",
+    "population": 755300,
+    "timezone": "Asia/Manila",
+    "latitude": 14.575,
+    "longitude": 121.0833
+  },
+  {
+    "name": "Taguig",
+    "country": "Philippines",
+    "population": 644473,
+    "timezone": "Asia/Manila",
+    "latitude": 14.5167,
+    "longitude": 121.05
+  },
+  {
+    "name": "Lahore",
+    "country": "Pakistan",
+    "population": 11126285,
+    "timezone": "Asia/Karachi",
+    "latitude": 31.5497,
+    "longitude": 74.3436
+  },
+  {
+    "name": "Faisalabad",
+    "country": "Pakistan",
+    "population": 3203846,
+    "timezone": "Asia/Karachi",
+    "latitude": 31.4504,
+    "longitude": 73.135
+  },
+  {
+    "name": "Rawalpindi",
+    "country": "Pakistan",
+    "population": 2098231,
+    "timezone": "Asia/Karachi",
+    "latitude": 33.6007,
+    "longitude": 73.0679
+  },
+  {
+    "name": "Multan",
+    "country": "Pakistan",
+    "population": 1871843,
+    "timezone": "Asia/Karachi",
+    "latitude": 30.1575,
+    "longitude": 71.5249
+  },
+  {
+    "name": "Khulna",
+    "country": "Bangladesh",
+    "population": 1342339,
+    "timezone": "Asia/Dhaka",
+    "latitude": 22.8456,
+    "longitude": 89.5403
+  },
+  {
+    "name": "Rajshahi",
+    "country": "Bangladesh",
+    "population": 700133,
+    "timezone": "Asia/Dhaka",
+    "latitude": 24.3745,
+    "longitude": 88.6042
+  },
+  {
+    "name": "Yangon",
+    "country": "Myanmar",
+    "population": 5214000,
+    "timezone": "Asia/Yangon",
+    "latitude": 16.8661,
+    "longitude": 96.1951
+  },
+  {
+    "name": "Mandalay",
+    "country": "Myanmar",
+    "population": 1225546,
+    "timezone": "Asia/Yangon",
+    "latitude": 21.9588,
+    "longitude": 96.0891
+  },
+  {
+    "name": "Naypyidaw",
+    "country": "Myanmar",
+    "population": 925000,
+    "timezone": "Asia/Yangon",
+    "latitude": 19.7633,
+    "longitude": 96.0785
+  },
+  {
+    "name": "Phnom Penh",
+    "country": "Cambodia",
+    "population": 1501725,
+    "timezone": "Asia/Phnom_Penh",
+    "latitude": 11.5564,
+    "longitude": 104.9282
+  },
+  {
+    "name": "Siem Reap",
+    "country": "Cambodia",
+    "population": 139458,
+    "timezone": "Asia/Phnom_Penh",
+    "latitude": 13.3633,
+    "longitude": 103.8564
+  },
+  {
+    "name": "Vientiane",
+    "country": "Laos",
+    "population": 820940,
+    "timezone": "Asia/Vientiane",
+    "latitude": 17.9757,
+    "longitude": 102.6331
+  },
+  {
+    "name": "Pakse",
+    "country": "Laos",
+    "population": 88332,
+    "timezone": "Asia/Vientiane",
+    "latitude": 15.1208,
+    "longitude": 105.7837
+  },
+  {
+    "name": "Suzhou",
+    "country": "China",
+    "population": 5345961,
+    "timezone": "Asia/Shanghai",
+    "latitude": 31.299,
+    "longitude": 120.5853
+  },
+  {
+    "name": "Nanjing",
+    "country": "China",
+    "population": 8270500,
+    "timezone": "Asia/Shanghai",
+    "latitude": 32.0617,
+    "longitude": 118.7778
+  },
+  {
+    "name": "Xian",
+    "country": "China",
+    "population": 8705600,
+    "timezone": "Asia/Shanghai",
+    "latitude": 34.3416,
+    "longitude": 108.9398
+  },
+  {
+    "name": "Zhengzhou",
+    "country": "China",
+    "population": 4253913,
+    "timezone": "Asia/Shanghai",
+    "latitude": 34.7472,
+    "longitude": 113.625
+  },
+  {
+    "name": "Changsha",
+    "country": "China",
+    "population": 3930140,
+    "timezone": "Asia/Shanghai",
+    "latitude": 28.2278,
+    "longitude": 112.9388
+  },
+  {
+    "name": "Kobe",
+    "country": "Japan",
+    "population": 1528478,
+    "timezone": "Asia/Tokyo",
+    "latitude": 34.6901,
+    "longitude": 135.1955
+  },
+  {
+    "name": "Kawasaki",
+    "country": "Japan",
+    "population": 1475213,
+    "timezone": "Asia/Tokyo",
+    "latitude": 35.5167,
+    "longitude": 139.7
+  },
+  {
+    "name": "Saitama",
+    "country": "Japan",
+    "population": 1264321,
+    "timezone": "Asia/Tokyo",
+    "latitude": 35.8617,
+    "longitude": 139.6453
+  },
+  {
+    "name": "Hiroshima",
+    "country": "Japan",
+    "population": 1196274,
+    "timezone": "Asia/Tokyo",
+    "latitude": 34.3853,
+    "longitude": 132.4553
+  },
+  {
+    "name": "Daegu",
+    "country": "South Korea",
+    "population": 2438031,
+    "timezone": "Asia/Seoul",
+    "latitude": 35.8714,
+    "longitude": 128.6014
+  },
+  {
+    "name": "Daejeon",
+    "country": "South Korea",
+    "population": 1475221,
+    "timezone": "Asia/Seoul",
+    "latitude": 36.3504,
+    "longitude": 127.3845
+  },
+  {
+    "name": "Gwangju",
+    "country": "South Korea",
+    "population": 1475745,
+    "timezone": "Asia/Seoul",
+    "latitude": 35.1595,
+    "longitude": 126.8526
+  },
+  {
+    "name": "Taichung",
+    "country": "Taiwan",
+    "population": 2809004,
+    "timezone": "Asia/Taipei",
+    "latitude": 24.1477,
+    "longitude": 120.6736
+  },
+  {
+    "name": "Tainan",
+    "country": "Taiwan",
+    "population": 1885252,
+    "timezone": "Asia/Taipei",
+    "latitude": 22.9999,
+    "longitude": 120.2269
+  },
+  {
+    "name": "Hsinchu",
+    "country": "Taiwan",
+    "population": 449287,
+    "timezone": "Asia/Taipei",
+    "latitude": 24.8036,
+    "longitude": 120.9686
+  },
+  {
+    "name": "Nonthaburi",
+    "country": "Thailand",
+    "population": 255793,
+    "timezone": "Asia/Bangkok",
+    "latitude": 13.8622,
+    "longitude": 100.5134
+  },
+  {
+    "name": "Chiang Mai",
+    "country": "Thailand",
+    "population": 131091,
+    "timezone": "Asia/Bangkok",
+    "latitude": 18.7883,
+    "longitude": 98.9853
+  },
+  {
+    "name": "Pattaya",
+    "country": "Thailand",
+    "population": 119532,
+    "timezone": "Asia/Bangkok",
+    "latitude": 12.9236,
+    "longitude": 100.8825
+  },
+  {
+    "name": "Hai Phong",
+    "country": "Vietnam",
+    "population": 2013092,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "latitude": 20.8449,
+    "longitude": 106.6881
+  },
+  {
+    "name": "Can Tho",
+    "country": "Vietnam",
+    "population": 1235171,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "latitude": 10.0333,
+    "longitude": 105.7833
+  },
+  {
+    "name": "Da Nang",
+    "country": "Vietnam",
+    "population": 1134310,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "latitude": 16.0544,
+    "longitude": 108.2022
+  },
+  {
+    "name": "Bandung",
+    "country": "Indonesia",
+    "population": 2575478,
+    "timezone": "Asia/Jakarta",
+    "latitude": -6.9147,
+    "longitude": 107.6098
+  },
+  {
+    "name": "Medan",
+    "country": "Indonesia",
+    "population": 2247425,
+    "timezone": "Asia/Jakarta",
+    "latitude": 3.5952,
+    "longitude": 98.6722
+  },
+  {
+    "name": "Penang",
+    "country": "Malaysia",
+    "population": 708127,
+    "timezone": "Asia/Kuala_Lumpur",
+    "latitude": 5.4145,
+    "longitude": 100.3292
+  },
+  {
+    "name": "Johor Bahru",
+    "country": "Malaysia",
+    "population": 875000,
+    "timezone": "Asia/Kuala_Lumpur",
+    "latitude": 1.4927,
+    "longitude": 103.7414
+  },
+  {
+    "name": "Ipoh",
+    "country": "Malaysia",
+    "population": 673318,
+    "timezone": "Asia/Kuala_Lumpur",
+    "latitude": 4.5975,
+    "longitude": 101.0901
+  },
+  {
+    "name": "Quezon City",
+    "country": "Philippines",
+    "population": 2936116,
+    "timezone": "Asia/Manila",
+    "latitude": 14.676,
+    "longitude": 121.0437
+  },
+  {
+    "name": "Davao",
+    "country": "Philippines",
+    "population": 1632991,
+    "timezone": "Asia/Manila",
+    "latitude": 7.0707,
+    "longitude": 125.6087
+  }
+]

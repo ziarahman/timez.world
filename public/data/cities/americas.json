@@ -1,0 +1,458 @@
+[
+  {
+    "name": "Nashville",
+    "country": "USA",
+    "population": 670820,
+    "timezone": "America/Chicago",
+    "latitude": 36.1627,
+    "longitude": -86.7816
+  },
+  {
+    "name": "Oklahoma City",
+    "country": "USA",
+    "population": 649021,
+    "timezone": "America/Chicago",
+    "latitude": 35.4676,
+    "longitude": -97.5164
+  },
+  {
+    "name": "Louisville",
+    "country": "USA",
+    "population": 617638,
+    "timezone": "America/Kentucky/Louisville",
+    "latitude": 38.2527,
+    "longitude": -85.7585
+  },
+  {
+    "name": "Milwaukee",
+    "country": "USA",
+    "population": 590157,
+    "timezone": "America/Chicago",
+    "latitude": 43.0389,
+    "longitude": -87.9065
+  },
+  {
+    "name": "Fresno",
+    "country": "USA",
+    "population": 542107,
+    "timezone": "America/Los_Angeles",
+    "latitude": 36.7378,
+    "longitude": -119.7871
+  },
+  {
+    "name": "Omaha",
+    "country": "USA",
+    "population": 486051,
+    "timezone": "America/Chicago",
+    "latitude": 41.2565,
+    "longitude": -95.9345
+  },
+  {
+    "name": "Virginia Beach",
+    "country": "USA",
+    "population": 459470,
+    "timezone": "America/New_York",
+    "latitude": 36.8529,
+    "longitude": -75.978
+  },
+  {
+    "name": "Tulsa",
+    "country": "USA",
+    "population": 413066,
+    "timezone": "America/Chicago",
+    "latitude": 36.154,
+    "longitude": -95.9928
+  },
+  {
+    "name": "Arlington",
+    "country": "USA",
+    "population": 398854,
+    "timezone": "America/Chicago",
+    "latitude": 32.7357,
+    "longitude": -97.1081
+  },
+  {
+    "name": "Hamilton",
+    "country": "Canada",
+    "population": 536917,
+    "timezone": "America/Toronto",
+    "latitude": 43.2557,
+    "longitude": -79.8711
+  },
+  {
+    "name": "Brampton",
+    "country": "Canada",
+    "population": 593638,
+    "timezone": "America/Toronto",
+    "latitude": 43.6833,
+    "longitude": -79.7667
+  },
+  {
+    "name": "Surrey",
+    "country": "Canada",
+    "population": 517887,
+    "timezone": "America/Vancouver",
+    "latitude": 49.1913,
+    "longitude": -122.849
+  },
+  {
+    "name": "Laval",
+    "country": "Canada",
+    "population": 422993,
+    "timezone": "America/Toronto",
+    "latitude": 45.5833,
+    "longitude": -73.75
+  },
+  {
+    "name": "Ecatepec",
+    "country": "Mexico",
+    "population": 1655015,
+    "timezone": "America/Mexico_City",
+    "latitude": 19.6097,
+    "longitude": -99.06
+  },
+  {
+    "name": "Puebla",
+    "country": "Mexico",
+    "population": 1434062,
+    "timezone": "America/Mexico_City",
+    "latitude": 19.0414,
+    "longitude": -98.2063
+  },
+  {
+    "name": "Ciudad Juárez",
+    "country": "Mexico",
+    "population": 1321004,
+    "timezone": "America/Chihuahua",
+    "latitude": 31.6904,
+    "longitude": -106.4245
+  },
+  {
+    "name": "Tijuana",
+    "country": "Mexico",
+    "population": 1300983,
+    "timezone": "America/Tijuana",
+    "latitude": 32.5149,
+    "longitude": -117.0382
+  },
+  {
+    "name": "León",
+    "country": "Mexico",
+    "population": 1238962,
+    "timezone": "America/Mexico_City",
+    "latitude": 21.1167,
+    "longitude": -101.6833
+  },
+  {
+    "name": "Monterrey",
+    "country": "Mexico",
+    "population": 1135512,
+    "timezone": "America/Monterrey",
+    "latitude": 25.6866,
+    "longitude": -100.3161
+  },
+  {
+    "name": "Salvador",
+    "country": "Brazil",
+    "population": 2886698,
+    "timezone": "America/Bahia",
+    "latitude": -12.9714,
+    "longitude": -38.5014
+  },
+  {
+    "name": "Fortaleza",
+    "country": "Brazil",
+    "population": 2686612,
+    "timezone": "America/Fortaleza",
+    "latitude": -3.7172,
+    "longitude": -38.5433
+  },
+  {
+    "name": "Manaus",
+    "country": "Brazil",
+    "population": 2219580,
+    "timezone": "America/Manaus",
+    "latitude": -3.1019,
+    "longitude": -60.025
+  },
+  {
+    "name": "Curitiba",
+    "country": "Brazil",
+    "population": 1948626,
+    "timezone": "America/Sao_Paulo",
+    "latitude": -25.4284,
+    "longitude": -49.2733
+  },
+  {
+    "name": "Recife",
+    "country": "Brazil",
+    "population": 1653461,
+    "timezone": "America/Recife",
+    "latitude": -8.0476,
+    "longitude": -34.877
+  },
+  {
+    "name": "Porto Alegre",
+    "country": "Brazil",
+    "population": 1484941,
+    "timezone": "America/Sao_Paulo",
+    "latitude": -30.0346,
+    "longitude": -51.2177
+  },
+  {
+    "name": "Rosario",
+    "country": "Argentina",
+    "population": 1193605,
+    "timezone": "America/Argentina/Cordoba",
+    "latitude": -32.9468,
+    "longitude": -60.6393
+  },
+  {
+    "name": "Mendoza",
+    "country": "Argentina",
+    "population": 937154,
+    "timezone": "America/Argentina/Mendoza",
+    "latitude": -32.8908,
+    "longitude": -68.8272
+  },
+  {
+    "name": "La Plata",
+    "country": "Argentina",
+    "population": 699523,
+    "timezone": "America/Argentina/Buenos_Aires",
+    "latitude": -34.9215,
+    "longitude": -57.9545
+  },
+  {
+    "name": "Cali",
+    "country": "Colombia",
+    "population": 2401653,
+    "timezone": "America/Bogota",
+    "latitude": 3.4516,
+    "longitude": -76.532
+  },
+  {
+    "name": "Barranquilla",
+    "country": "Colombia",
+    "population": 1232766,
+    "timezone": "America/Bogota",
+    "latitude": 10.9639,
+    "longitude": -74.7964
+  },
+  {
+    "name": "Cartagena",
+    "country": "Colombia",
+    "population": 1028736,
+    "timezone": "America/Bogota",
+    "latitude": 10.3997,
+    "longitude": -75.5144
+  },
+  {
+    "name": "Trujillo",
+    "country": "Peru",
+    "population": 935147,
+    "timezone": "America/Lima",
+    "latitude": -8.1162,
+    "longitude": -79.03
+  },
+  {
+    "name": "Chiclayo",
+    "country": "Peru",
+    "population": 552508,
+    "timezone": "America/Lima",
+    "latitude": -6.7764,
+    "longitude": -79.8444
+  },
+  {
+    "name": "Concepción",
+    "country": "Chile",
+    "population": 223574,
+    "timezone": "America/Santiago",
+    "latitude": -36.827,
+    "longitude": -73.0498
+  },
+  {
+    "name": "Caracas",
+    "country": "Venezuela",
+    "population": 2082597,
+    "timezone": "America/Caracas",
+    "latitude": 10.4806,
+    "longitude": -66.9036
+  },
+  {
+    "name": "Maracaibo",
+    "country": "Venezuela",
+    "population": 1653211,
+    "timezone": "America/Caracas",
+    "latitude": 10.6317,
+    "longitude": -71.6406
+  },
+  {
+    "name": "Valencia",
+    "country": "Venezuela",
+    "population": 1385083,
+    "timezone": "America/Caracas",
+    "latitude": 10.1667,
+    "longitude": -68
+  },
+  {
+    "name": "Quito",
+    "country": "Ecuador",
+    "population": 2011388,
+    "timezone": "America/Guayaquil",
+    "latitude": -0.2299,
+    "longitude": -78.5249
+  },
+  {
+    "name": "Guayaquil",
+    "country": "Ecuador",
+    "population": 2291158,
+    "timezone": "America/Guayaquil",
+    "latitude": -2.1962,
+    "longitude": -79.8862
+  },
+  {
+    "name": "Cuenca",
+    "country": "Ecuador",
+    "population": 329928,
+    "timezone": "America/Guayaquil",
+    "latitude": -2.9001,
+    "longitude": -79.0059
+  },
+  {
+    "name": "Jacksonville",
+    "country": "USA",
+    "population": 911507,
+    "timezone": "America/New_York",
+    "latitude": 30.3322,
+    "longitude": -81.6557
+  },
+  {
+    "name": "Columbus",
+    "country": "USA",
+    "population": 898553,
+    "timezone": "America/New_York",
+    "latitude": 39.9612,
+    "longitude": -82.9988
+  },
+  {
+    "name": "Mississauga",
+    "country": "Canada",
+    "population": 721599,
+    "timezone": "America/Toronto",
+    "latitude": 43.589,
+    "longitude": -79.6441
+  },
+  {
+    "name": "Quebec City",
+    "country": "Canada",
+    "population": 531902,
+    "timezone": "America/Toronto",
+    "latitude": 46.8139,
+    "longitude": -71.208
+  },
+  {
+    "name": "Puebla",
+    "country": "Mexico",
+    "population": 1692181,
+    "timezone": "America/Mexico_City",
+    "latitude": 19.0414,
+    "longitude": -98.2063
+  },
+  {
+    "name": "Tijuana",
+    "country": "Mexico",
+    "population": 1810645,
+    "timezone": "America/Tijuana",
+    "latitude": 32.5149,
+    "longitude": -117.0382
+  },
+  {
+    "name": "León",
+    "country": "Mexico",
+    "population": 1579803,
+    "timezone": "America/Mexico_City",
+    "latitude": 21.1167,
+    "longitude": -101.6833
+  },
+  {
+    "name": "Juárez",
+    "country": "Mexico",
+    "population": 1512354,
+    "timezone": "America/Chihuahua",
+    "latitude": 31.6904,
+    "longitude": -106.4245
+  },
+  {
+    "name": "Salvador",
+    "country": "Brazil",
+    "population": 2886698,
+    "timezone": "America/Bahia",
+    "latitude": -12.9714,
+    "longitude": -38.5014
+  },
+  {
+    "name": "Fortaleza",
+    "country": "Brazil",
+    "population": 2669342,
+    "timezone": "America/Fortaleza",
+    "latitude": -3.7172,
+    "longitude": -38.5433
+  },
+  {
+    "name": "Curitiba",
+    "country": "Brazil",
+    "population": 1948626,
+    "timezone": "America/Sao_Paulo",
+    "latitude": -25.429,
+    "longitude": -49.2671
+  },
+  {
+    "name": "Manaus",
+    "country": "Brazil",
+    "population": 2219580,
+    "timezone": "America/Manaus",
+    "latitude": -3.119,
+    "longitude": -60.0217
+  },
+  {
+    "name": "Rosario",
+    "country": "Argentina",
+    "population": 1193605,
+    "timezone": "America/Argentina/Cordoba",
+    "latitude": -32.9468,
+    "longitude": -60.6393
+  },
+  {
+    "name": "Mendoza",
+    "country": "Argentina",
+    "population": 937154,
+    "timezone": "America/Argentina/Mendoza",
+    "latitude": -32.8908,
+    "longitude": -68.8272
+  },
+  {
+    "name": "Cali",
+    "country": "Colombia",
+    "population": 2401653,
+    "timezone": "America/Bogota",
+    "latitude": 3.4516,
+    "longitude": -76.532
+  },
+  {
+    "name": "Barranquilla",
+    "country": "Colombia",
+    "population": 1232462,
+    "timezone": "America/Bogota",
+    "latitude": 10.9639,
+    "longitude": -74.7964
+  },
+  {
+    "name": "Concepción",
+    "country": "Chile",
+    "population": 223574,
+    "timezone": "America/Santiago",
+    "latitude": -36.827,
+    "longitude": -73.0498
+  }
+]

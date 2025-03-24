@@ -1,0 +1,698 @@
+[
+  {
+    "name": "Sheffield",
+    "country": "UK",
+    "population": 584853,
+    "timezone": "Europe/London",
+    "latitude": 53.3811,
+    "longitude": -1.4701
+  },
+  {
+    "name": "Leicester",
+    "country": "UK",
+    "population": 552000,
+    "timezone": "Europe/London",
+    "latitude": 52.6369,
+    "longitude": -1.1398
+  },
+  {
+    "name": "Cardiff",
+    "country": "UK",
+    "population": 447287,
+    "timezone": "Europe/London",
+    "latitude": 51.4816,
+    "longitude": -3.1791
+  },
+  {
+    "name": "Nottingham",
+    "country": "UK",
+    "population": 321500,
+    "timezone": "Europe/London",
+    "latitude": 52.9548,
+    "longitude": -1.1581
+  },
+  {
+    "name": "Newcastle",
+    "country": "UK",
+    "population": 302820,
+    "timezone": "Europe/London",
+    "latitude": 54.9783,
+    "longitude": -1.6178
+  },
+  {
+    "name": "Aberdeen",
+    "country": "UK",
+    "population": 228990,
+    "timezone": "Europe/London",
+    "latitude": 57.1497,
+    "longitude": -2.0943
+  },
+  {
+    "name": "Belfast",
+    "country": "UK",
+    "population": 343542,
+    "timezone": "Europe/London",
+    "latitude": 54.5973,
+    "longitude": -5.9301
+  },
+  {
+    "name": "Bordeaux",
+    "country": "France",
+    "population": 257068,
+    "timezone": "Europe/Paris",
+    "latitude": 44.8378,
+    "longitude": -0.5792
+  },
+  {
+    "name": "Lille",
+    "country": "France",
+    "population": 232741,
+    "timezone": "Europe/Paris",
+    "latitude": 50.6292,
+    "longitude": 3.0573
+  },
+  {
+    "name": "Rennes",
+    "country": "France",
+    "population": 216268,
+    "timezone": "Europe/Paris",
+    "latitude": 48.1173,
+    "longitude": -1.6778
+  },
+  {
+    "name": "Reims",
+    "country": "France",
+    "population": 182211,
+    "timezone": "Europe/Paris",
+    "latitude": 49.2583,
+    "longitude": 4.0317
+  },
+  {
+    "name": "Saint-Étienne",
+    "country": "France",
+    "population": 171924,
+    "timezone": "Europe/Paris",
+    "latitude": 45.4397,
+    "longitude": 4.3872
+  },
+  {
+    "name": "Toulon",
+    "country": "France",
+    "population": 171953,
+    "timezone": "Europe/Paris",
+    "latitude": 43.1242,
+    "longitude": 5.928
+  },
+  {
+    "name": "Stuttgart",
+    "country": "Germany",
+    "population": 634830,
+    "timezone": "Europe/Berlin",
+    "latitude": 48.7758,
+    "longitude": 9.1829
+  },
+  {
+    "name": "Düsseldorf",
+    "country": "Germany",
+    "population": 619294,
+    "timezone": "Europe/Berlin",
+    "latitude": 51.2277,
+    "longitude": 6.7735
+  },
+  {
+    "name": "Leipzig",
+    "country": "Germany",
+    "population": 587857,
+    "timezone": "Europe/Berlin",
+    "latitude": 51.3397,
+    "longitude": 12.3731
+  },
+  {
+    "name": "Dortmund",
+    "country": "Germany",
+    "population": 588250,
+    "timezone": "Europe/Berlin",
+    "latitude": 51.5136,
+    "longitude": 7.4653
+  },
+  {
+    "name": "Essen",
+    "country": "Germany",
+    "population": 583109,
+    "timezone": "Europe/Berlin",
+    "latitude": 51.4556,
+    "longitude": 7.0116
+  },
+  {
+    "name": "Bremen",
+    "country": "Germany",
+    "population": 567559,
+    "timezone": "Europe/Berlin",
+    "latitude": 53.0793,
+    "longitude": 8.8017
+  },
+  {
+    "name": "Dresden",
+    "country": "Germany",
+    "population": 554649,
+    "timezone": "Europe/Berlin",
+    "latitude": 51.0504,
+    "longitude": 13.7373
+  },
+  {
+    "name": "Bilbao",
+    "country": "Spain",
+    "population": 345821,
+    "timezone": "Europe/Madrid",
+    "latitude": 43.2627,
+    "longitude": -2.9253
+  },
+  {
+    "name": "Las Palmas",
+    "country": "Spain",
+    "population": 379925,
+    "timezone": "Europe/Madrid",
+    "latitude": 28.1235,
+    "longitude": -15.4366
+  },
+  {
+    "name": "Murcia",
+    "country": "Spain",
+    "population": 447182,
+    "timezone": "Europe/Madrid",
+    "latitude": 37.9922,
+    "longitude": -1.1307
+  },
+  {
+    "name": "Palma",
+    "country": "Spain",
+    "population": 409661,
+    "timezone": "Europe/Madrid",
+    "latitude": 39.5696,
+    "longitude": 2.6502
+  },
+  {
+    "name": "Alicante",
+    "country": "Spain",
+    "population": 334887,
+    "timezone": "Europe/Madrid",
+    "latitude": 38.3453,
+    "longitude": -0.4831
+  },
+  {
+    "name": "Genoa",
+    "country": "Italy",
+    "population": 583601,
+    "timezone": "Europe/Rome",
+    "latitude": 44.4056,
+    "longitude": 8.9463
+  },
+  {
+    "name": "Verona",
+    "country": "Italy",
+    "population": 257275,
+    "timezone": "Europe/Rome",
+    "latitude": 45.4384,
+    "longitude": 10.9916
+  },
+  {
+    "name": "Messina",
+    "country": "Italy",
+    "population": 232555,
+    "timezone": "Europe/Rome",
+    "latitude": 38.1938,
+    "longitude": 15.554
+  },
+  {
+    "name": "Padua",
+    "country": "Italy",
+    "population": 214125,
+    "timezone": "Europe/Rome",
+    "latitude": 45.4064,
+    "longitude": 11.8768
+  },
+  {
+    "name": "Trieste",
+    "country": "Italy",
+    "population": 204420,
+    "timezone": "Europe/Rome",
+    "latitude": 45.6495,
+    "longitude": 13.7768
+  },
+  {
+    "name": "Gdańsk",
+    "country": "Poland",
+    "population": 470907,
+    "timezone": "Europe/Warsaw",
+    "latitude": 54.352,
+    "longitude": 18.6466
+  },
+  {
+    "name": "Szczecin",
+    "country": "Poland",
+    "population": 402465,
+    "timezone": "Europe/Warsaw",
+    "latitude": 53.4285,
+    "longitude": 14.5528
+  },
+  {
+    "name": "Bydgoszcz",
+    "country": "Poland",
+    "population": 350178,
+    "timezone": "Europe/Warsaw",
+    "latitude": 53.1235,
+    "longitude": 18.0084
+  },
+  {
+    "name": "Lublin",
+    "country": "Poland",
+    "population": 339682,
+    "timezone": "Europe/Warsaw",
+    "latitude": 51.2465,
+    "longitude": 22.5684
+  },
+  {
+    "name": "Białystok",
+    "country": "Poland",
+    "population": 297554,
+    "timezone": "Europe/Warsaw",
+    "latitude": 53.1325,
+    "longitude": 23.1688
+  },
+  {
+    "name": "Eindhoven",
+    "country": "Netherlands",
+    "population": 234456,
+    "timezone": "Europe/Amsterdam",
+    "latitude": 51.4416,
+    "longitude": 5.4697
+  },
+  {
+    "name": "Tilburg",
+    "country": "Netherlands",
+    "population": 217595,
+    "timezone": "Europe/Amsterdam",
+    "latitude": 51.5719,
+    "longitude": 5.0672
+  },
+  {
+    "name": "Groningen",
+    "country": "Netherlands",
+    "population": 233218,
+    "timezone": "Europe/Amsterdam",
+    "latitude": 53.2194,
+    "longitude": 6.5665
+  },
+  {
+    "name": "Almere",
+    "country": "Netherlands",
+    "population": 211893,
+    "timezone": "Europe/Amsterdam",
+    "latitude": 52.3508,
+    "longitude": 5.2647
+  },
+  {
+    "name": "Ghent",
+    "country": "Belgium",
+    "population": 262219,
+    "timezone": "Europe/Brussels",
+    "latitude": 51.0543,
+    "longitude": 3.7174
+  },
+  {
+    "name": "Charleroi",
+    "country": "Belgium",
+    "population": 201816,
+    "timezone": "Europe/Brussels",
+    "latitude": 50.4108,
+    "longitude": 4.4446
+  },
+  {
+    "name": "Liège",
+    "country": "Belgium",
+    "population": 197885,
+    "timezone": "Europe/Brussels",
+    "latitude": 50.6326,
+    "longitude": 5.5797
+  },
+  {
+    "name": "Vila Nova de Gaia",
+    "country": "Portugal",
+    "population": 302295,
+    "timezone": "Europe/Lisbon",
+    "latitude": 41.1333,
+    "longitude": -8.6167
+  },
+  {
+    "name": "Amadora",
+    "country": "Portugal",
+    "population": 175136,
+    "timezone": "Europe/Lisbon",
+    "latitude": 38.75,
+    "longitude": -9.2333
+  },
+  {
+    "name": "Setúbal",
+    "country": "Portugal",
+    "population": 121185,
+    "timezone": "Europe/Lisbon",
+    "latitude": 38.5243,
+    "longitude": -8.8926
+  },
+  {
+    "name": "Athens",
+    "country": "Greece",
+    "population": 664046,
+    "timezone": "Europe/Athens",
+    "latitude": 37.9838,
+    "longitude": 23.7275
+  },
+  {
+    "name": "Thessaloniki",
+    "country": "Greece",
+    "population": 325182,
+    "timezone": "Europe/Athens",
+    "latitude": 40.6401,
+    "longitude": 22.9444
+  },
+  {
+    "name": "Patras",
+    "country": "Greece",
+    "population": 167446,
+    "timezone": "Europe/Athens",
+    "latitude": 38.2466,
+    "longitude": 21.7346
+  },
+  {
+    "name": "Bucharest",
+    "country": "Romania",
+    "population": 2106144,
+    "timezone": "Europe/Bucharest",
+    "latitude": 44.4268,
+    "longitude": 26.1025
+  },
+  {
+    "name": "Cluj-Napoca",
+    "country": "Romania",
+    "population": 324576,
+    "timezone": "Europe/Bucharest",
+    "latitude": 46.7712,
+    "longitude": 23.6236
+  },
+  {
+    "name": "Timișoara",
+    "country": "Romania",
+    "population": 319279,
+    "timezone": "Europe/Bucharest",
+    "latitude": 45.7489,
+    "longitude": 21.2087
+  },
+  {
+    "name": "Budapest",
+    "country": "Hungary",
+    "population": 1752286,
+    "timezone": "Europe/Budapest",
+    "latitude": 47.4979,
+    "longitude": 19.0402
+  },
+  {
+    "name": "Debrecen",
+    "country": "Hungary",
+    "population": 203493,
+    "timezone": "Europe/Budapest",
+    "latitude": 47.5316,
+    "longitude": 21.6273
+  },
+  {
+    "name": "Szeged",
+    "country": "Hungary",
+    "population": 162593,
+    "timezone": "Europe/Budapest",
+    "latitude": 46.253,
+    "longitude": 20.1414
+  },
+  {
+    "name": "Prague",
+    "country": "Czech Republic",
+    "population": 1324277,
+    "timezone": "Europe/Prague",
+    "latitude": 50.0755,
+    "longitude": 14.4378
+  },
+  {
+    "name": "Brno",
+    "country": "Czech Republic",
+    "population": 379466,
+    "timezone": "Europe/Prague",
+    "latitude": 49.1951,
+    "longitude": 16.6068
+  },
+  {
+    "name": "Ostrava",
+    "country": "Czech Republic",
+    "population": 289629,
+    "timezone": "Europe/Prague",
+    "latitude": 49.8209,
+    "longitude": 18.2625
+  },
+  {
+    "name": "Sofia",
+    "country": "Bulgaria",
+    "population": 1307376,
+    "timezone": "Europe/Sofia",
+    "latitude": 42.6977,
+    "longitude": 23.3219
+  },
+  {
+    "name": "Plovdiv",
+    "country": "Bulgaria",
+    "population": 346893,
+    "timezone": "Europe/Sofia",
+    "latitude": 42.1354,
+    "longitude": 24.7453
+  },
+  {
+    "name": "Varna",
+    "country": "Bulgaria",
+    "population": 334870,
+    "timezone": "Europe/Sofia",
+    "latitude": 43.2141,
+    "longitude": 27.9147
+  },
+  {
+    "name": "Birmingham",
+    "country": "UK",
+    "population": 2607437,
+    "timezone": "Europe/London",
+    "latitude": 52.4862,
+    "longitude": -1.8904
+  },
+  {
+    "name": "Leeds",
+    "country": "UK",
+    "population": 789194,
+    "timezone": "Europe/London",
+    "latitude": 53.8008,
+    "longitude": -1.5491
+  },
+  {
+    "name": "Liverpool",
+    "country": "UK",
+    "population": 864122,
+    "timezone": "Europe/London",
+    "latitude": 53.4084,
+    "longitude": -2.9916
+  },
+  {
+    "name": "Edinburgh",
+    "country": "UK",
+    "population": 488050,
+    "timezone": "Europe/London",
+    "latitude": 55.9533,
+    "longitude": -3.1883
+  },
+  {
+    "name": "Bristol",
+    "country": "UK",
+    "population": 463405,
+    "timezone": "Europe/London",
+    "latitude": 51.4545,
+    "longitude": -2.5879
+  },
+  {
+    "name": "Marseille",
+    "country": "France",
+    "population": 850726,
+    "timezone": "Europe/Paris",
+    "latitude": 43.2965,
+    "longitude": 5.3698
+  },
+  {
+    "name": "Toulouse",
+    "country": "France",
+    "population": 471941,
+    "timezone": "Europe/Paris",
+    "latitude": 43.6047,
+    "longitude": 1.4442
+  },
+  {
+    "name": "Nice",
+    "country": "France",
+    "population": 342669,
+    "timezone": "Europe/Paris",
+    "latitude": 43.7102,
+    "longitude": 7.262
+  },
+  {
+    "name": "Nantes",
+    "country": "France",
+    "population": 309346,
+    "timezone": "Europe/Paris",
+    "latitude": 47.2184,
+    "longitude": -1.5536
+  },
+  {
+    "name": "Hamburg",
+    "country": "Germany",
+    "population": 1841179,
+    "timezone": "Europe/Berlin",
+    "latitude": 53.5511,
+    "longitude": 9.9937
+  },
+  {
+    "name": "Cologne",
+    "country": "Germany",
+    "population": 1085664,
+    "timezone": "Europe/Berlin",
+    "latitude": 50.9375,
+    "longitude": 6.9603
+  },
+  {
+    "name": "Frankfurt",
+    "country": "Germany",
+    "population": 753056,
+    "timezone": "Europe/Berlin",
+    "latitude": 50.1109,
+    "longitude": 8.6821
+  },
+  {
+    "name": "Seville",
+    "country": "Spain",
+    "population": 688711,
+    "timezone": "Europe/Madrid",
+    "latitude": 37.3891,
+    "longitude": -5.9845
+  },
+  {
+    "name": "Zaragoza",
+    "country": "Spain",
+    "population": 674997,
+    "timezone": "Europe/Madrid",
+    "latitude": 41.6488,
+    "longitude": -0.8891
+  },
+  {
+    "name": "Malaga",
+    "country": "Spain",
+    "population": 574654,
+    "timezone": "Europe/Madrid",
+    "latitude": 36.7213,
+    "longitude": -4.4217
+  },
+  {
+    "name": "Turin",
+    "country": "Italy",
+    "population": 886837,
+    "timezone": "Europe/Rome",
+    "latitude": 45.0703,
+    "longitude": 7.6869
+  },
+  {
+    "name": "Bologna",
+    "country": "Italy",
+    "population": 388367,
+    "timezone": "Europe/Rome",
+    "latitude": 44.4949,
+    "longitude": 11.3426
+  },
+  {
+    "name": "Florence",
+    "country": "Italy",
+    "population": 382258,
+    "timezone": "Europe/Rome",
+    "latitude": 43.7696,
+    "longitude": 11.2558
+  },
+  {
+    "name": "Rotterdam",
+    "country": "Netherlands",
+    "population": 651446,
+    "timezone": "Europe/Amsterdam",
+    "latitude": 51.9244,
+    "longitude": 4.4777
+  },
+  {
+    "name": "The Hague",
+    "country": "Netherlands",
+    "population": 544766,
+    "timezone": "Europe/Amsterdam",
+    "latitude": 52.0705,
+    "longitude": 4.3007
+  },
+  {
+    "name": "Utrecht",
+    "country": "Netherlands",
+    "population": 357597,
+    "timezone": "Europe/Amsterdam",
+    "latitude": 52.0907,
+    "longitude": 5.1214
+  },
+  {
+    "name": "Lodz",
+    "country": "Poland",
+    "population": 685285,
+    "timezone": "Europe/Warsaw",
+    "latitude": 51.7592,
+    "longitude": 19.4559
+  },
+  {
+    "name": "Wroclaw",
+    "country": "Poland",
+    "population": 639258,
+    "timezone": "Europe/Warsaw",
+    "latitude": 51.1079,
+    "longitude": 17.0385
+  },
+  {
+    "name": "Poznan",
+    "country": "Poland",
+    "population": 536438,
+    "timezone": "Europe/Warsaw",
+    "latitude": 52.4064,
+    "longitude": 16.9252
+  },
+  {
+    "name": "Gothenburg",
+    "country": "Sweden",
+    "population": 579281,
+    "timezone": "Europe/Stockholm",
+    "latitude": 57.7089,
+    "longitude": 11.9746
+  },
+  {
+    "name": "Malmo",
+    "country": "Sweden",
+    "population": 344166,
+    "timezone": "Europe/Stockholm",
+    "latitude": 55.605,
+    "longitude": 13.0038
+  },
+  {
+    "name": "Braga",
+    "country": "Portugal",
+    "population": 136885,
+    "timezone": "Europe/Lisbon",
+    "latitude": 41.5454,
+    "longitude": -8.4265
+  }
+]

@@ -50,22 +50,28 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         onInputChange={(_, newValue) => setInputValue(newValue)}
         options={options}
         getOptionLabel={(option) => `${option.city}, ${option.country}`}
-        renderOption={(props, option) => (
-          <ListItem {...props}>
-            <ListItemText
-              primary={
-                <Typography variant="body1">
-                  {option.city}, {option.country}
-                </Typography>
-              }
-              secondary={
-                <Typography variant="caption" color="text.secondary">
-                  {option.id} (UTC{DateTime.now().setZone(option.id).toFormat('ZZ')})
-                </Typography>
-              }
-            />
-          </ListItem>
-        )}
+        renderOption={(props, option) => {
+          // Calculate offset once per option
+          const offset = option.offset || DateTime.local().setZone(option.id).toFormat('ZZ');
+          // Create a unique key using both city name and timezone ID
+          const key = `${option.city}-${option.country}-${option.id}`;
+          return (
+            <ListItem {...props} key={key}>
+              <ListItemText
+                primary={
+                  <Typography variant="body1">
+                    {option.city}, {option.country}
+                  </Typography>
+                }
+                secondary={
+                  <Typography variant="caption" color="text.secondary">
+                    {option.id} (UTC{offset})
+                  </Typography>
+                }
+              />
+            </ListItem>
+          );
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
