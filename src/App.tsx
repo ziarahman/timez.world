@@ -13,6 +13,7 @@ import {
   IconButton,
   Tooltip
 } from '@mui/material'
+import AboutDialog from './components/AboutDialog'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import PublicIcon from '@mui/icons-material/Public'
@@ -52,6 +53,7 @@ function App() {
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>(
     localStorage.getItem('theme') as 'light' | 'dark' || (prefersDarkSystem ? 'dark' : 'light')
   )
+  const [aboutDialogOpen, setAboutDialogOpen] = useState(false)
 
   // Clear localStorage if there are any invalid timezone IDs
   useEffect(() => {
@@ -190,7 +192,11 @@ function App() {
           <Container maxWidth="md">
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <PublicIcon sx={{ fontSize: 32, color: '#2196F3' }} />
+                <Tooltip title="About Worldtimez">
+                  <IconButton onClick={() => setAboutDialogOpen(true)}>
+                    <PublicIcon sx={{ fontSize: 32, color: '#2196F3' }} />
+                  </IconButton>
+                </Tooltip>
                 <Typography 
                   variant="h4" 
                   component="h1" 
@@ -204,6 +210,10 @@ function App() {
                   Worldtimez
                 </Typography>
               </Box>
+              <AboutDialog 
+                open={aboutDialogOpen} 
+                onClose={() => setAboutDialogOpen(false)} 
+              />
               <Tooltip title={`Switch to ${themeMode === 'light' ? 'dark' : 'light'} mode`}>
                 <IconButton onClick={toggleTheme} color="primary">
                   {themeMode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
