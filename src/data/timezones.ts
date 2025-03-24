@@ -20,78 +20,89 @@ export interface TimezoneCity {
 // Indian cities by timezone
 const indianCities: Record<string, CityInfo[]> = {
   'Asia/Kolkata': [
-    { name: 'Delhi', country: 'India', population: 16787941 },
-    { name: 'Mumbai', country: 'India', population: 12442373 },
-    { name: 'Bangalore', country: 'India', population: 8443675 },
-    { name: 'Hyderabad', country: 'India', population: 6809970 },
-    { name: 'Ahmedabad', country: 'India', population: 5570585 },
-    { name: 'Chennai', country: 'India', population: 4646732 },
-    { name: 'Kolkata', country: 'India', population: 4496694 },
-    { name: 'Pune', country: 'India', population: 3124458 },
-    { name: 'Surat', country: 'India', population: 4467797 },
-    { name: 'Jaipur', country: 'India', population: 3046163 },
-    { name: 'Lucknow', country: 'India', population: 2815601 },
-    { name: 'Kanpur', country: 'India', population: 2767031 },
-    { name: 'Nagpur', country: 'India', population: 2405665 },
-    { name: 'Indore', country: 'India', population: 1994397 },
-    { name: 'Thane', country: 'India', population: 1841488 },
-    { name: 'Bhopal', country: 'India', population: 1798218 },
-    { name: 'Visakhapatnam', country: 'India', population: 1728128 },
-    { name: 'Noida', country: 'India', population: 642381 },
-    { name: 'Gurgaon', country: 'India', population: 876824 },
+    { name: 'Delhi', country: 'India', population: 34700000 },
+    { name: 'Mumbai', country: 'India', population: 22100000 },
+    { name: 'Kolkata', country: 'India', population: 15200000 },
+    { name: 'Bangalore', country: 'India', population: 13200000 },
+    { name: 'Chennai', country: 'India', population: 11500000 },
+    { name: 'Hyderabad', country: 'India', population: 10100000 },
+    { name: 'Ahmedabad', country: 'India', population: 8400000 },
+    { name: 'Pune', country: 'India', population: 7400000 },
+    { name: 'Surat', country: 'India', population: 6900000 },
+    { name: 'Jaipur', country: 'India', population: 4100000 },
+    { name: 'Lucknow', country: 'India', population: 3700000 },
+    { name: 'Kanpur', country: 'India', population: 3400000 },
+    { name: 'Nagpur', country: 'India', population: 3300000 },
+    { name: 'Indore', country: 'India', population: 2900000 },
+    { name: 'Thane', country: 'India', population: 2400000 },
+    { name: 'Bhopal', country: 'India', population: 2300000 },
+    { name: 'Visakhapatnam', country: 'India', population: 2200000 },
+    { name: 'Pimpri-Chinchwad', country: 'India', population: 2100000 },
+    { name: 'Patna', country: 'India', population: 2100000 },
+    { name: 'Vadodara', country: 'India', population: 2100000 },
+    { name: 'Ghaziabad', country: 'India', population: 1900000 },
+    { name: 'Ludhiana', country: 'India', population: 1800000 },
+    { name: 'Agra', country: 'India', population: 1800000 },
+    { name: 'Nashik', country: 'India', population: 1700000 },
+    { name: 'Faridabad', country: 'India', population: 1600000 },
+    { name: 'Meerut', country: 'India', population: 1600000 },
+    { name: 'Rajkot', country: 'India', population: 1600000 },
+    { name: 'Kalyan-Dombivali', country: 'India', population: 1500000 },
+    { name: 'Vasai-Virar', country: 'India', population: 1500000 },
+    { name: 'Varanasi', country: 'India', population: 1500000 }
   ],
 }
 
 // US cities by timezone
 const usCities: Record<string, CityInfo[]> = {
-  'America/Los_Angeles': [
-    { name: 'Los Angeles', country: 'United States', population: 3990456 },
-    { name: 'San Francisco', country: 'United States', population: 873965 },
-    { name: 'San Diego', country: 'United States', population: 1423851 },
-    { name: 'Seattle', country: 'United States', population: 737015 },
-    { name: 'Portland', country: 'United States', population: 652503 },
-    { name: 'San Jose', country: 'United States', population: 1021795 },
-    { name: 'Sacramento', country: 'United States', population: 513624 },
-    { name: 'Las Vegas', country: 'United States', population: 641903 },
-    { name: 'San Mateo', country: 'United States', population: 104430 },
-    { name: 'Foster City', country: 'United States', population: 33805 },
+  'America/New_York': [
+    { name: 'New York', country: 'United States', population: 18800000 },
+    { name: 'Washington DC', country: 'United States', population: 6400000 },
+    { name: 'Philadelphia', country: 'United States', population: 6200000 },
+    { name: 'Boston', country: 'United States', population: 4900000 },
+    { name: 'Atlanta', country: 'United States', population: 6100000 },
+    { name: 'Miami', country: 'United States', population: 6300000 },
+    { name: 'Tampa', country: 'United States', population: 3200000 },
+    { name: 'Baltimore', country: 'United States', population: 2800000 },
+    { name: 'Charlotte', country: 'United States', population: 2700000 },
+    { name: 'Orlando', country: 'United States', population: 2600000 },
+    { name: 'Pittsburgh', country: 'United States', population: 2300000 },
+    { name: 'Jacksonville', country: 'United States', population: 1600000 },
+    { name: 'Buffalo', country: 'United States', population: 1100000 },
   ],
   'America/Chicago': [
-    { name: 'Chicago', country: 'United States', population: 2746388 },
-    { name: 'Houston', country: 'United States', population: 2320268 },
-    { name: 'Dallas', country: 'United States', population: 1330612 },
-    { name: 'San Antonio', country: 'United States', population: 1547253 },
-    { name: 'Austin', country: 'United States', population: 961855 },
-    { name: 'Fort Worth', country: 'United States', population: 909585 },
-    { name: 'Minneapolis', country: 'United States', population: 429954 },
-    { name: 'Kansas City', country: 'United States', population: 495327 },
-    { name: 'New Orleans', country: 'United States', population: 383997 },
+    { name: 'Chicago', country: 'United States', population: 8900000 },
+    { name: 'Houston', country: 'United States', population: 7100000 },
+    { name: 'Dallas', country: 'United States', population: 7600000 },
+    { name: 'Minneapolis', country: 'United States', population: 3700000 },
+    { name: 'San Antonio', country: 'United States', population: 2600000 },
+    { name: 'Austin', country: 'United States', population: 2300000 },
+    { name: 'Kansas City', country: 'United States', population: 2200000 },
+    { name: 'Milwaukee', country: 'United States', population: 1600000 },
+    { name: 'New Orleans', country: 'United States', population: 1300000 },
+    { name: 'Memphis', country: 'United States', population: 1300000 },
+    { name: 'Oklahoma City', country: 'United States', population: 1400000 },
   ],
-  'America/New_York': [
-    { name: 'New York', country: 'United States', population: 8419000 },
-    { name: 'Washington DC', country: 'United States', population: 689545 },
-    { name: 'Boston', country: 'United States', population: 675647 },
-    { name: 'Atlanta', country: 'United States', population: 498715 },
-    { name: 'Miami', country: 'United States', population: 442241 },
-    { name: 'Philadelphia', country: 'United States', population: 1603797 },
-    { name: 'Charlotte', country: 'United States', population: 872498 },
-    { name: 'Ashburn', country: 'United States', population: 43511 },
-    { name: 'Raleigh', country: 'United States', population: 467665 },
-    { name: 'Orlando', country: 'United States', population: 287442 },
-    { name: 'Pittsburgh', country: 'United States', population: 302971 },
+  'America/Los_Angeles': [
+    { name: 'Los Angeles', country: 'United States', population: 12500000 },
+    { name: 'San Francisco', country: 'United States', population: 4700000 },
+    { name: 'Seattle', country: 'United States', population: 4000000 },
+    { name: 'San Diego', country: 'United States', population: 3300000 },
+    { name: 'Portland', country: 'United States', population: 2500000 },
+    { name: 'Sacramento', country: 'United States', population: 2300000 },
+    { name: 'Las Vegas', country: 'United States', population: 2300000 },
+    { name: 'San Jose', country: 'United States', population: 2000000 },
   ],
   'America/Phoenix': [
-    { name: 'Phoenix', country: 'United States', population: 1608139 },
-    { name: 'Tucson', country: 'United States', population: 542629 },
-    { name: 'Mesa', country: 'United States', population: 508958 },
-    { name: 'Scottsdale', country: 'United States', population: 241361 },
+    { name: 'Phoenix', country: 'United States', population: 4900000 },
+    { name: 'Tucson', country: 'United States', population: 1100000 },
+    { name: 'Mesa', country: 'United States', population: 500000 },
   ],
   'America/Denver': [
-    { name: 'Denver', country: 'United States', population: 727211 },
-    { name: 'Salt Lake City', country: 'United States', population: 199723 },
-    { name: 'Albuquerque', country: 'United States', population: 564559 },
-    { name: 'Colorado Springs', country: 'United States', population: 478961 },
-    { name: 'Boulder', country: 'United States', population: 105673 },
+    { name: 'Denver', country: 'United States', population: 2900000 },
+    { name: 'Salt Lake City', country: 'United States', population: 1200000 },
+    { name: 'Albuquerque', country: 'United States', population: 900000 },
+    { name: 'Colorado Springs', country: 'United States', population: 700000 },
   ],
 }
 
@@ -194,61 +205,118 @@ const southAmericanCities: Record<string, CityInfo[]> = {
   ],
 }
 
+// All major Chinese cities use Asia/Shanghai timezone
+const chinaCities: CityInfo[] = [
+  { name: 'Shanghai', country: 'China', population: 30500000 },
+  { name: 'Beijing', country: 'China', population: 22600000 },
+  { name: 'Guangzhou', country: 'China', population: 19000000 },
+  { name: 'Shenzhen', country: 'China', population: 17494398 },
+  { name: 'Chongqing', country: 'China', population: 16875000 },
+  { name: 'Tianjin', country: 'China', population: 15200000 },
+  { name: 'Chengdu', country: 'China', population: 16311600 },
+  { name: 'Wuhan', country: 'China', population: 11081000 },
+  { name: 'Hangzhou', country: 'China', population: 10360000 },
+  { name: 'Xi\'an', country: 'China', population: 9600000 },
+  { name: 'Zhengzhou', country: 'China', population: 9000000 },
+  { name: 'Shenyang', country: 'China', population: 8500000 },
+  { name: 'Nanjing', country: 'China', population: 8400000 },
+  { name: 'Qingdao', country: 'China', population: 7700000 },
+  { name: 'Changsha', country: 'China', population: 7500000 },
+  { name: 'Kunming', country: 'China', population: 7200000 },
+  { name: 'Dalian', country: 'China', population: 6700000 },
+  { name: 'Xiamen', country: 'China', population: 5200000 },
+  { name: 'Suzhou', country: 'China', population: 5000000 },
+  { name: 'Ningbo', country: 'China', population: 4900000 }
+];
+
 const globalCities: Record<string, CityInfo> = {
-  'Asia/Shanghai': { name: 'Shanghai', country: 'China', population: 24870895 },
-  'Asia/Beijing': { name: 'Beijing', country: 'China', population: 20462610 },
-  'Asia/Shenzhen': { name: 'Shenzhen', country: 'China', population: 17494398 },
-  'Asia/Guangzhou': { name: 'Guangzhou', country: 'China', population: 16096724 },
-  'Asia/Karachi': { name: 'Karachi', country: 'Pakistan', population: 14910352 },
-  'Asia/Istanbul': { name: 'Istanbul', country: 'Turkey', population: 14804116 },
-  'America/Sao_Paulo': { name: 'São Paulo', country: 'Brazil', population: 12252023 },
-  'Asia/Tokyo': { name: 'Tokyo', country: 'Japan', population: 9272740 },
-  'Asia/Hong_Kong': { name: 'Hong Kong', country: 'China', population: 7448900 },
+  // East Asia
+  // China (all cities use Asia/Shanghai timezone)
+  'Asia/Shanghai': { name: 'Shanghai', country: 'China', population: 30500000 },
+  
+  // Japan
+  'Asia/Tokyo': { name: 'Tokyo', country: 'Japan', population: 37000000 },
+  'Asia/Osaka': { name: 'Osaka', country: 'Japan', population: 18900000 },
+  'Asia/Nagoya': { name: 'Nagoya', country: 'Japan', population: 9507835 },
+  'Asia/Fukuoka': { name: 'Fukuoka', country: 'Japan', population: 5538142 },
+  'Asia/Sapporo': { name: 'Sapporo', country: 'Japan', population: 1973832 },
+  
+  // South Korea
+  'Asia/Seoul': { name: 'Seoul', country: 'South Korea', population: 9900000 },
+  'Asia/Busan': { name: 'Busan', country: 'South Korea', population: 3400000 },
+  
+  // South Asia
+  'Asia/Kolkata': { name: 'Delhi', country: 'India', population: 34700000 },
+  'Asia/Karachi': { name: 'Karachi', country: 'Pakistan', population: 16800000 },
+  'Asia/Dhaka': { name: 'Dhaka', country: 'Bangladesh', population: 22500000 },
+  
+  // Southeast Asia
+  'Asia/Jakarta': { name: 'Jakarta', country: 'Indonesia', population: 33430000 },
+  'Asia/Manila': { name: 'Manila', country: 'Philippines', population: 24300000 },
+  'Asia/Bangkok': { name: 'Bangkok', country: 'Thailand', population: 17066000 },
+  'Asia/Ho_Chi_Minh': { name: 'Ho Chi Minh City', country: 'Vietnam', population: 13500000 },
   'Asia/Singapore': { name: 'Singapore', country: 'Singapore', population: 5850342 },
-  'Asia/Osaka': { name: 'Osaka', country: 'Japan', population: 2691742 },
-  'Asia/Seoul': { name: 'Seoul', country: 'South Korea', population: 9776000 },
-  'Asia/Jakarta': { name: 'Jakarta', country: 'Indonesia', population: 10562088 },
-  'Asia/Bangkok': { name: 'Bangkok', country: 'Thailand', population: 8280925 },
-  'Asia/Manila': { name: 'Manila', country: 'Philippines', population: 1780148 },
-  'Asia/Kuala_Lumpur': { name: 'Kuala Lumpur', country: 'Malaysia', population: 1790000 },
-  'Asia/Taipei': { name: 'Taipei', country: 'Taiwan', population: 2674652 },
-  'Asia/Ho_Chi_Minh': { name: 'Ho Chi Minh City', country: 'Vietnam', population: 8993082 },
-  'Asia/Hanoi': { name: 'Hanoi', country: 'Vietnam', population: 7785000 },
-  'Europe/London': { name: 'London', country: 'United Kingdom', population: 8908081 },
-  'Europe/Manchester': { name: 'Manchester', country: 'United Kingdom', population: 2705000 },
-  'Europe/Paris': { name: 'Paris', country: 'France', population: 2148271 },
-  'Europe/Berlin': { name: 'Berlin', country: 'Germany', population: 3669495 },
-  'Europe/Munich': { name: 'Munich', country: 'Germany', population: 1472000 },
-  'Europe/Moscow': { name: 'Moscow', country: 'Russia', population: 12506468 },
-  'Europe/Saint_Petersburg': { name: 'Saint Petersburg', country: 'Russia', population: 5351935 },
-  'Australia/Sydney': { name: 'Sydney', country: 'Australia', population: 5367206 },
-  'Australia/Melbourne': { name: 'Melbourne', country: 'Australia', population: 5078193 },
-  'Australia/Brisbane': { name: 'Brisbane', country: 'Australia', population: 2560720 },
-  'Pacific/Auckland': { name: 'Auckland', country: 'New Zealand', population: 1657200 },
-  'Asia/Dubai': { name: 'Dubai', country: 'United Arab Emirates', population: 3331420 },
-  'Asia/Abu_Dhabi': { name: 'Abu Dhabi', country: 'United Arab Emirates', population: 1480000 },
-  'Asia/Busan': { name: 'Busan', country: 'South Korea', population: 3359527 },
-  'Asia/Surabaya': { name: 'Surabaya', country: 'Indonesia', population: 2874699 },
-  'Asia/Cebu': { name: 'Cebu', country: 'Philippines', population: 922611 },
-  'Africa/Cairo': { name: 'Cairo', country: 'Egypt', population: 9539000 },
-  'Africa/Alexandria': { name: 'Alexandria', country: 'Egypt', population: 5200000 },
-  'Africa/Lagos': { name: 'Lagos', country: 'Nigeria', population: 14862111 },
-  'Africa/Nairobi': { name: 'Nairobi', country: 'Kenya', population: 4397073 },
-  'Africa/Johannesburg': { name: 'Johannesburg', country: 'South Africa', population: 5782747 },
-  'Africa/Cape_Town': { name: 'Cape Town', country: 'South Africa', population: 4618000 },
-  'Europe/Amsterdam': { name: 'Amsterdam', country: 'Netherlands', population: 872680 },
-  'Europe/Rome': { name: 'Rome', country: 'Italy', population: 4342212 },
-  'Europe/Milan': { name: 'Milan', country: 'Italy', population: 1352000 },
-  'Europe/Madrid': { name: 'Madrid', country: 'Spain', population: 3223334 },
-  'Europe/Barcelona': { name: 'Barcelona', country: 'Spain', population: 1620000 },
-  'Europe/Vienna': { name: 'Vienna', country: 'Austria', population: 1897491 },
-  'Europe/Stockholm': { name: 'Stockholm', country: 'Sweden', population: 975551 },
-  'Europe/Warsaw': { name: 'Warsaw', country: 'Poland', population: 1783321 },
+  'Asia/Hanoi': { name: 'Hanoi', country: 'Vietnam', population: 8100000 },
+  'Asia/Kuala_Lumpur': { name: 'Kuala Lumpur', country: 'Malaysia', population: 7900000 },
+  
+  // Middle East
+  'Asia/Cairo': { name: 'Cairo', country: 'Egypt', population: 23100000 },
+  'Asia/Istanbul': { name: 'Istanbul', country: 'Turkey', population: 16200000 },
+  'Asia/Tehran': { name: 'Tehran', country: 'Iran', population: 13600000 },
+  'Asia/Riyadh': { name: 'Riyadh', country: 'Saudi Arabia', population: 7600000 },
+  'Asia/Baghdad': { name: 'Baghdad', country: 'Iraq', population: 7511000 },
+  'Asia/Dubai': { name: 'Dubai', country: 'UAE', population: 3500000 },
+  
+  // Africa
+  'Africa/Lagos': { name: 'Lagos', country: 'Nigeria', population: 21000000 },
+  'Africa/Kinshasa': { name: 'Kinshasa', country: 'DR Congo', population: 15500000 },
+  'Africa/Johannesburg': { name: 'Johannesburg', country: 'South Africa', population: 6200000 },
+  'Africa/Nairobi': { name: 'Nairobi', country: 'Kenya', population: 5400000 },
+  'Africa/Addis_Ababa': { name: 'Addis Ababa', country: 'Ethiopia', population: 4800000 },
+  
+  // Europe
+  'Europe/Moscow': { name: 'Moscow', country: 'Russia', population: 12700000 },
+  'Europe/Paris': { name: 'Paris', country: 'France', population: 11300000 },
+  'Europe/London': { name: 'London', country: 'UK', population: 9500000 },
+  'Europe/Madrid': { name: 'Madrid', country: 'Spain', population: 6700000 },
+  'Europe/Rome': { name: 'Rome', country: 'Italy', population: 4400000 },
+  'Europe/Berlin': { name: 'Berlin', country: 'Germany', population: 3700000 },
+  
+  // Australia & Pacific
+  'Australia/Sydney': { name: 'Sydney', country: 'Australia', population: 5400000 },
+  'Australia/Melbourne': { name: 'Melbourne', country: 'Australia', population: 5080000 },
+  'Australia/Brisbane': { name: 'Brisbane', country: 'Australia', population: 2560000 },
+  'Australia/Perth': { name: 'Perth', country: 'Australia', population: 2100000 },
+  'Pacific/Auckland': { name: 'Auckland', country: 'New Zealand', population: 1660000 },
+  
+  // Americas
+  // North America
+  'America/Mexico_City': { name: 'Mexico City', country: 'Mexico', population: 22800000 },
+  'America/New_York': { name: 'New York', country: 'United States', population: 18800000 },
+  'America/Los_Angeles': { name: 'Los Angeles', country: 'United States', population: 12500000 },
+  'America/Chicago': { name: 'Chicago', country: 'United States', population: 8900000 },
+  'America/Toronto': { name: 'Toronto', country: 'Canada', population: 6900000 },
+  'America/Houston': { name: 'Houston', country: 'United States', population: 6600000 },
+  'America/Phoenix': { name: 'Phoenix', country: 'United States', population: 4900000 },
+  'America/Vancouver': { name: 'Vancouver', country: 'Canada', population: 2500000 },
+  
+  // South America
+  'America/Sao_Paulo': { name: 'São Paulo', country: 'Brazil', population: 22400000 },
+  'America/Lima': { name: 'Lima', country: 'Peru', population: 11000000 },
+  'America/Bogota': { name: 'Bogotá', country: 'Colombia', population: 10900000 },
+  'America/Rio_de_Janeiro': { name: 'Rio de Janeiro', country: 'Brazil', population: 13500000 },
+  'America/Santiago': { name: 'Santiago', country: 'Chile', population: 6900000 },
+  'America/Buenos_Aires': { name: 'Buenos Aires', country: 'Argentina', population: 15800000 },
+  'America/Caracas': { name: 'Caracas', country: 'Venezuela', population: 3000000 },
+
+  // Africa
+  'Africa/Cairo': { name: 'Cairo', country: 'Egypt', population: 20900000 },
+  'Africa/Lagos': { name: 'Lagos', country: 'Nigeria', population: 15400000 },
+  'Africa/Johannesburg': { name: 'Johannesburg', country: 'South Africa', population: 5800000 },
+  'Africa/Nairobi': { name: 'Nairobi', country: 'Kenya', population: 4900000 },
+  'Africa/Casablanca': { name: 'Casablanca', country: 'Morocco', population: 3359818 },
   'America/Mexico_City': { name: 'Mexico City', country: 'Mexico', population: 9209944 },
-  'America/Guadalajara': { name: 'Guadalajara', country: 'Mexico', population: 1495182 },
-  'America/Bogota': { name: 'Bogotá', country: 'Colombia', population: 7674366 },
-  'America/Lima': { name: 'Lima', country: 'Peru', population: 8852000 },
-  'America/Santiago': { name: 'Santiago', country: 'Chile', population: 6724310 }
+  'America/Guadalajara': { name: 'Guadalajara', country: 'Mexico', population: 1495182 }
 }
 
 // Get all available timezones with their current offsets
@@ -275,7 +343,12 @@ export function getAvailableTimezones(): TimezoneCity[] {
     seenTimezones.add(id)
   }
 
-  // Add all global cities
+  // Add Chinese cities (all using Asia/Shanghai timezone)
+  chinaCities.forEach(city => {
+    addCity('Asia/Shanghai', city)
+  })
+
+  // Add all other global cities
   Object.entries(globalCities).forEach(([id, info]) => {
     if (!seenTimezones.has(id)) {
       addCity(id, info)
