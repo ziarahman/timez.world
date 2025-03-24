@@ -43,6 +43,10 @@ export default function SortableTimezoneRow({
 
   // Convert selected time to this timezone
   const localTime = selectedTime.setZone(timezone.id)
+  if (!localTime.isValid) {
+    console.error(`Invalid time for timezone ${timezone.id}:`, localTime.invalidReason)
+    return null
+  }
   const currentDate = localTime.toFormat('ccc, MMM d')
 
   // Get reference time in UTC
@@ -76,7 +80,7 @@ export default function SortableTimezoneRow({
       .plus({ minutes: isHalfHour ? 30 : 0 })
     
     if (!slotTime.isValid) {
-      console.error(`Invalid time for timezone ${timezone.id}:`, { slotTime, hourOffset })
+      console.error(`Invalid time for timezone ${timezone.id}:`, { slotTime, hourOffset, invalidReason: slotTime.invalidReason })
       return null
     }
     

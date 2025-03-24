@@ -1,97 +1,57 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react';
 import { 
   Autocomplete, 
   TextField, 
   Box,
+  IconButton,
+  InputAdornment,
   Typography,
   ListItem,
   ListItemText,
   useTheme
-} from '@mui/material'
-import PublicIcon from '@mui/icons-material/Public'
-import { DateTime } from 'luxon'
-import { getAvailableTimezones, formatTimezoneName } from '../data/timezones'
+} from '@mui/material';
+import PublicIcon from '@mui/icons-material/Public';
+import AddIcon from '@mui/icons-material/Add';
+import { DateTime } from 'luxon';
+import { getAvailableTimezones, TimezoneCity } from '../data/timezones';
+import CitySearchDialog from './CitySearchDialog';
 
 interface TimezonePickerProps {
-  onSelect: (timezone: Timezone) => void;
+  onSelect: (timezone: TimezoneCity) => void;
 }
 
 export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
-  const theme = useTheme()
+  const theme = useTheme();
+  const [inputValue, setInputValue] = useState('');
+  const [value, setValue] = useState<TimezoneCity | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   
-  // Memoize the timezone list to avoid recalculation
-  const timezones = useMemo(() => {
-    const tz = getAvailableTimezones()
-    // Sort by timezone ID first, then by city name
-    return tz.sort((a, b) => {
-      const idCompare = a.id.localeCompare(b.id)
-      if (idCompare !== 0) return idCompare
-      return a.city.localeCompare(b.city)
-    })
-  }, [])
-  
-  const [value, setValue] = useState<typeof timezones[0] | null>(null)
+  // Get static list of popular cities
+  const options = getAvailableTimezones();
+
+  const handleCitySelect = (city: TimezoneCity) => {
+    setValue(city);
+    onSelect({
+      ...city,
+      offset: DateTime.now().setZone(city.id).offset
+    });
+  };
 
   return (
-    <Autocomplete
-      value={value}
-      onChange={(_, newValue) => {
-        setValue(newValue)
-        if (newValue) {
-          console.log('Selected timezone:', JSON.stringify(newValue, null, 2))
-          onSelect(newValue)
-        }
-      }}
-      options={timezones}
-      getOptionLabel={(option) => `${option.city}, ${option.country}`}
-      groupBy={(option) => option.id}
-      renderGroup={(params) => (
-        <div key={params.key}>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ 
-              px: 2,
-              py: 0.5,
-              display: 'block',
-              backgroundColor: theme.palette.background.default
-            }}
-          >
-            {params.group}
-          </Typography>
-          {params.children}
-        </div>
-      )}
-      sx={{ width: '100%' }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder="Search for a city..."
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <Box sx={{ display: 'flex', alignItems: 'center', mr: 1 }}>
-                <PublicIcon color="action" sx={{ fontSize: 20 }} />
-              </Box>
-            )
-          }}
-        />
-      )}
-      renderOption={(props, option) => {
-        const { key, ...otherProps } = props;
-        return (
-          <ListItem
-            key={key}
-            {...otherProps}
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              py: 1,
-              '&:hover': {
-                backgroundColor: theme.palette.action.hover
-              }
-            }}
-          >
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Autocomplete
+        value={value}
+        onChange={(_, newValue) => {
+          if (newValue) {
+            handleCitySelect(newValue);
+          }
+        }}
+        inputValue={inputValue}
+        onInputChange={(_, newValue) => setInputValue(newValue)}
+        options={options}
+        getOptionLabel={(option) => `${option.city}, ${option.country}`}
+        renderOption={(props, option) => (
+          <ListItem {...props}>
             <ListItemText
               primary={
                 <Typography variant="body1">
@@ -99,22 +59,48 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
                 </Typography>
               }
               secondary={
-                <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5 }}>
+                <Typography variant="caption" color="text.secondary">
                   {option.id} (UTC{DateTime.now().setZone(option.id).toFormat('ZZ')})
                 </Typography>
               }
             />
           </ListItem>
-        );
-      }}
-      ListboxProps={{
-        sx: {
-          maxHeight: 300,
-          '& .MuiAutocomplete-option': {
-            padding: theme.spacing(1, 2)
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Select a city"
+            InputProps={{
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PublicIcon color="action" />
+                </InputAdornment>
+              )
+            }}
+          />
+        )}
+        sx={{ width: 300 }}
+        ListboxProps={{
+          sx: {
+            maxHeight: 300
           }
-        }
-      }}
-    />
-  )
+        }}
+      />
+      
+      <IconButton 
+        onClick={() => setDialogOpen(true)}
+        color="primary"
+        title="Search more cities"
+      >
+        <AddIcon />
+      </IconButton>
+
+      <CitySearchDialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        onCitySelect={handleCitySelect}
+      />
+    </Box>
+  );
 }

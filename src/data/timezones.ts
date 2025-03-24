@@ -7,7 +7,7 @@ interface CityInfo {
   population: number;
 }
 
-interface TimezoneCity {
+export interface TimezoneCity {
   id: string;        // IANA timezone ID
   name: string;      // Formatted name
   city: string;      // Primary city name
@@ -119,6 +119,81 @@ const southAsianCities: Record<string, CityInfo[]> = {
 }
 
 // Global cities
+// Canadian cities by timezone
+const canadianCities: Record<string, CityInfo[]> = {
+  'America/Toronto': [
+    { name: 'Toronto', country: 'Canada', population: 2731571 },
+    { name: 'Ottawa', country: 'Canada', population: 934243 },
+    { name: 'Montreal', country: 'Canada', population: 1704694 },
+  ],
+  'America/Vancouver': [
+    { name: 'Vancouver', country: 'Canada', population: 631486 },
+    { name: 'Victoria', country: 'Canada', population: 92141 },
+  ],
+  'America/Edmonton': [
+    { name: 'Edmonton', country: 'Canada', population: 932546 },
+    { name: 'Calgary', country: 'Canada', population: 1239220 },
+  ],
+  'America/Winnipeg': [
+    { name: 'Winnipeg', country: 'Canada', population: 749607 },
+  ],
+  'America/Halifax': [
+    { name: 'Halifax', country: 'Canada', population: 403131 },
+  ],
+}
+
+// European cities by timezone
+const europeanCities: Record<string, CityInfo[]> = {
+  'Europe/Dublin': [
+    { name: 'Dublin', country: 'Ireland', population: 1173179 },
+    { name: 'Cork', country: 'Ireland', population: 190384 },
+  ],
+  'Europe/Brussels': [
+    { name: 'Brussels', country: 'Belgium', population: 1191604 },
+    { name: 'Antwerp', country: 'Belgium', population: 523248 },
+  ],
+  'Europe/Copenhagen': [
+    { name: 'Copenhagen', country: 'Denmark', population: 1295686 },
+    { name: 'Aarhus', country: 'Denmark', population: 349983 },
+  ],
+  'Europe/Oslo': [
+    { name: 'Oslo', country: 'Norway', population: 693494 },
+    { name: 'Bergen', country: 'Norway', population: 283929 },
+  ],
+  'Europe/Zurich': [
+    { name: 'Zurich', country: 'Switzerland', population: 402762 },
+    { name: 'Geneva', country: 'Switzerland', population: 201818 },
+  ],
+  'Europe/Lisbon': [
+    { name: 'Lisbon', country: 'Portugal', population: 504718 },
+    { name: 'Porto', country: 'Portugal', population: 214349 },
+  ],
+}
+
+// South American cities by timezone
+const southAmericanCities: Record<string, CityInfo[]> = {
+  'America/Rio_de_Janeiro': [
+    { name: 'Rio de Janeiro', country: 'Brazil', population: 6747815 },
+    { name: 'Belo Horizonte', country: 'Brazil', population: 2521564 },
+  ],
+  'America/Buenos_Aires': [
+    { name: 'Buenos Aires', country: 'Argentina', population: 2891082 },
+    { name: 'Córdoba', country: 'Argentina', population: 1430554 },
+  ],
+  'America/Santiago': [
+    { name: 'Santiago', country: 'Chile', population: 6158080 },
+    { name: 'Valparaíso', country: 'Chile', population: 284630 },
+  ],
+  'America/Lima': [
+    { name: 'Lima', country: 'Peru', population: 8852000 },
+    { name: 'Arequipa', country: 'Peru', population: 1008290 },
+  ],
+  'America/Bogota': [
+    { name: 'Bogotá', country: 'Colombia', population: 7181469 },
+    { name: 'Medellín', country: 'Colombia', population: 2529403 },
+  ],
+}
+
 const globalCities: Record<string, CityInfo> = {
   'Asia/Shanghai': { name: 'Shanghai', country: 'China', population: 24870895 },
   'Asia/Beijing': { name: 'Beijing', country: 'China', population: 20462610 },
@@ -185,6 +260,10 @@ export function getAvailableTimezones(): TimezoneCity[] {
   const addCity = (id: string, info: CityInfo) => {
     const now = DateTime.now()
     const zoned = now.setZone(id)
+    if (!zoned.isValid) {
+      console.error(`Invalid timezone: ${id}`, zoned.invalidReason)
+      return
+    }
     allCities.push({
       id,
       name: `${info.country}/${info.name}`,
@@ -201,6 +280,27 @@ export function getAvailableTimezones(): TimezoneCity[] {
     if (!seenTimezones.has(id)) {
       addCity(id, info)
     }
+  })
+
+  // Add all Canadian cities
+  Object.entries(canadianCities).forEach(([timezone, cities]) => {
+    cities.forEach(city => {
+      addCity(timezone, city)
+    })
+  })
+
+  // Add all European cities
+  Object.entries(europeanCities).forEach(([timezone, cities]) => {
+    cities.forEach(city => {
+      addCity(timezone, city)
+    })
+  })
+
+  // Add all South American cities
+  Object.entries(southAmericanCities).forEach(([timezone, cities]) => {
+    cities.forEach(city => {
+      addCity(timezone, city)
+    })
   })
 
   // Add all Indian cities
@@ -230,6 +330,10 @@ export function getAvailableTimezones(): TimezoneCity[] {
 
 // Format the timezone name with city and offset
 export function formatTimezoneName(timezone: TimezoneCity): string {
+  if (typeof timezone.offset !== 'number' || isNaN(timezone.offset)) {
+    console.error('Invalid offset for timezone:', timezone)
+    return `${timezone.country}/${timezone.city}`
+  }
   const offsetHours = Math.floor(Math.abs(timezone.offset) / 60)
   const offsetMinutes = Math.abs(timezone.offset) % 60
   const offsetSign = timezone.offset >= 0 ? '+' : '-'

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { DateTime } from 'luxon'
+import { initializeDatabase } from './db/DataLoader'
 import { 
   Container, 
   Paper, 
@@ -49,6 +50,12 @@ function saveTimezones(timezones: Timezone[]) {
 }
 
 function App() {
+  const [dbInitialized, setDbInitialized] = useState(false)
+
+  // Initialize the database
+  useEffect(() => {
+    initializeDatabase().then(() => setDbInitialized(true))
+  }, [])
   const prefersDarkSystem = useMediaQuery('(prefers-color-scheme: dark)')
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>(
     localStorage.getItem('theme') as 'light' | 'dark' || (prefersDarkSystem ? 'dark' : 'light')
