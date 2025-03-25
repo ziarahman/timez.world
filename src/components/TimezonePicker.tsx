@@ -8,7 +8,6 @@ import {
   Typography,
   ListItem,
   ListItemText,
-  useTheme
 } from '@mui/material';
 import PublicIcon from '@mui/icons-material/Public';
 import AddIcon from '@mui/icons-material/Add';
@@ -21,7 +20,7 @@ interface TimezonePickerProps {
 }
 
 export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
-  const theme = useTheme();
+
   const [inputValue, setInputValue] = useState('');
   const [value, setValue] = useState<TimezoneCity | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -50,6 +49,20 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         onInputChange={(_, newValue) => setInputValue(newValue)}
         options={options}
         getOptionLabel={(option) => `${option.city}, ${option.country}`}
+        filterOptions={(options, { inputValue }) => {
+          if (!inputValue) return [];
+          
+          const searchTerm = inputValue.toLowerCase().trim();
+          if (searchTerm.length < 2) return [];
+          
+          // Only show cities that start with the search term
+          return options.filter(option => 
+            option.city.toLowerCase().startsWith(searchTerm)
+          );
+        }}
+        autoComplete
+        autoHighlight
+        autoSelect
         renderOption={(props, option) => {
           // Calculate offset once per option
           const offset = option.offset || DateTime.local().setZone(option.id).toFormat('ZZ');
