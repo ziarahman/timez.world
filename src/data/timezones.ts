@@ -54,6 +54,9 @@ const usCities: Record<string, CityInfo[]> = {
     { name: 'Pittsburgh', country: 'United States', population: 2300000 },
     { name: 'Jacksonville', country: 'United States', population: 1600000 },
     { name: 'Buffalo', country: 'United States', population: 1100000 },
+    { name: 'Ashburn', country: 'United States', population: 43629 },
+    { name: 'Raleigh', country: 'United States', population: 469124 },
+    { name: 'Richmond', country: 'United States', population: 226610 },
   ],
   'America/Chicago': [
     { name: 'Chicago', country: 'United States', population: 8900000 },
@@ -77,6 +80,8 @@ const usCities: Record<string, CityInfo[]> = {
     { name: 'Sacramento', country: 'United States', population: 2300000 },
     { name: 'Las Vegas', country: 'United States', population: 2300000 },
     { name: 'San Jose', country: 'United States', population: 2000000 },
+    { name: 'Mountain View', country: 'United States', population: 82739 },
+    { name: 'Palo Alto', country: 'United States', population: 65364 },
   ],
   'America/Phoenix': [
     { name: 'Phoenix', country: 'United States', population: 4900000 },
@@ -163,6 +168,22 @@ const europeanCities: Record<string, CityInfo[]> = {
   'Europe/Lisbon': [
     { name: 'Lisbon', country: 'Portugal', population: 504718 },
     { name: 'Porto', country: 'Portugal', population: 214349 },
+  ],
+  'Europe/Warsaw': [
+    { name: 'Warsaw', country: 'Poland', population: 1790658 },
+    { name: 'Krakow', country: 'Poland', population: 780000 },
+  ],
+  'Europe/Prague': [
+    { name: 'Prague', country: 'Czech Republic', population: 1309000 },
+    { name: 'Brno', country: 'Czech Republic', population: 379526 },
+  ],
+  'Europe/Vienna': [
+    { name: 'Vienna', country: 'Austria', population: 1897491 },
+    { name: 'Salzburg', country: 'Austria', population: 155021 },
+  ],
+  'Europe/Budapest': [
+    { name: 'Budapest', country: 'Hungary', population: 1752286 },
+    { name: 'Debrecen', country: 'Hungary', population: 203506 },
   ],
 }
 
@@ -266,6 +287,10 @@ const globalCities: Record<string, CityInfo> = {
   'Europe/Madrid': { name: 'Madrid', country: 'Spain', population: 6700000 },
   'Europe/Rome': { name: 'Rome', country: 'Italy', population: 4400000 },
   'Europe/Berlin': { name: 'Berlin', country: 'Germany', population: 3700000 },
+  'Europe/Warsaw': { name: 'Warsaw', country: 'Poland', population: 1790658 },
+  'Europe/Amsterdam': { name: 'Amsterdam', country: 'Netherlands', population: 1149000 },
+  'Europe/Athens': { name: 'Athens', country: 'Greece', population: 3153000 },
+  'Europe/Stockholm': { name: 'Stockholm', country: 'Sweden', population: 1632798 },
   
   // Australia & Pacific
   'Australia/Sydney': { name: 'Sydney', country: 'Australia', population: 5400000 },
