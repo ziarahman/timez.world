@@ -187,6 +187,59 @@ const europeanCities: Record<string, CityInfo[]> = {
   ],
 }
 
+// Middle Eastern cities by timezone
+const middleEastCities: Record<string, CityInfo[]> = {
+  'Asia/Dubai': [
+    { name: 'Ajman', country: 'UAE', population: 504846 },
+    { name: 'Ras Al Khaimah', country: 'UAE', population: 345000 },
+    { name: 'Fujairah', country: 'UAE', population: 192190 },
+    { name: 'Umm Al Quwain', country: 'UAE', population: 73000 },
+  ],
+  'Asia/Riyadh': [
+    { name: 'Jeddah', country: 'Saudi Arabia', population: 4076000 },
+    { name: 'Mecca', country: 'Saudi Arabia', population: 1919900 },
+    { name: 'Medina', country: 'Saudi Arabia', population: 1300000 },
+    { name: 'Dammam', country: 'Saudi Arabia', population: 1000000 },
+  ],
+  'Asia/Jerusalem': [
+    { name: 'Jerusalem', country: 'Israel', population: 936425 },
+    { name: 'Tel Aviv', country: 'Israel', population: 460613 },
+    { name: 'Haifa', country: 'Israel', population: 285316 },
+  ],
+  'Asia/Baghdad': [
+    { name: 'Basra', country: 'Iraq', population: 2750000 },
+    { name: 'Mosul', country: 'Iraq', population: 1740000 },
+  ],
+}
+
+// Australian cities by timezone
+const australianCities: Record<string, CityInfo[]> = {
+  'Australia/Sydney': [
+    { name: 'Newcastle', country: 'Australia', population: 322278 },
+    { name: 'Wollongong', country: 'Australia', population: 302739 },
+    { name: 'Central Coast', country: 'Australia', population: 333627 },
+  ],
+  'Australia/Melbourne': [
+    { name: 'Geelong', country: 'Australia', population: 196393 },
+    { name: 'Ballarat', country: 'Australia', population: 105471 },
+    { name: 'Bendigo', country: 'Australia', population: 99122 },
+  ],
+  'Australia/Brisbane': [
+    { name: 'Gold Coast', country: 'Australia', population: 679127 },
+    { name: 'Sunshine Coast', country: 'Australia', population: 333436 },
+    { name: 'Townsville', country: 'Australia', population: 180820 },
+    { name: 'Cairns', country: 'Australia', population: 152729 },
+  ],
+  'Australia/Perth': [
+    { name: 'Bunbury', country: 'Australia', population: 74363 },
+    { name: 'Geraldton', country: 'Australia', population: 37648 },
+  ],
+  'Australia/Adelaide': [
+    { name: 'Mount Gambier', country: 'Australia', population: 29639 },
+    { name: 'Whyalla', country: 'Australia', population: 21751 },
+  ],
+}
+
 // South American cities by timezone
 const southAmericanCities: Record<string, CityInfo[]> = {
   'America/Rio_de_Janeiro': [
@@ -272,6 +325,13 @@ const globalCities: Record<string, CityInfo> = {
   'Asia/Riyadh': { name: 'Riyadh', country: 'Saudi Arabia', population: 7600000 },
   'Asia/Baghdad': { name: 'Baghdad', country: 'Iraq', population: 7511000 },
   'Asia/Dubai': { name: 'Dubai', country: 'UAE', population: 3500000 },
+  'Asia/Abu_Dhabi': { name: 'Abu Dhabi', country: 'UAE', population: 1450000 },
+  'Asia/Sharjah': { name: 'Sharjah', country: 'UAE', population: 1274749 },
+  'Asia/Doha': { name: 'Doha', country: 'Qatar', population: 1450000 },
+  'Asia/Muscat': { name: 'Muscat', country: 'Oman', population: 1720000 },
+  'Asia/Kuwait': { name: 'Kuwait City', country: 'Kuwait', population: 2380000 },
+  'Asia/Amman': { name: 'Amman', country: 'Jordan', population: 4007526 },
+  'Asia/Beirut': { name: 'Beirut', country: 'Lebanon', population: 2200000 },
   
   // Africa
   'Africa/Lagos': { name: 'Lagos', country: 'Nigeria', population: 21000000 },
@@ -297,7 +357,13 @@ const globalCities: Record<string, CityInfo> = {
   'Australia/Melbourne': { name: 'Melbourne', country: 'Australia', population: 5080000 },
   'Australia/Brisbane': { name: 'Brisbane', country: 'Australia', population: 2560000 },
   'Australia/Perth': { name: 'Perth', country: 'Australia', population: 2100000 },
+  'Australia/Adelaide': { name: 'Adelaide', country: 'Australia', population: 1376601 },
+  'Australia/Canberra': { name: 'Canberra', country: 'Australia', population: 431380 },
+  'Australia/Hobart': { name: 'Hobart', country: 'Australia', population: 240342 },
+  'Australia/Darwin': { name: 'Darwin', country: 'Australia', population: 147255 },
   'Pacific/Auckland': { name: 'Auckland', country: 'New Zealand', population: 1660000 },
+  'Pacific/Wellington': { name: 'Wellington', country: 'New Zealand', population: 412500 },
+  'Pacific/Fiji': { name: 'Suva', country: 'Fiji', population: 93970 },
   
   // Americas
   // North America
@@ -402,6 +468,20 @@ export function getAvailableTimezones(): Timezone[] {
 
   // Add all South Asian cities
   Object.entries(southAsianCities).forEach(([timezone, cities]) => {
+    cities.forEach(city => {
+      addCity(timezone, city)
+    })
+  })
+
+  // Add all Middle Eastern cities
+  Object.entries(middleEastCities).forEach(([timezone, cities]) => {
+    cities.forEach(city => {
+      addCity(timezone, city)
+    })
+  })
+
+  // Add all Australian cities
+  Object.entries(australianCities).forEach(([timezone, cities]) => {
     cities.forEach(city => {
       addCity(timezone, city)
     })
