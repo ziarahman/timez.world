@@ -1,20 +1,5 @@
 import { DateTime } from 'luxon'
-
-// Mapping of IANA timezone IDs to major cities and their metadata
-interface CityInfo {
-  name: string;
-  country: string;
-  population: number;
-}
-
-export interface TimezoneCity {
-  id: string;        // IANA timezone ID
-  name: string;      // Formatted name
-  city: string;      // Primary city name
-  country: string;   // Country name
-  population: number;// City population
-  offset: number;    // Current UTC offset
-}
+import { Timezone, CityInfo } from '../types'
 
 // Major cities from GeoNames database, sorted by population
 // Indian cities by timezone
@@ -309,20 +294,17 @@ const globalCities: Record<string, CityInfo> = {
   'America/Buenos_Aires': { name: 'Buenos Aires', country: 'Argentina', population: 15800000 },
   'America/Caracas': { name: 'Caracas', country: 'Venezuela', population: 3000000 },
 
-  // Africa
-  'Africa/Cairo': { name: 'Cairo', country: 'Egypt', population: 20900000 },
-  'Africa/Lagos': { name: 'Lagos', country: 'Nigeria', population: 15400000 },
-  'Africa/Johannesburg': { name: 'Johannesburg', country: 'South Africa', population: 5800000 },
-  'Africa/Nairobi': { name: 'Nairobi', country: 'Kenya', population: 4900000 },
+  // Additional African cities
   'Africa/Casablanca': { name: 'Casablanca', country: 'Morocco', population: 3359818 },
-  'America/Mexico_City': { name: 'Mexico City', country: 'Mexico', population: 9209944 },
   'America/Guadalajara': { name: 'Guadalajara', country: 'Mexico', population: 1495182 }
 }
 
 // Get all available timezones with their current offsets
-export function getAvailableTimezones(): TimezoneCity[] {
-  const allCities: TimezoneCity[] = []
+export function getAvailableTimezones(): Timezone[] {
+  const allCities: Timezone[] = []
   const seenTimezones = new Set<string>()
+  // Track unique city-timezone combinations to avoid duplicates
+  const seenCityTimezones = new Set<string>()
 
   // Helper function to add a city to the list
   const addCity = (id: string, info: CityInfo) => {
@@ -332,6 +314,15 @@ export function getAvailableTimezones(): TimezoneCity[] {
       console.error(`Invalid timezone: ${id}`, zoned.invalidReason)
       return
     }
+    
+    // Create a unique key for this city-timezone combination
+    const cityTimezoneKey = `${info.name}-${info.country}-${id}`
+    
+    // Skip if we've already added this city with this timezone
+    if (seenCityTimezones.has(cityTimezoneKey)) {
+      return
+    }
+    
     allCities.push({
       id,
       name: `${info.country}/${info.name}`,
@@ -341,6 +332,7 @@ export function getAvailableTimezones(): TimezoneCity[] {
       offset: zoned.offset
     })
     seenTimezones.add(id)
+    seenCityTimezones.add(cityTimezoneKey)
   }
 
   // Add Chinese cities (all using Asia/Shanghai timezone)
@@ -402,7 +394,7 @@ export function getAvailableTimezones(): TimezoneCity[] {
 }
 
 // Format the timezone name with city and offset
-export function formatTimezoneName(timezone: TimezoneCity): string {
+export function formatTimezoneName(timezone: Timezone): string {
   if (typeof timezone.offset !== 'number' || isNaN(timezone.offset)) {
     console.error('Invalid offset for timezone:', timezone)
     return `${timezone.country}/${timezone.city}`

@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import { Timezone } from '../types'
+import { Timezone, getTimezoneUniqueId } from '../types'
 
 interface SortableTimezoneRowProps {
   timezone: Timezone
@@ -22,6 +22,10 @@ export default function SortableTimezoneRow({
   onDelete
 }: SortableTimezoneRowProps) {
   const theme = useTheme()
+  
+  // Reference to the time slider for scrolling
+  const sliderRef = useRef<HTMLDivElement>(null)
+  
   const {
     attributes,
     listeners,
@@ -30,9 +34,21 @@ export default function SortableTimezoneRow({
     transition,
     isDragging,
   } = useSortable({
-    id: `${timezone.id}_${timezone.city}`,
+    id: getTimezoneUniqueId(timezone),
     data: timezone
   })
+
+  // Center the selected time slot when it changes
+  useEffect(() => {
+    const sliderElement = sliderRef.current
+    if (!sliderElement) return
+
+    const selectedElement = sliderElement.querySelector('[data-selected=true]') as HTMLElement
+    if (selectedElement) {
+      const scrollLeft = selectedElement.offsetLeft - (sliderElement.offsetWidth / 2) + (selectedElement.offsetWidth / 2)
+      sliderElement.scrollTo({ left: scrollLeft, behavior: 'smooth' })
+    }
+  }, [selectedTime])
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -48,24 +64,7 @@ export default function SortableTimezoneRow({
     return null
   }
   const currentDate = localTime.toFormat('ccc, MMM d')
-
-  // Get reference time in UTC
-  const utcTime = selectedTime.toUTC()
-
-  const sliderRef = useRef<HTMLDivElement>(null)
-
-  // Center the selected time slot when it changes
-  useEffect(() => {
-    const sliderElement = sliderRef.current
-    if (!sliderElement) return
-
-    const selectedElement = sliderElement.querySelector('[data-selected=true]') as HTMLElement
-    if (selectedElement) {
-      const scrollLeft = selectedElement.offsetLeft - (sliderElement.offsetWidth / 2) + (selectedElement.offsetWidth / 2)
-      sliderElement.scrollTo({ left: scrollLeft, behavior: 'smooth' })
-    }
-  }, [selectedTime])
-
+  
   // Generate time slots centered around the selected time
   const baseTime = selectedTime.setZone(timezone.id)
   const timeSlots = Array.from({ length: 48 }, (_, i) => {

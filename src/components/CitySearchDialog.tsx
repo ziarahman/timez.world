@@ -19,12 +19,12 @@ import {
 } from '@mui/material';
 import { getAvailableTimezones } from '../data/timezones';
 import { cityService, City } from '../services/CityService';
-import { TimezoneCity } from '../data/timezones';
+import { Timezone } from '../types';
 
 interface CitySearchDialogProps {
   open: boolean;
   onClose: () => void;
-  onCitySelect: (city: TimezoneCity) => void;
+  onCitySelect: (city: Timezone) => void;
 }
 
 export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySearchDialogProps) {
@@ -86,7 +86,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
   };
 
   const handleSelect = (city: City) => {
-    const timezoneCity: TimezoneCity = {
+    const timezoneCity: Timezone = {
       id: city.timezone,
       name: `${city.name}, ${city.country}`,
       city: city.name,

@@ -12,23 +12,24 @@ import {
 import PublicIcon from '@mui/icons-material/Public';
 import AddIcon from '@mui/icons-material/Add';
 import { DateTime } from 'luxon';
-import { getAvailableTimezones, TimezoneCity } from '../data/timezones';
+import { Timezone } from '../types';
+import { getAvailableTimezones } from '../data/timezones';
 import CitySearchDialog from './CitySearchDialog';
 
 interface TimezonePickerProps {
-  onSelect: (timezone: TimezoneCity) => void;
+  onSelect: (timezone: Timezone) => void;
 }
 
 export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
 
   const [inputValue, setInputValue] = useState('');
-  const [value, setValue] = useState<TimezoneCity | null>(null);
+  const [value, setValue] = useState<Timezone | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   
   // Get static list of popular cities
   const options = getAvailableTimezones();
 
-  const handleCitySelect = (city: TimezoneCity) => {
+  const handleCitySelect = (city: Timezone) => {
     setValue(city);
     onSelect({
       ...city,

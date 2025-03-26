@@ -23,7 +23,7 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import TimezonePicker from './components/TimezonePicker'
 import SortableTimezoneList from './components/SortableTimezoneList'
-import { Timezone } from './types'
+import { Timezone, getTimezoneUniqueId } from './types'
 import { getAvailableTimezones } from './data/timezones'
 
 // Storage key for timezones
@@ -63,7 +63,12 @@ function App() {
       const savedTimezones = localStorage.getItem(STORAGE_KEY)
       if (savedTimezones) {
         const tzs = JSON.parse(savedTimezones)
-        const hasInvalidId = tzs.some((tz: Timezone) => tz.id.includes('_'))
+        // Check for invalid timezone IDs - we don't want to flag valid IDs with underscores
+        // Instead, check if the ID doesn't match the expected IANA format (e.g., Continent/City)
+        const hasInvalidId = tzs.some((tz: Timezone) => {
+          // Valid IDs should have at least one '/' character and only contain alphanumeric, '/', and '_' characters
+          return !tz.id || !/^[A-Za-z]+\/[A-Za-z0-9_]+$/.test(tz.id)
+        })
         if (hasInvalidId) {
           localStorage.removeItem(STORAGE_KEY)
           window.location.reload()
@@ -94,11 +99,6 @@ function App() {
         setTimezones([localTimezone])
       }
     }
-  }, [])
-
-  // Save timezones whenever they change
-  useEffect(() => {
-    saveTimezones(timezones)
   }, [timezones])
 
   // Save theme preference
@@ -139,8 +139,9 @@ function App() {
   const handleAddTimezone = (selectedTimezone: Timezone) => {
     console.log('Adding timezone:', selectedTimezone)
 
-    // Check if timezone already exists
-    if (timezones.some(tz => tz.id === selectedTimezone.id && tz.name === selectedTimezone.name)) {
+    // Check if timezone already exists using the unique ID
+    const selectedTimezoneId = getTimezoneUniqueId(selectedTimezone)
+    if (timezones.some(tz => getTimezoneUniqueId(tz) === selectedTimezoneId)) {
       console.log('Timezone already exists')
       return
     }
@@ -153,37 +154,18 @@ function App() {
   const handleDeleteTimezone = (timezoneToDelete: Timezone) => {
     console.log('Deleting timezone:', timezoneToDelete)
     
+    // Use the unique ID for consistent identification
+    const timezoneToDeleteId = getTimezoneUniqueId(timezoneToDelete)
     const newTimezones = timezones.filter(tz => 
-      !(tz.id === timezoneToDelete.id && tz.name === timezoneToDelete.name)
+      getTimezoneUniqueId(tz) !== timezoneToDeleteId
     )
     
     console.log('New timezones:', newTimezones)
     setTimezones(newTimezones)
   }
 
-  const handleDeleteHomeTimezone = () => {
-    if (timezones.length > 0) {
-      const newHome = timezones[0]
-      setHomeTimezone(newHome)
-      setTimezones(prev => prev.slice(1))
-    }
-  }
-
   const handleTimeSelect = (time: DateTime) => {
     setSelectedDateTime(time)
-  }
-
-  const handleSetHomeTimezone = (timezone: Timezone) => {
-    const oldHome = homeTimezone
-    // Set the new home timezone first
-    setHomeTimezone(timezone)
-    // Update the list in a single operation
-    setTimezones(prev => {
-      // Remove the new home timezone from the list
-      const withoutNew = prev.filter(tz => tz.id !== timezone.id || tz.city !== timezone.city)
-      // Add the old home timezone if it exists
-      return oldHome ? [...withoutNew, oldHome] : withoutNew
-    })
   }
 
   return (

@@ -9,14 +9,13 @@ import {
   DragEndEvent
 } from '@dnd-kit/core'
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { Stack } from '@mui/material'
 import { DateTime } from 'luxon'
-import { Timezone } from '../types'
+import { Timezone, getTimezoneUniqueId } from '../types'
 import SortableTimezoneRow from './SortableTimezoneRow.tsx'
 
 interface SortableTimezoneListProps {
@@ -41,7 +40,7 @@ export default function SortableTimezoneList({
     })
   )
 
-  const getTimezoneUniqueId = (tz: Timezone) => `${tz.id}_${tz.city}`
+  // Using the imported getTimezoneUniqueId function from types.ts
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -74,7 +73,7 @@ export default function SortableTimezoneList({
         strategy={verticalListSortingStrategy}
       >
         <Stack spacing={1}>
-          {timezones.map((timezone, index) => (
+          {timezones.map((timezone) => (
             <SortableTimezoneRow
               key={getTimezoneUniqueId(timezone)}
               timezone={timezone}
