@@ -194,12 +194,15 @@ const middleEastCities: Record<string, CityInfo[]> = {
     { name: 'Ras Al Khaimah', country: 'UAE', population: 345000 },
     { name: 'Fujairah', country: 'UAE', population: 192190 },
     { name: 'Umm Al Quwain', country: 'UAE', population: 73000 },
+    { name: 'Abu Dhabi', country: 'UAE', population: 1450000 },
+    { name: 'Sharjah', country: 'UAE', population: 1274749 },
   ],
   'Asia/Riyadh': [
     { name: 'Jeddah', country: 'Saudi Arabia', population: 4076000 },
     { name: 'Mecca', country: 'Saudi Arabia', population: 1919900 },
     { name: 'Medina', country: 'Saudi Arabia', population: 1300000 },
     { name: 'Dammam', country: 'Saudi Arabia', population: 1000000 },
+    { name: 'Kuwait City', country: 'Kuwait', population: 2380000 }, // Kuwait uses Asia/Riyadh timezone
   ],
   'Asia/Jerusalem': [
     { name: 'Jerusalem', country: 'Israel', population: 936425 },
@@ -209,6 +212,19 @@ const middleEastCities: Record<string, CityInfo[]> = {
   'Asia/Baghdad': [
     { name: 'Basra', country: 'Iraq', population: 2750000 },
     { name: 'Mosul', country: 'Iraq', population: 1740000 },
+  ],
+  'Asia/Qatar': [
+    { name: 'Doha', country: 'Qatar', population: 1450000 },
+  ],
+  'Asia/Muscat': [
+    { name: 'Muscat', country: 'Oman', population: 1720000 },
+  ],
+  // Kuwait City is already included in the Asia/Riyadh group above
+  'Asia/Amman': [
+    { name: 'Amman', country: 'Jordan', population: 4007526 },
+  ],
+  'Asia/Beirut': [
+    { name: 'Beirut', country: 'Lebanon', population: 2200000 },
   ],
 }
 
@@ -325,11 +341,12 @@ const globalCities: Record<string, CityInfo> = {
   'Asia/Riyadh': { name: 'Riyadh', country: 'Saudi Arabia', population: 7600000 },
   'Asia/Baghdad': { name: 'Baghdad', country: 'Iraq', population: 7511000 },
   'Asia/Dubai': { name: 'Dubai', country: 'UAE', population: 3500000 },
-  'Asia/Abu_Dhabi': { name: 'Abu Dhabi', country: 'UAE', population: 1450000 },
-  'Asia/Sharjah': { name: 'Sharjah', country: 'UAE', population: 1274749 },
-  'Asia/Doha': { name: 'Doha', country: 'Qatar', population: 1450000 },
+  // Note: Abu Dhabi and Sharjah use the same timezone as Dubai (Asia/Dubai)
+  // We'll add them to the middleEastCities collection instead to avoid duplicate keys
+  // Using standard IANA timezone identifiers
+  'Asia/Qatar': { name: 'Doha', country: 'Qatar', population: 1450000 },
   'Asia/Muscat': { name: 'Muscat', country: 'Oman', population: 1720000 },
-  'Asia/Kuwait': { name: 'Kuwait City', country: 'Kuwait', population: 2380000 },
+  // Kuwait City is added to the middleEastCities collection under Asia/Riyadh
   'Asia/Amman': { name: 'Amman', country: 'Jordan', population: 4007526 },
   'Asia/Beirut': { name: 'Beirut', country: 'Lebanon', population: 2200000 },
   
