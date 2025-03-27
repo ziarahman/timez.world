@@ -23,7 +23,9 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
       fullWidth
     >
       <DialogTitle sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        About Worldtimez
+        <Typography variant="h6" component="div">
+          About Worldtimez
+        </Typography>
         <IconButton
           aria-label="close"
           onClick={onClose}

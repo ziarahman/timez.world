@@ -51,19 +51,24 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         options={options}
         getOptionLabel={(option) => `${option.city}, ${option.country}`}
         filterOptions={(options, { inputValue }) => {
-          if (!inputValue) return [];
+          // If no input, show top 20 popular cities
+          if (!inputValue) return options.slice(0, 20);
           
           const searchTerm = inputValue.toLowerCase().trim();
-          if (searchTerm.length < 2) return [];
+          if (searchTerm.length < 2) return options.slice(0, 20);
           
-          // Only show cities that start with the search term
+          // Show cities that match the search term
           return options.filter(option => 
-            option.city.toLowerCase().startsWith(searchTerm)
+            option.city.toLowerCase().includes(searchTerm) ||
+            option.country.toLowerCase().includes(searchTerm)
           );
         }}
         autoComplete
         autoHighlight
         autoSelect
+        disablePortal={false}
+        openOnFocus
+        selectOnFocus
         renderOption={(props, option) => {
           // Calculate offset once per option
           const offset = option.offset || DateTime.local().setZone(option.id).toFormat('ZZ');
@@ -89,7 +94,7 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Select a city"
+            label="Select or search for a city"
             InputProps={{
               ...params.InputProps,
               startAdornment: (

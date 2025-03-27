@@ -18,6 +18,7 @@ import AboutDialog from './components/AboutDialog'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import PublicIcon from '@mui/icons-material/Public'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { DateTimePicker } from '@mui/x-date-pickers'
@@ -231,15 +232,32 @@ function App() {
                     '& .MuiInputBase-root': { width: '100%' },
                     '& .MuiFormControl-root': { width: '100%' }
                   }}>
-                    <DateTimePicker
-                      label="Select Date & Time"
-                      value={selectedDateTime}
-                      onChange={(newValue) => {
-                        if (newValue) {
-                          setSelectedDateTime(newValue)
-                        }
-                      }}
-                    />
+                    <Box sx={{ position: 'relative' }}>
+                      <DateTimePicker
+                        label="Select Date & Time"
+                        value={selectedDateTime}
+                        onChange={(newValue) => {
+                          if (newValue) {
+                            setSelectedDateTime(newValue)
+                          }
+                        }}
+                      />
+                      <Tooltip title="Set to current time">
+                        <IconButton 
+                          onClick={() => setSelectedDateTime(DateTime.local())}
+                          sx={{ 
+                            position: 'absolute', 
+                            right: '40px', 
+                            top: '50%', 
+                            transform: 'translateY(-50%)',
+                            zIndex: 1
+                          }}
+                          size="small"
+                        >
+                          <AccessTimeIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
                   </Box>
                 </Box>
                 
