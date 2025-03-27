@@ -1,6 +1,11 @@
 import { DateTime } from 'luxon'
 import { Timezone, CityInfo } from '../types'
 
+// Interface for city information with timezone property
+interface CityInfoWithTimezone extends CityInfo {
+  timezone: string; // Valid IANA timezone identifier
+}
+
 // Major cities from GeoNames database, sorted by population
 // Indian cities by timezone
 const indianCities: Record<string, CityInfo[]> = {
@@ -258,153 +263,159 @@ const australianCities: Record<string, CityInfo[]> = {
 
 // South American cities by timezone
 const southAmericanCities: Record<string, CityInfo[]> = {
-  'America/Rio_de_Janeiro': [
-    { name: 'Rio de Janeiro', country: 'Brazil', population: 6747815 },
-    { name: 'Belo Horizonte', country: 'Brazil', population: 2521564 },
+  'America/Sao_Paulo': [
+    { name: 'Rio de Janeiro', country: 'Brazil', population: 6747815, timezone: 'America/Sao_Paulo' },
+    { name: 'Belo Horizonte', country: 'Brazil', population: 2521564, timezone: 'America/Sao_Paulo' },
+    { name: 'São Paulo', country: 'Brazil', population: 12325232, timezone: 'America/Sao_Paulo' },
   ],
-  'America/Buenos_Aires': [
-    { name: 'Buenos Aires', country: 'Argentina', population: 2891082 },
-    { name: 'Córdoba', country: 'Argentina', population: 1430554 },
+  'America/Argentina/Buenos_Aires': [
+    { name: 'Buenos Aires', country: 'Argentina', population: 2891082, timezone: 'America/Argentina/Buenos_Aires' },
+    { name: 'Córdoba', country: 'Argentina', population: 1430554, timezone: 'America/Argentina/Cordoba' },
   ],
   'America/Santiago': [
-    { name: 'Santiago', country: 'Chile', population: 6158080 },
-    { name: 'Valparaíso', country: 'Chile', population: 284630 },
+    { name: 'Santiago', country: 'Chile', population: 6158080, timezone: 'America/Santiago' },
+    { name: 'Valparaíso', country: 'Chile', population: 284630, timezone: 'America/Santiago' },
   ],
   'America/Lima': [
-    { name: 'Lima', country: 'Peru', population: 8852000 },
-    { name: 'Arequipa', country: 'Peru', population: 1008290 },
+    { name: 'Lima', country: 'Peru', population: 8852000, timezone: 'America/Lima' },
+    { name: 'Arequipa', country: 'Peru', population: 1008290, timezone: 'America/Lima' },
   ],
   'America/Bogota': [
-    { name: 'Bogotá', country: 'Colombia', population: 7181469 },
-    { name: 'Medellín', country: 'Colombia', population: 2529403 },
+    { name: 'Bogotá', country: 'Colombia', population: 7181469, timezone: 'America/Bogota' },
+    { name: 'Medellín', country: 'Colombia', population: 2529403, timezone: 'America/Bogota' },
   ],
 }
 
 // All major Chinese cities use Asia/Shanghai timezone
 const chinaCities: CityInfo[] = [
-  { name: 'Shanghai', country: 'China', population: 30500000 },
-  { name: 'Beijing', country: 'China', population: 22600000 },
-  { name: 'Guangzhou', country: 'China', population: 19000000 },
-  { name: 'Shenzhen', country: 'China', population: 17494398 },
-  { name: 'Chongqing', country: 'China', population: 16875000 },
-  { name: 'Tianjin', country: 'China', population: 15200000 },
-  { name: 'Chengdu', country: 'China', population: 16311600 },
-  { name: 'Wuhan', country: 'China', population: 11081000 },
-  { name: 'Hangzhou', country: 'China', population: 10360000 },
-  { name: 'Xi\'an', country: 'China', population: 9600000 },
-  { name: 'Zhengzhou', country: 'China', population: 9000000 },
-  { name: 'Shenyang', country: 'China', population: 8500000 },
-  { name: 'Nanjing', country: 'China', population: 8400000 },
-  { name: 'Qingdao', country: 'China', population: 7700000 },
-  { name: 'Changsha', country: 'China', population: 7500000 },
-  { name: 'Kunming', country: 'China', population: 7200000 },
-  { name: 'Dalian', country: 'China', population: 6700000 },
-  { name: 'Xiamen', country: 'China', population: 5200000 },
-  { name: 'Suzhou', country: 'China', population: 5000000 },
-  { name: 'Ningbo', country: 'China', population: 4900000 }
+  { name: 'Shanghai', country: 'China', population: 30500000, timezone: 'Asia/Shanghai' },
+  { name: 'Beijing', country: 'China', population: 22600000, timezone: 'Asia/Shanghai' },
+  { name: 'Guangzhou', country: 'China', population: 19000000, timezone: 'Asia/Shanghai' },
+  { name: 'Shenzhen', country: 'China', population: 17494398, timezone: 'Asia/Shanghai' },
+  { name: 'Chongqing', country: 'China', population: 16875000, timezone: 'Asia/Shanghai' },
+  { name: 'Tianjin', country: 'China', population: 15200000, timezone: 'Asia/Shanghai' },
+  { name: 'Chengdu', country: 'China', population: 16311600, timezone: 'Asia/Shanghai' },
+  { name: 'Wuhan', country: 'China', population: 11081000, timezone: 'Asia/Shanghai' },
+  { name: 'Hangzhou', country: 'China', population: 10360000, timezone: 'Asia/Shanghai' },
+  { name: 'Xi\'an', country: 'China', population: 9600000, timezone: 'Asia/Shanghai' },
+  { name: 'Zhengzhou', country: 'China', population: 9000000, timezone: 'Asia/Shanghai' },
+  { name: 'Shenyang', country: 'China', population: 8500000, timezone: 'Asia/Shanghai' },
+  { name: 'Nanjing', country: 'China', population: 8400000, timezone: 'Asia/Shanghai' },
+  { name: 'Qingdao', country: 'China', population: 7700000, timezone: 'Asia/Shanghai' },
+  { name: 'Changsha', country: 'China', population: 7500000, timezone: 'Asia/Shanghai' },
+  { name: 'Kunming', country: 'China', population: 7200000, timezone: 'Asia/Shanghai' },
+  { name: 'Dalian', country: 'China', population: 6700000, timezone: 'Asia/Shanghai' },
+  { name: 'Xiamen', country: 'China', population: 5200000, timezone: 'Asia/Shanghai' },
+  { name: 'Suzhou', country: 'China', population: 5000000, timezone: 'Asia/Shanghai' },
+  { name: 'Ningbo', country: 'China', population: 4900000, timezone: 'Asia/Shanghai' }
 ];
 
-const globalCities: Record<string, CityInfo> = {
+// Interface for city information with timezone property
+interface CityInfoWithTimezone extends CityInfo {
+  timezone: string; // Valid IANA timezone identifier
+}
+
+const globalCities: Record<string, CityInfoWithTimezone> = {
   // East Asia
   // China (all cities use Asia/Shanghai timezone)
-  'Asia/Shanghai': { name: 'Shanghai', country: 'China', population: 30500000 },
+  'Shanghai': { name: 'Shanghai', country: 'China', population: 30500000, timezone: 'Asia/Shanghai' },
   
   // Japan
-  'Asia/Tokyo': { name: 'Tokyo', country: 'Japan', population: 37000000 },
-  'Asia/Osaka': { name: 'Osaka', country: 'Japan', population: 18900000 },
-  'Asia/Nagoya': { name: 'Nagoya', country: 'Japan', population: 9507835 },
-  'Asia/Fukuoka': { name: 'Fukuoka', country: 'Japan', population: 5538142 },
-  'Asia/Sapporo': { name: 'Sapporo', country: 'Japan', population: 1973832 },
+  'Tokyo': { name: 'Tokyo', country: 'Japan', population: 37000000, timezone: 'Asia/Tokyo' },
+  'Osaka': { name: 'Osaka', country: 'Japan', population: 18900000, timezone: 'Asia/Tokyo' },
+  'Nagoya': { name: 'Nagoya', country: 'Japan', population: 9507835, timezone: 'Asia/Tokyo' },
+  'Fukuoka': { name: 'Fukuoka', country: 'Japan', population: 5538142, timezone: 'Asia/Tokyo' },
+  'Sapporo': { name: 'Sapporo', country: 'Japan', population: 1973832, timezone: 'Asia/Tokyo' }, // Fixed: Using standard Asia/Tokyo timezone
   
   // South Korea
-  'Asia/Seoul': { name: 'Seoul', country: 'South Korea', population: 9900000 },
-  'Asia/Busan': { name: 'Busan', country: 'South Korea', population: 3400000 },
+  'Seoul': { name: 'Seoul', country: 'South Korea', population: 9900000, timezone: 'Asia/Seoul' },
+  'Busan': { name: 'Busan', country: 'South Korea', population: 3400000, timezone: 'Asia/Seoul' }, // Fixed: Using standard Asia/Seoul timezone
   
   // South Asia
-  'Asia/Kolkata': { name: 'Delhi', country: 'India', population: 34700000 },
-  'Asia/Karachi': { name: 'Karachi', country: 'Pakistan', population: 16800000 },
-  'Asia/Dhaka': { name: 'Dhaka', country: 'Bangladesh', population: 22500000 },
+  'Delhi': { name: 'Delhi', country: 'India', population: 34700000, timezone: 'Asia/Kolkata' },
+  'Karachi': { name: 'Karachi', country: 'Pakistan', population: 16800000, timezone: 'Asia/Karachi' },
+  'Dhaka': { name: 'Dhaka', country: 'Bangladesh', population: 22500000, timezone: 'Asia/Dhaka' },
   
   // Southeast Asia
-  'Asia/Jakarta': { name: 'Jakarta', country: 'Indonesia', population: 33430000 },
-  'Asia/Manila': { name: 'Manila', country: 'Philippines', population: 24300000 },
-  'Asia/Bangkok': { name: 'Bangkok', country: 'Thailand', population: 17066000 },
-  'Asia/Ho_Chi_Minh': { name: 'Ho Chi Minh City', country: 'Vietnam', population: 13500000 },
-  'Asia/Singapore': { name: 'Singapore', country: 'Singapore', population: 5850342 },
-  'Asia/Hanoi': { name: 'Hanoi', country: 'Vietnam', population: 8100000 },
-  'Asia/Kuala_Lumpur': { name: 'Kuala Lumpur', country: 'Malaysia', population: 7900000 },
+  'Jakarta': { name: 'Jakarta', country: 'Indonesia', population: 33430000, timezone: 'Asia/Jakarta' },
+  'Manila': { name: 'Manila', country: 'Philippines', population: 24300000, timezone: 'Asia/Manila' },
+  'Bangkok': { name: 'Bangkok', country: 'Thailand', population: 17066000, timezone: 'Asia/Bangkok' },
+  'Ho Chi Minh City': { name: 'Ho Chi Minh City', country: 'Vietnam', population: 13500000, timezone: 'Asia/Ho_Chi_Minh' },
+  'Singapore': { name: 'Singapore', country: 'Singapore', population: 5850342, timezone: 'Asia/Singapore' },
+  'Hanoi': { name: 'Hanoi', country: 'Vietnam', population: 8100000, timezone: 'Asia/Ho_Chi_Minh' }, // Fixed: Using standard Asia/Ho_Chi_Minh timezone
+  'Kuala Lumpur': { name: 'Kuala Lumpur', country: 'Malaysia', population: 7900000, timezone: 'Asia/Kuala_Lumpur' },
   
   // Middle East
-  'Asia/Cairo': { name: 'Cairo', country: 'Egypt', population: 23100000 },
-  'Asia/Istanbul': { name: 'Istanbul', country: 'Turkey', population: 16200000 },
-  'Asia/Tehran': { name: 'Tehran', country: 'Iran', population: 13600000 },
-  'Asia/Riyadh': { name: 'Riyadh', country: 'Saudi Arabia', population: 7600000 },
-  'Asia/Baghdad': { name: 'Baghdad', country: 'Iraq', population: 7511000 },
-  'Asia/Dubai': { name: 'Dubai', country: 'UAE', population: 3500000 },
+  'Cairo': { name: 'Cairo', country: 'Egypt', population: 23100000, timezone: 'Africa/Cairo' }, // Fixed: Using correct IANA identifier
+  'Istanbul': { name: 'Istanbul', country: 'Turkey', population: 16200000, timezone: 'Europe/Istanbul' }, // Fixed: Europe/Istanbul is the correct IANA identifier
+  'Tehran': { name: 'Tehran', country: 'Iran', population: 13600000, timezone: 'Asia/Tehran' },
+  'Riyadh': { name: 'Riyadh', country: 'Saudi Arabia', population: 7600000, timezone: 'Asia/Riyadh' },
+  'Baghdad': { name: 'Baghdad', country: 'Iraq', population: 7511000, timezone: 'Asia/Baghdad' },
+  'Dubai': { name: 'Dubai', country: 'UAE', population: 3500000, timezone: 'Asia/Dubai' },
   // Note: Abu Dhabi and Sharjah use the same timezone as Dubai (Asia/Dubai)
   // We'll add them to the middleEastCities collection instead to avoid duplicate keys
   // Using standard IANA timezone identifiers
-  'Asia/Qatar': { name: 'Doha', country: 'Qatar', population: 1450000 },
-  'Asia/Muscat': { name: 'Muscat', country: 'Oman', population: 1720000 },
+  'Asia/Qatar': { name: 'Doha', country: 'Qatar', population: 1450000, timezone: 'Asia/Qatar' },
+  'Asia/Muscat': { name: 'Muscat', country: 'Oman', population: 1720000, timezone: 'Asia/Muscat' },
   // Kuwait City is added to the middleEastCities collection under Asia/Riyadh
-  'Asia/Amman': { name: 'Amman', country: 'Jordan', population: 4007526 },
-  'Asia/Beirut': { name: 'Beirut', country: 'Lebanon', population: 2200000 },
+  'Asia/Amman': { name: 'Amman', country: 'Jordan', population: 4007526, timezone: 'Asia/Amman' },
+  'Asia/Beirut': { name: 'Beirut', country: 'Lebanon', population: 2200000, timezone: 'Asia/Beirut' },
   
   // Africa
-  'Africa/Lagos': { name: 'Lagos', country: 'Nigeria', population: 21000000 },
-  'Africa/Kinshasa': { name: 'Kinshasa', country: 'DR Congo', population: 15500000 },
-  'Africa/Johannesburg': { name: 'Johannesburg', country: 'South Africa', population: 6200000 },
-  'Africa/Nairobi': { name: 'Nairobi', country: 'Kenya', population: 5400000 },
-  'Africa/Addis_Ababa': { name: 'Addis Ababa', country: 'Ethiopia', population: 4800000 },
+  'Africa/Lagos': { name: 'Lagos', country: 'Nigeria', population: 21000000, timezone: 'Africa/Lagos' },
+  'Africa/Kinshasa': { name: 'Kinshasa', country: 'DR Congo', population: 15500000, timezone: 'Africa/Kinshasa' },
+  'Africa/Johannesburg': { name: 'Johannesburg', country: 'South Africa', population: 6200000, timezone: 'Africa/Johannesburg' },
+  'Africa/Nairobi': { name: 'Nairobi', country: 'Kenya', population: 5400000, timezone: 'Africa/Nairobi' },
+  'Africa/Addis_Ababa': { name: 'Addis Ababa', country: 'Ethiopia', population: 4800000, timezone: 'Africa/Addis_Ababa' },
   
   // Europe
-  'Europe/Moscow': { name: 'Moscow', country: 'Russia', population: 12700000 },
-  'Europe/Paris': { name: 'Paris', country: 'France', population: 11300000 },
-  'Europe/London': { name: 'London', country: 'UK', population: 9500000 },
-  'Europe/Madrid': { name: 'Madrid', country: 'Spain', population: 6700000 },
-  'Europe/Rome': { name: 'Rome', country: 'Italy', population: 4400000 },
-  'Europe/Berlin': { name: 'Berlin', country: 'Germany', population: 3700000 },
-  'Europe/Warsaw': { name: 'Warsaw', country: 'Poland', population: 1790658 },
-  'Europe/Amsterdam': { name: 'Amsterdam', country: 'Netherlands', population: 1149000 },
-  'Europe/Athens': { name: 'Athens', country: 'Greece', population: 3153000 },
-  'Europe/Stockholm': { name: 'Stockholm', country: 'Sweden', population: 1632798 },
+  'Europe/Moscow': { name: 'Moscow', country: 'Russia', population: 12700000, timezone: 'Europe/Moscow' },
+  'Europe/Paris': { name: 'Paris', country: 'France', population: 11300000, timezone: 'Europe/Paris' },
+  'Europe/London': { name: 'London', country: 'UK', population: 9500000, timezone: 'Europe/London' },
+  'Europe/Madrid': { name: 'Madrid', country: 'Spain', population: 6700000, timezone: 'Europe/Madrid' },
+  'Europe/Rome': { name: 'Rome', country: 'Italy', population: 4400000, timezone: 'Europe/Rome' },
+  'Europe/Berlin': { name: 'Berlin', country: 'Germany', population: 3700000, timezone: 'Europe/Berlin' },
+  'Europe/Warsaw': { name: 'Warsaw', country: 'Poland', population: 1790658, timezone: 'Europe/Warsaw' },
+  'Europe/Amsterdam': { name: 'Amsterdam', country: 'Netherlands', population: 1149000, timezone: 'Europe/Amsterdam' },
+  'Europe/Athens': { name: 'Athens', country: 'Greece', population: 3153000, timezone: 'Europe/Athens' },
+  'Europe/Stockholm': { name: 'Stockholm', country: 'Sweden', population: 1632798, timezone: 'Europe/Stockholm' },
   
   // Australia & Pacific
-  'Australia/Sydney': { name: 'Sydney', country: 'Australia', population: 5400000 },
-  'Australia/Melbourne': { name: 'Melbourne', country: 'Australia', population: 5080000 },
-  'Australia/Brisbane': { name: 'Brisbane', country: 'Australia', population: 2560000 },
-  'Australia/Perth': { name: 'Perth', country: 'Australia', population: 2100000 },
-  'Australia/Adelaide': { name: 'Adelaide', country: 'Australia', population: 1376601 },
-  'Australia/Canberra': { name: 'Canberra', country: 'Australia', population: 431380 },
-  'Australia/Hobart': { name: 'Hobart', country: 'Australia', population: 240342 },
-  'Australia/Darwin': { name: 'Darwin', country: 'Australia', population: 147255 },
-  'Pacific/Auckland': { name: 'Auckland', country: 'New Zealand', population: 1660000 },
-  'Pacific/Wellington': { name: 'Wellington', country: 'New Zealand', population: 412500 },
-  'Pacific/Fiji': { name: 'Suva', country: 'Fiji', population: 93970 },
+  'Sydney': { name: 'Sydney', country: 'Australia', population: 5400000, timezone: 'Australia/Sydney' },
+  'Melbourne': { name: 'Melbourne', country: 'Australia', population: 5080000, timezone: 'Australia/Melbourne' },
+  'Brisbane': { name: 'Brisbane', country: 'Australia', population: 2560000, timezone: 'Australia/Brisbane' },
+  'Perth': { name: 'Perth', country: 'Australia', population: 2100000, timezone: 'Australia/Perth' },
+  'Adelaide': { name: 'Adelaide', country: 'Australia', population: 1376601, timezone: 'Australia/Adelaide' },
+  'Canberra': { name: 'Canberra', country: 'Australia', population: 431380, timezone: 'Australia/Sydney' }, // Canberra uses Sydney timezone
+  'Hobart': { name: 'Hobart', country: 'Australia', population: 240342, timezone: 'Australia/Hobart' },
+  'Darwin': { name: 'Darwin', country: 'Australia', population: 147255, timezone: 'Australia/Darwin' },
+  'Auckland': { name: 'Auckland', country: 'New Zealand', population: 1660000, timezone: 'Pacific/Auckland' },
+  'Wellington': { name: 'Wellington', country: 'New Zealand', population: 412500, timezone: 'Pacific/Auckland' }, // Fixed: Using standard Pacific/Auckland timezone
+  'Suva': { name: 'Suva', country: 'Fiji', population: 93970, timezone: 'Pacific/Fiji' },
   
   // Americas
   // North America
-  'America/Mexico_City': { name: 'Mexico City', country: 'Mexico', population: 22800000 },
-  'America/New_York': { name: 'New York', country: 'United States', population: 18800000 },
-  'America/Los_Angeles': { name: 'Los Angeles', country: 'United States', population: 12500000 },
-  'America/Chicago': { name: 'Chicago', country: 'United States', population: 8900000 },
-  'America/Toronto': { name: 'Toronto', country: 'Canada', population: 6900000 },
-  'America/Houston': { name: 'Houston', country: 'United States', population: 6600000 },
-  'America/Phoenix': { name: 'Phoenix', country: 'United States', population: 4900000 },
-  'America/Vancouver': { name: 'Vancouver', country: 'Canada', population: 2500000 },
+  'Mexico City': { name: 'Mexico City', country: 'Mexico', population: 22800000, timezone: 'America/Mexico_City' },
+  'New York': { name: 'New York', country: 'United States', population: 18800000, timezone: 'America/New_York' },
+  'Los Angeles': { name: 'Los Angeles', country: 'United States', population: 12500000, timezone: 'America/Los_Angeles' },
+  'Chicago': { name: 'Chicago', country: 'United States', population: 8900000, timezone: 'America/Chicago' },
+  'Toronto': { name: 'Toronto', country: 'Canada', population: 6900000, timezone: 'America/Toronto' },
+  'Houston': { name: 'Houston', country: 'United States', population: 6600000, timezone: 'America/Chicago' }, // Fixed: Using standard America/Chicago timezone
+  'Phoenix': { name: 'Phoenix', country: 'United States', population: 4900000, timezone: 'America/Phoenix' },
+  'Vancouver': { name: 'Vancouver', country: 'Canada', population: 2500000, timezone: 'America/Vancouver' },
   
   // South America
-  'America/Sao_Paulo': { name: 'São Paulo', country: 'Brazil', population: 22400000 },
-  'America/Lima': { name: 'Lima', country: 'Peru', population: 11000000 },
-  'America/Bogota': { name: 'Bogotá', country: 'Colombia', population: 10900000 },
-  'America/Rio_de_Janeiro': { name: 'Rio de Janeiro', country: 'Brazil', population: 13500000 },
-  'America/Santiago': { name: 'Santiago', country: 'Chile', population: 6900000 },
-  'America/Buenos_Aires': { name: 'Buenos Aires', country: 'Argentina', population: 15800000 },
-  'America/Caracas': { name: 'Caracas', country: 'Venezuela', population: 3000000 },
+  'São Paulo': { name: 'São Paulo', country: 'Brazil', population: 22400000, timezone: 'America/Sao_Paulo' },
+  'Lima': { name: 'Lima', country: 'Peru', population: 11000000, timezone: 'America/Lima' },
+  'Bogotá': { name: 'Bogotá', country: 'Colombia', population: 10900000, timezone: 'America/Bogota' },
+  'Rio de Janeiro': { name: 'Rio de Janeiro', country: 'Brazil', population: 13500000, timezone: 'America/Sao_Paulo' }, // Fixed: Using standard America/Sao_Paulo timezone
+  'Santiago': { name: 'Santiago', country: 'Chile', population: 6900000, timezone: 'America/Santiago' },
+  'Buenos Aires': { name: 'Buenos Aires', country: 'Argentina', population: 15800000, timezone: 'America/Argentina/Buenos_Aires' }, // Fixed: Using correct IANA identifier
+  'Caracas': { name: 'Caracas', country: 'Venezuela', population: 3000000, timezone: 'America/Caracas' },
 
   // Additional African cities
-  'Africa/Casablanca': { name: 'Casablanca', country: 'Morocco', population: 3359818 },
-  'America/Guadalajara': { name: 'Guadalajara', country: 'Mexico', population: 1495182 }
+  'Casablanca': { name: 'Casablanca', country: 'Morocco', population: 3359818, timezone: 'Africa/Casablanca' },
+  'Guadalajara': { name: 'Guadalajara', country: 'Mexico', population: 1495182, timezone: 'America/Mexico_City' } // Fixed: Using standard America/Mexico_City timezone
 }
 
 // Get all available timezones with their current offsets
@@ -415,7 +426,7 @@ export function getAvailableTimezones(): Timezone[] {
   const seenCityTimezones = new Set<string>()
 
   // Helper function to add a city to the list
-  const addCity = (id: string, info: CityInfo) => {
+  const addCity = (id: string, info: CityInfo | CityInfoWithTimezone) => {
     const now = DateTime.now()
     const zoned = now.setZone(id)
     if (!zoned.isValid) {
@@ -449,9 +460,11 @@ export function getAvailableTimezones(): Timezone[] {
   })
 
   // Add all other global cities
-  Object.entries(globalCities).forEach(([id, info]) => {
-    if (!seenTimezones.has(id)) {
-      addCity(id, info)
+  Object.entries(globalCities).forEach(([, info]) => {
+    // Use the timezone property from the city info
+    const timezone = info.timezone
+    if (timezone && !seenTimezones.has(timezone)) {
+      addCity(timezone, info)
     }
   })
 

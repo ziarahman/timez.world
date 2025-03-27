@@ -12,6 +12,7 @@ export interface CityInfo {
   name: string;
   country: string;
   population: number;
+  timezone?: string; // Optional IANA timezone identifier
 }
 
 export interface TimeSlot {
