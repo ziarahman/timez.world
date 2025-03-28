@@ -1,4 +1,4 @@
-import { getAvailableTimezones, TimezoneCity } from '../data/timezones';
+import { getAvailableTimezones } from '../data/timezones';
 
 export interface City {
   name: string;
@@ -74,8 +74,23 @@ class CityService {
     const results: City[] = [];
     for (const city of this.cityCache.values()) {
       // Filter by region if specified
-      if (region !== 'all' && !city.timezone.toLowerCase().includes(region.toLowerCase())) {
-        continue;
+      if (region !== 'all') {
+        const continentMap = {
+          'asia': ['Asia'],
+          'europe': ['Europe'],
+          'americas': ['America', 'Canada'],
+          'africa': ['Africa'],
+          'oceania': ['Australia', 'Pacific']
+        };
+        
+        const continentPrefixes = continentMap[region as Region];
+        const matchesRegion = continentPrefixes.some(prefix => 
+          city.timezone.startsWith(prefix)
+        );
+        
+        if (!matchesRegion) {
+          continue;
+        }
       }
 
       // Filter by search query if provided
