@@ -57,6 +57,12 @@ function App() {
     localStorage.getItem('theme') as 'light' | 'dark' || (prefersDarkSystem ? 'dark' : 'light')
   )
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false)
+  const [totalCities, setTotalCities] = useState(0)
+
+  useEffect(() => {
+    const cities = getAvailableTimezones()
+    setTotalCities(cities.length)
+  }, [])
 
   // Clear localStorage if there are any invalid timezone IDs
   useEffect(() => {
@@ -198,6 +204,7 @@ function App() {
               <AboutDialog 
                 open={aboutDialogOpen} 
                 onClose={() => setAboutDialogOpen(false)} 
+                totalCities={totalCities}
               />
               <Tooltip title={`Switch to ${themeMode === 'light' ? 'dark' : 'light'} mode`}>
                 <IconButton onClick={toggleTheme} color="primary">

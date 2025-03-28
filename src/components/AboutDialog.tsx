@@ -12,9 +12,10 @@ import CloseIcon from '@mui/icons-material/Close'
 interface AboutDialogProps {
   open: boolean
   onClose: () => void
+  totalCities: number
 }
 
-export default function AboutDialog({ open, onClose }: AboutDialogProps) {
+export default function AboutDialog({ open, onClose, totalCities }: AboutDialogProps) {
   return (
     <Dialog
       open={open}
@@ -25,6 +26,9 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
       <DialogTitle sx={{ m: 0, p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h6" component="div">
           About Worldtimez
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            {totalCities.toLocaleString()} cities available in the database
+          </Typography>
         </Typography>
         <IconButton
           aria-label="close"
