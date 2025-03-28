@@ -101,9 +101,11 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>
-        Search Additional Cities
-        <Typography variant="subtitle2" color="text.secondary" sx={{ mt: 1 }}>
-          {totalCities.toLocaleString()} cities available in the database
+        <Typography variant="h6" component="div">
+          Search Additional Cities
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            {totalCities.toLocaleString()} cities available in the database
+          </Typography>
         </Typography>
       </DialogTitle>
       <DialogContent>
