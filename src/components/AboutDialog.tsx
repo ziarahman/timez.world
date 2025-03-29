@@ -27,7 +27,7 @@ export default function AboutDialog({ open, onClose, totalCities }: AboutDialogP
         <Typography variant="h6" component="div" sx={{ display: 'flex', flexDirection: 'column' }}>
           About Worldtimez
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {totalCities.toLocaleString()} cities available in the database
+            {totalCities.toLocaleString()} cities available in the database. Add more cities by searching with Live Lookup.
           </Typography>
         </Typography>
         <IconButton
