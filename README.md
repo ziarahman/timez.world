@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18.x-blue)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
-[![Material-UI](https://img.shields.io/badge/MUI-5.x-blue)](https://mui.com/)
+[![Material-UI](https://img.shields.io.bade/MUI-5.x-blue)](https://mui.com/)
 
 Worldtimez is a modern, user-friendly timezone comparison application built with React and Material-UI. It allows users to easily compare times across different timezones with an intuitive drag-and-drop interface.
 
@@ -71,6 +71,19 @@ docker build -t worldtimez .
 docker run -p 4242:4242 worldtimez
 ```
 
+## 🚀 Technologies
+
+- **Frontend**: React 18, TypeScript, Vite
+- **UI Components**: Material-UI (MUI)
+- **State Management**: Zustand
+- **Date/Time Handling**: Luxon
+- **API Services**:
+  - **GeoDB Cities API**: For city data and geolocation
+  - **OpenCage Geocoding API**: For geocoding and reverse geocoding
+  - **OpenWeatherMap API**: For weather data and geolocation
+  - **TimezoneDB API**: For timezone information
+  - **Nominatim API**: For additional geocoding capabilities
+
 ## 🛠️ Tech Stack
 
 - [React](https://reactjs.org/) - UI Framework
@@ -116,7 +129,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- [Live Demo](https://worldtimez.vercel.app)
+- [Live Demo](https://timez.world)
 - [Documentation](https://github.com/ziarahman/worldtimez/wiki)
 - [Issue Tracker](https://github.com/ziarahman/worldtimez/issues)
 
