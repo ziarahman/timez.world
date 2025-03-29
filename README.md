@@ -18,6 +18,55 @@ Worldtimez is a modern, user-friendly timezone comparison application built with
 - 💾 Persistent storage of user preferences
 - ⚡ Fast and efficient time conversions
 
+## 🚀 Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/ziarahman/worldtimez.git
+cd worldtimez
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Copy `.env.example` to `.env.local` and fill in your API keys:
+```bash
+cp .env.example .env.local
+```
+
+4. Start the development server:
+```bash
+npm run dev
+```
+
+## 🚀 Deployment
+
+1. **Local Development**
+   - Copy `.env.example` to `.env.local`
+   - Fill in your API keys in `.env.local`
+   - Run `npm run dev`
+
+2. **Production Deployment** (Vercel)
+   - Go to your Vercel project settings
+   - Navigate to "Environment Variables"
+   - Add the following variables:
+     - `VITE_GEODB_API_KEY`
+     - `VITE_OPENCAGE_API_KEY`
+     - `VITE_OPENWEATHER_API_KEY`
+     - `VITE_TIMEZONEDB_API_KEY`
+   - Click "Deploy" to rebuild with new environment variables
+
+3. **Managing Environment Variables and API Keys**
+   - Create a new file named `.env` in the root of your project
+   - Add your API keys to the `.env` file, for example:
+     - `VITE_GEODB_API_KEY=YOUR_GEODB_API_KEY`
+     - `VITE_OPENCAGE_API_KEY=YOUR_OPENCAGE_API_KEY`
+     - `VITE_OPENWEATHER_API_KEY=YOUR_OPENWEATHER_API_KEY`
+     - `VITE_TIMEZONEDB_API_KEY=YOUR_TIMEZONEDB_API_KEY`
+   - Make sure to add the `.env` file to your `.gitignore` file to avoid committing sensitive information
+
 ## 🚀 Getting Started
 
 ### Prerequisites
