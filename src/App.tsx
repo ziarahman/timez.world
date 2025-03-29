@@ -26,6 +26,8 @@ import TimezonePicker from './components/TimezonePicker'
 import SortableTimezoneList from './components/SortableTimezoneList'
 import { Timezone, getTimezoneUniqueId } from './types'
 import { getAvailableTimezones } from './data/timezones'
+import SpeedInsightsComponent from './components/SpeedInsights'
+import AnalyticsComponent from './components/Analytics'
 
 // Storage key for timezones
 const STORAGE_KEY = 'worldtimez_timezones'
@@ -295,6 +297,8 @@ function App() {
           </Container>
         </Box>
       </LocalizationProvider>
+      <SpeedInsightsComponent />
+      <AnalyticsComponent />
     </ThemeProvider>
   )
 }
