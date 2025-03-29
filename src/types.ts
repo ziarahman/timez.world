@@ -7,6 +7,17 @@ export interface Timezone {
   offset: number;    // Current UTC offset
 }
 
+export interface City {
+  name: string;      // City name
+  city: string;      // City name (for API compatibility)
+  country: string;   // Country name
+  timezone: string;  // IANA timezone ID
+  latitude: number;  // Latitude coordinate
+  longitude: number; // Longitude coordinate
+  population: number;// City population
+  offset: number;    // Current UTC offset
+}
+
 // CityInfo is used internally in the timezone data
 export interface CityInfo {
   name: string;

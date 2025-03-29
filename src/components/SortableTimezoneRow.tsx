@@ -15,6 +15,44 @@ interface SortableTimezoneRowProps {
   onDelete: (timezone: Timezone) => void
 }
 
+// Helper function to format timezone IDs to match IANA format
+function formatTimezone(timezone: string): string {
+  // First check if it's already a valid IANA timezone
+  const validIANA = timezone.match(/^[A-Za-z]+\/[A-Za-z0-9_]+$/);
+  if (validIANA) {
+    return timezone;
+  }
+
+  // Try to match against known continent/city format
+  const continentMap = {
+    'asia': 'Asia',
+    'europe': 'Europe',
+    'americas': 'America',
+    'africa': 'Africa',
+    'oceania': 'Australia'
+  };
+
+  // Try to match the city name against known cities
+  const knownCities = {
+    'dhaka': 'Dhaka',
+    'sylhet': 'Dhaka', // Sylhet is in the same timezone as Dhaka
+    // Add more known cities as needed
+  };
+
+  // Split the timezone into parts
+  const parts = timezone.toLowerCase().split('_');
+  const continent = parts[0];
+  const city = parts[1] || parts[0];
+
+  // Get the proper continent name
+  const properContinent = continentMap[continent] || continent.charAt(0).toUpperCase() + continent.slice(1);
+  // Get the proper city name
+  const properCity = knownCities[city] || city.charAt(0).toUpperCase() + city.slice(1);
+
+  // Return in IANA format
+  return `${properContinent}/${properCity}`;
+}
+
 export default function SortableTimezoneRow({
   timezone,
   selectedTime,
@@ -58,7 +96,7 @@ export default function SortableTimezoneRow({
   }
 
   // Convert selected time to this timezone
-  const localTime = selectedTime.setZone(timezone.id)
+  const localTime = selectedTime.setZone(formatTimezone(timezone.id))
   if (!localTime.isValid) {
     console.error(`Invalid time for timezone ${timezone.id}:`, localTime.invalidReason)
     return null
@@ -66,7 +104,7 @@ export default function SortableTimezoneRow({
   const currentDate = localTime.toFormat('ccc, MMM d')
   
   // Generate time slots centered around the selected time
-  const baseTime = selectedTime.setZone(timezone.id)
+  const baseTime = selectedTime.setZone(formatTimezone(timezone.id))
   const timeSlots = Array.from({ length: 48 }, (_, i) => {
     // Calculate offset from current hour (-12 to +11) with 30-minute intervals
     const halfHourOffset = i - 24
@@ -199,13 +237,10 @@ export default function SortableTimezoneRow({
                   : theme.palette.mode === 'dark' 
                     ? 'rgba(255, 255, 255, 0.1)' 
                     : 'rgba(0, 0, 0, 0.08)',
-              },
-              transition: theme.transitions.create(['background-color', 'color']),
+              }
             }}
           >
-            {slot.hour === 0 ? '12' : slot.hour > 12 ? slot.hour - 12 : slot.hour}
-            {slot.minute > 0 ? `:${slot.minute.toString().padStart(2, '0')}` : ':00'} 
-            {slot.period}
+            {slot.hour.toString().padStart(2, '0')}:{slot.minute.toString().padStart(2, '0')} {slot.period}
           </Box>
         ))}
       </Box>

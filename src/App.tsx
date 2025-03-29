@@ -77,8 +77,10 @@ function App() {
           return !tz.id || !/^[A-Za-z]+\/[A-Za-z0-9_]+$/.test(tz.id)
         })
         if (hasInvalidId) {
+          console.log('Invalid timezone IDs found, clearing storage')
           localStorage.removeItem(STORAGE_KEY)
-          window.location.reload()
+          // Instead of reloading, just reset the timezones state
+          setTimezones([])
         }
       }
     } catch (error) {
@@ -106,7 +108,7 @@ function App() {
         setTimezones([localTimezone])
       }
     }
-  }, [timezones])
+  }, [])
 
   // Save theme preference
   useEffect(() => {
@@ -135,7 +137,6 @@ function App() {
       borderRadius: 12,
     },
   })
-
 
   // Save timezones whenever they change
   useEffect(() => {

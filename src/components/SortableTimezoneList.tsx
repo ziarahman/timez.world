@@ -1,4 +1,3 @@
-
 import { 
   DndContext, 
   closestCenter,
@@ -40,8 +39,6 @@ export default function SortableTimezoneList({
     })
   )
 
-  // Using the imported getTimezoneUniqueId function from types.ts
-
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
 
@@ -50,17 +47,19 @@ export default function SortableTimezoneList({
       const newIndex = timezones.findIndex(tz => getTimezoneUniqueId(tz) === over.id)
       
       if (oldIndex !== -1 && newIndex !== -1) {
-        console.log('Moving timezone from', oldIndex, 'to', newIndex)
-        console.log('Old order:', timezones.map(tz => tz.city))
         // Create a new array with the moved item
         const newTimezones = [...timezones]
         const [movedItem] = newTimezones.splice(oldIndex, 1)
         newTimezones.splice(newIndex, 0, movedItem)
-        console.log('New order:', newTimezones.map(tz => tz.city))
         onReorder(newTimezones)
       }
     }
   }
+
+  // Remove duplicate timezones based on unique ID
+  const uniqueTimezones = Array.from(new Map(timezones.map(tz => 
+    [getTimezoneUniqueId(tz), tz]
+  )).values())
 
   return (
     <DndContext
@@ -69,11 +68,11 @@ export default function SortableTimezoneList({
       onDragEnd={handleDragEnd}
     >
       <SortableContext
-        items={timezones.map(tz => getTimezoneUniqueId(tz))}
+        items={uniqueTimezones.map(tz => getTimezoneUniqueId(tz))}
         strategy={verticalListSortingStrategy}
       >
         <Stack spacing={1}>
-          {timezones.map((timezone) => (
+          {uniqueTimezones.map((timezone) => (
             <SortableTimezoneRow
               key={getTimezoneUniqueId(timezone)}
               timezone={timezone}
