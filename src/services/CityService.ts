@@ -162,6 +162,18 @@ class CityService {
     return this.cityCache.size;
   }
 
+  getTotalCities(): number {
+    // Count static cities
+    const staticCount = this.staticCities.size;
+    
+    // Count dynamically added cities
+    const dynamicCount = Array.from(this.cityCache.keys())
+      .filter(key => !this.staticCities.has(key))
+      .length;
+
+    return staticCount + dynamicCount;
+  }
+
   clearCache(): void {
     this.loadedRegions.clear();
     this.cityCache.clear();

@@ -36,7 +36,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<City[]>([]);
-  const [totalCities, setTotalCities] = useState<number>(0);
+  const [totalCities, setTotalCities] = useState<number>(cityService.getTotalCities());
   const [staticCities] = useState(() => new Set(
     getAvailableTimezones().map(city => `${city.city}|${city.country}`)
   ));
@@ -60,7 +60,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
       setLoading(true);
       cityService.searchCities('', selectedRegion)
         .then(cities => {
-          setTotalCities(cities.length + staticCities.size);
+          setTotalCities(cityService.getTotalCities());
           if (selectedRegion !== 'all') {
             setResults(cities);
           }
@@ -68,7 +68,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
         .catch(console.error)
         .finally(() => setLoading(false));
     }
-  }, [open, selectedRegion, staticCities.size]);
+  }, [open, selectedRegion]);
 
   const handleSearch = async (query: string) => {
     setSearchQuery(query);

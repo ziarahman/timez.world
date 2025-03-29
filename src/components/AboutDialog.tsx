@@ -8,14 +8,16 @@ import {
   IconButton,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import { cityService } from '../services/CityService';
 
 interface AboutDialogProps {
   open: boolean
   onClose: () => void
-  totalCities: number
 }
 
-export default function AboutDialog({ open, onClose, totalCities }: AboutDialogProps) {
+export default function AboutDialog({ open, onClose }: AboutDialogProps) {
+  const totalCities = cityService.getTotalCities();
+
   return (
     <Dialog
       open={open}

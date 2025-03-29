@@ -205,7 +205,6 @@ function App() {
               <AboutDialog 
                 open={aboutDialogOpen} 
                 onClose={() => setAboutDialogOpen(false)} 
-                totalCities={totalCities}
               />
               <Tooltip title={`Switch to ${themeMode === 'light' ? 'dark' : 'light'} mode`}>
                 <IconButton onClick={toggleTheme} color="primary">
