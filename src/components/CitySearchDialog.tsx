@@ -17,6 +17,7 @@ import {
   Select, 
   MenuItem, 
   ToggleButton,
+  ToggleButtonGroup,
   Box,
   Typography,
   CircularProgress,
@@ -251,23 +252,28 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
               ))}
             </Select>
           </FormControl>
-          <ToggleButton
-            value="live"
-            selected={liveLookup}
+          <ToggleButtonGroup
+            value={liveLookup ? 'live' : 'static'}
+            exclusive
             onChange={handleLiveLookupChange}
-            sx={{ 
-              textTransform: 'none',
-              '&.Mui-selected': {
-                color: 'primary.main',
-                '& .MuiSvgIcon-root': {
-                  color: 'primary.main'
-                }
-              }
-            }}
           >
-            <ApiIcon sx={{ mr: 1 }} />
-            Live Lookup
-          </ToggleButton>
+            <ToggleButton
+              value="live"
+              selected={liveLookup}
+              sx={{ 
+                textTransform: 'none',
+                '&.Mui-selected': {
+                  color: 'primary.main',
+                  '& .MuiSvgIcon-root': {
+                    color: 'primary.main'
+                  }
+                }
+              }}
+            >
+              <ApiIcon sx={{ mr: 1 }} />
+              Live Lookup
+            </ToggleButton>
+          </ToggleButtonGroup>
         </Box>
         
         <TextField
