@@ -1,6 +1,5 @@
 import { getAvailableTimezones } from '../data/timezones';
-import { City, Timezone } from '../types';
-import axios from 'axios';
+import { Timezone } from '../types';
 
 interface DynamicCityData {
   id: string;
@@ -16,10 +15,10 @@ interface DynamicCityData {
 }
 
 export class CityService {
-  protected staticCities: Map<string, City> = new Map();
+  protected staticCities: Map<string, Timezone> = new Map();
   protected dynamicCities: Map<string, DynamicCityData> = new Map();
-  protected cityCache: Map<string, City> = new Map();
-  protected searchCache: Map<string, City[]> = new Map();
+  protected cityCache: Map<string, Timezone> = new Map();
+  protected searchCache: Map<string, Timezone[]> = new Map();
   protected cacheAccessTimes: Map<string, number> = new Map(); // Track access times
   protected lastSyncTime: number = 0;
   protected syncInterval: NodeJS.Timeout | null = null;
@@ -29,69 +28,23 @@ export class CityService {
   constructor() {
     // Initialize static cities
     this.initializeStaticCities();
-    
-    // Start periodic sync
-    this.startPeriodicSync();
   }
 
   protected startPeriodicSync(): void {
-    // Clear existing interval if any
-    if (this.syncInterval) {
-      clearInterval(this.syncInterval);
-    }
-
-    // Sync every 5 minutes
-    this.syncInterval = setInterval(() => {
-      this.syncDynamicCities()
-        .catch(error => console.error('Failed to sync dynamic cities:', error));
-    }, 5 * 60 * 1000);
-
-    // Initial sync
-    this.syncDynamicCities()
-      .catch(error => console.error('Initial sync failed:', error));
+    // No-op since we're using static city data
   }
 
   protected async syncDynamicCities(): Promise<void> {
-    try {
-      const response = await axios.get('https://api.example.com/cities');
-      if (!response || !response.data || !response.data.cities || !Array.isArray(response.data.cities)) {
-        throw new Error('Invalid API response');
-      }
-      
-      // Validate each city object in the response
-      const cities = response.data.cities.filter((city: DynamicCityData) => 
-        city &&
-        typeof city.id === 'string' &&
-        typeof city.city === 'string' &&
-        typeof city.country === 'string' &&
-        typeof city.name === 'string' &&
-        typeof city.offset === 'number' &&
-        typeof city.population === 'number' &&
-        typeof city.timezone === 'string'
-      );
+    // No-op since we're using static city data
+    return Promise.resolve();
+  }
 
-      if (cities.length === 0) {
-        throw new Error('No valid cities found in API response');
-      }
-      
-      // Update dynamic cities
-      const updatedCities = new Map<string, DynamicCityData>();
-      for (const city of cities) {
-        updatedCities.set(city.id, {
-          ...city,
-          lastUpdated: Date.now()
-        });
-      }
-      
-      // Update dynamic cities and clear cache
-      this.dynamicCities = updatedCities;
-      this.lastSyncTime = Date.now();
-      this.searchCache.clear();
-      this.cacheAccessTimes.clear();
-    } catch (error) {
-      console.error('Failed to sync dynamic cities:', error);
-      throw error;
-    }
+  public addCity(city: Timezone): void {
+    // Add city to static cities
+    this.staticCities.set(city.id, city);
+    // Clear cache
+    this.searchCache.clear();
+    this.cacheAccessTimes.clear();
   }
 
   protected initializeStaticCities(): void {
@@ -109,7 +62,7 @@ export class CityService {
     this.staticCitiesLoaded = true;
   }
 
-  async searchCities(query: string, region?: string, limit = 10): Promise<City[]> {
+  async searchCities(query: string, region?: string, limit = 10): Promise<Timezone[]> {
     try {
       const normalizedQuery = query.toLowerCase().trim();
       const cacheKey = `${normalizedQuery}|${region || ''}`;
@@ -117,7 +70,7 @@ export class CityService {
 
       if (!sorted) {
         // Cache miss
-        const allCities: City[] = [
+        const allCities: Timezone[] = [
           ...Array.from(this.staticCities.values()),
           ...Array.from(this.dynamicCities.values()).map(c => ({
             id: c.id,
@@ -192,28 +145,28 @@ export class CityService {
   }
 
   // Public getters and setters for testing
-  getCityCache(): Map<string, City> {
+  getCityCache(): Map<string, Timezone> {
     return this.cityCache;
   }
 
-  setCityCache(cityCache: Map<string, City>): void {
+  setCityCache(cityCache: Map<string, Timezone>): void {
     this.cityCache = cityCache;
   }
 
-  getSearchCache(): Map<string, City[]> {
+  getSearchCache(): Map<string, Timezone[]> {
     return this.searchCache;
   }
 
-  setSearchCache(searchCache: Map<string, City[]>): void {
+  setSearchCache(searchCache: Map<string, Timezone[]>): void {
     this.searchCache = searchCache;
     this.cacheAccessTimes.clear();
   }
 
-  getStaticCities(): Map<string, City> {
+  getStaticCities(): Map<string, Timezone> {
     return this.staticCities;
   }
 
-  setStaticCities(staticCities: Map<string, City>): void {
+  setStaticCities(staticCities: Map<string, Timezone>): void {
     this.staticCities = staticCities;
     // Clear cache when cities are updated
     this.searchCache.clear();
@@ -245,12 +198,12 @@ export class CityService {
   }
 
   // Add method to invalidate cache for specific city
-  invalidateCacheForCity(city: City): void {
+  invalidateCacheForCity(city: Timezone): void {
     // Invalidate all cache entries that might contain this city
     const keysToDelete = Array.from(this.searchCache.keys()).filter(key => {
       const [query, region] = key.split('|');
       const lowerQuery = query.toLowerCase();
-      const matchesQuery = city.city.toLowerCase().includes(lowerQuery) ||
+      const matchesQuery = city.name.toLowerCase().includes(lowerQuery) ||
                           city.country.toLowerCase().includes(lowerQuery);
       const matchesRegion = !region || city.timezone.startsWith(region);
       return matchesQuery && matchesRegion;
@@ -287,7 +240,7 @@ export class CityService {
 }
 
 export class DefaultCityService extends CityService {
-  async searchCities(query: string): Promise<City[]> {
+  async searchCities(query: string): Promise<Timezone[]> {
     if (!query.trim()) {
       return [];
     }
@@ -308,7 +261,7 @@ export class DefaultCityService extends CityService {
     // If not in cache, search static cities
     const results = Array.from(this.staticCities.values())
       .filter(city => 
-        city.city.toLowerCase().includes(lowerQuery) || 
+        city.name.toLowerCase().includes(lowerQuery) || 
         city.country.toLowerCase().includes(lowerQuery)
       );
       

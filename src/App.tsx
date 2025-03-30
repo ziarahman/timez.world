@@ -14,11 +14,11 @@ import {
   IconButton,
   Tooltip
 } from '@mui/material'
-import AboutDialog from './components/AboutDialog'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import PublicIcon from '@mui/icons-material/Public'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import AboutDialog from './components/AboutDialog'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { DateTimePicker } from '@mui/x-date-pickers'
@@ -26,8 +26,8 @@ import TimezonePicker from './components/TimezonePicker'
 import SortableTimezoneList from './components/SortableTimezoneList'
 import { Timezone, getTimezoneUniqueId } from './types'
 import { getAvailableTimezones } from './data/timezones'
-import SpeedInsightsComponent from './components/SpeedInsights'
 import AnalyticsComponent from './components/Analytics'
+import SpeedInsightsComponent from './components/SpeedInsights'
 
 // Storage key for timezones
 const STORAGE_KEY = 'worldtimez_timezones'
@@ -229,9 +229,17 @@ function App() {
               <Stack 
                 direction={{ xs: 'column', sm: 'row' }} 
                 spacing={2} 
-                sx={{ mb: 1 }}
+                sx={{ 
+                  mb: 1,
+                  width: '100%',
+                  maxWidth: '100%'
+                }}
               >
-                <Box sx={{ flex: { xs: '1', sm: '1' }, width: '100%' }}>
+                <Box sx={{ 
+                  flex: { xs: '1', sm: '1' }, 
+                  width: '100%',
+                  maxWidth: '100%'
+                }}>
                   <Typography 
                     variant="subtitle1" 
                     component="h2" 
@@ -244,36 +252,42 @@ function App() {
                     '& .MuiInputBase-root': { width: '100%' },
                     '& .MuiFormControl-root': { width: '100%' }
                   }}>
-                    <Box sx={{ position: 'relative' }}>
+                    <Box sx={{ 
+                      position: 'relative',
+                      width: '100%'
+                    }}>
                       <DateTimePicker
                         label="Select Date & Time"
                         value={selectedDateTime}
-                        onChange={(newValue) => {
-                          if (newValue) {
-                            setSelectedDateTime(newValue)
+                        onChange={handleTimeSelect}
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            width: '100%'
                           }
                         }}
                       />
-                      <Tooltip title="Set to current time">
-                        <IconButton 
-                          onClick={() => setSelectedDateTime(DateTime.local())}
-                          sx={{ 
-                            position: 'absolute', 
-                            right: '40px', 
-                            top: '50%', 
-                            transform: 'translateY(-50%)',
-                            zIndex: 1
-                          }}
-                          size="small"
-                        >
-                          <AccessTimeIcon />
-                        </IconButton>
-                      </Tooltip>
+                      <IconButton 
+                        onClick={() => handleTimeSelect(DateTime.local())}
+                        sx={{ 
+                          position: 'absolute', 
+                          right: '40px', 
+                          top: '50%', 
+                          transform: 'translateY(-50%)',
+                          zIndex: 1
+                        }}
+                        size="small"
+                      >
+                        <AccessTimeIcon />
+                      </IconButton>
                     </Box>
                   </Box>
                 </Box>
                 
-                <Box sx={{ flex: { xs: '1', sm: '1' }, width: '100%' }}>
+                <Box sx={{ 
+                  flex: { xs: '1', sm: '1' }, 
+                  width: '100%',
+                  maxWidth: '100%'
+                }}>
                   <Typography 
                     variant="subtitle1" 
                     component="h2" 
@@ -281,7 +295,11 @@ function App() {
                   >
                     Add Timezone
                   </Typography>
-                  <Box>
+                  <Box sx={{ 
+                    '& .MuiTextField-root': { width: '100%' },
+                    '& .MuiInputBase-root': { width: '100%' },
+                    '& .MuiFormControl-root': { width: '100%' }
+                  }}>
                     <TimezonePicker onSelect={handleAddTimezone} />
                   </Box>
                 </Box>
@@ -300,7 +318,8 @@ function App() {
           </Container>
         </Box>
       </LocalizationProvider>
-      <SpeedInsightsComponent />
+      {/* Hidden SpeedInsights component for Vercel page speed insights */}
+      <SpeedInsightsComponent style={{ display: 'none' }} />
       <AnalyticsComponent />
     </ThemeProvider>
   )

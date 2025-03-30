@@ -37,8 +37,19 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
     });
   };
 
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    <Box sx={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      gap: 1, 
+      width: '100%',
+      maxWidth: '100%',
+      flex: 1
+    }}>
       <Autocomplete
         value={value}
         onChange={(_, newValue) => {
@@ -51,11 +62,34 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         options={options}
         getOptionLabel={(option) => `${option.city}, ${option.country}`}
         filterOptions={(options, { inputValue }) => {
-          // If no input, show top 20 popular cities
-          if (!inputValue) return options.slice(0, 20);
+          // If no input, show top 10 cities from each region
+          if (!inputValue) {
+            // Group cities by region and get top 10 from each
+            const regions = ['Asia', 'Europe', 'Americas', 'Africa', 'Oceania'];
+            const groupedCities = regions.map(region => {
+              // Filter cities by region (using country name)
+              const regionCities = options.filter(city => 
+                city.country.toLowerCase().includes(region.toLowerCase())
+              );
+              // Sort by population and take top 10
+              return regionCities.sort((a, b) => b.population - a.population).slice(0, 10);
+            });
+            // Flatten the array of arrays
+            return groupedCities.flat();
+          }
           
           const searchTerm = inputValue.toLowerCase().trim();
-          if (searchTerm.length < 2) return options.slice(0, 20);
+          if (searchTerm.length < 2) {
+            // If less than 2 characters, show top 10 cities from each region
+            const regions = ['Asia', 'Europe', 'Americas', 'Africa', 'Oceania'];
+            const groupedCities = regions.map(region => {
+              const regionCities = options.filter(city => 
+                city.country.toLowerCase().includes(region.toLowerCase())
+              );
+              return regionCities.sort((a, b) => b.population - a.population).slice(0, 10);
+            });
+            return groupedCities.flat();
+          }
           
           // Show cities that match the search term
           return options.filter(option => 
@@ -99,28 +133,42 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
               ...params.InputProps,
               startAdornment: (
                 <InputAdornment position="start">
-                  <PublicIcon color="action" />
+                  <PublicIcon sx={{ color: 'action.active' }} />
                 </InputAdornment>
+              ),
+              endAdornment: (
+                <>
+                  {params.InputProps.endAdornment}
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleDialogOpen}
+                      size="small"
+                      sx={{ ml: 1 }}
+                    >
+                      <AddIcon onClick={() => console.log('AddIcon clicked')} />
+                    </IconButton>
+                  </InputAdornment>
+                </>
               )
+            }}
+            fullWidth
+            sx={{
+              width: '100%',
+              '& .MuiOutlinedInput-root': {
+                width: '100%'
+              }
             }}
           />
         )}
-        sx={{ width: 300 }}
-        ListboxProps={{
-          sx: {
-            maxHeight: 300
+        sx={{
+          width: '100%',
+          maxWidth: '100%',
+          flex: 1,
+          '& .MuiAutocomplete-root': {
+            width: '100%'
           }
         }}
       />
-      
-      <IconButton 
-        onClick={() => setDialogOpen(true)}
-        color="primary"
-        title="Search more cities"
-      >
-        <AddIcon />
-      </IconButton>
-
       <CitySearchDialog
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
