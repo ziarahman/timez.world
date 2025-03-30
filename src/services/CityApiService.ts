@@ -43,12 +43,15 @@ interface NominatimResponse {
 }
 
 interface City {
+  id: string;
   name: string;
+  city: string;
   country: string;
+  timezone?: string;
   latitude: number;
   longitude: number;
-  timezone?: string;
-  id: string;
+  population: number;
+  offset: number;
   source?: string;
 }
 
@@ -233,8 +236,15 @@ export class CityApiService {
         try {
           const providerResults = await this.fetchFromProvider(provider, query);
           const providerCities = providerResults.data.map(city => ({
-            ...city,
             id: `${city.name}-${city.country}-${provider.name}`.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+            name: city.name,
+            city: city.name,
+            country: city.country,
+            timezone: city.timezone || '',
+            latitude: city.latitude,
+            longitude: city.longitude,
+            population: city.population,
+            offset: city.offset,
             source: provider.name
           }));
           

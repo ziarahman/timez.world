@@ -245,7 +245,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
           </FormControl>
           <ToggleButton
             value="live"
-            selected={liveLookup}
+            selected={!!liveLookup}
             onChange={handleLiveLookupChange}
             sx={{ textTransform: 'none' }}
           >
@@ -281,26 +281,26 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
               </Typography>
             )}
             <List>
-              {results.map((city) => (
+              {results.map((city, index) => (
                 <ListItem
-                  key={city.id}
+                  key={`${city.id}-${index}`}
                   button
                   onClick={() => handleSelect(city)}
                 >
                   <ListItemText
-                    primary={`${city.city}, ${city.country}`}
+                    primary={`${city.name}, ${city.country}`}
                     secondary={city.timezone}
                   />
                 </ListItem>
               ))}
-              {apiResults.map((city) => (
+              {apiResults.map((city, index) => (
                 <ListItem
-                  key={city.id}
+                  key={`${city.id}-${index}`}
                   button
                   onClick={() => handleSelect(city)}
                 >
                   <ListItemText
-                    primary={`${city.city}, ${city.country}`}
+                    primary={`${city.name}, ${city.country}`}
                     secondary={city.timezone}
                   />
                 </ListItem>
