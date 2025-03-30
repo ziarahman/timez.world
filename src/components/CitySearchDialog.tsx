@@ -145,7 +145,13 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
             timezone: city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown'
           }));
 
-          setApiResults(apiResultsWithTimezones);
+          // Ensure unique IDs by adding a timestamp
+          const uniqueApiResults = apiResultsWithTimezones.map(city => ({
+            ...city,
+            id: `${city.id || city.name}-${city.country}-${Date.now()}`
+          }));
+
+          setApiResults(uniqueApiResults);
           setApiError(null);
         } catch (error) {
           console.error('API search failed:', {
@@ -260,7 +266,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
             <List>
               {results.map((city) => (
                 <ListItem
-                  key={`${city.city}-${city.country}`}
+                  key={city.id}
                   button
                   onClick={() => handleSelect(city)}
                 >
@@ -272,7 +278,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
               ))}
               {apiResults.map((city) => (
                 <ListItem
-                  key={`${city.city}-${city.country}-api`}
+                  key={city.id}
                   button
                   onClick={() => handleSelect(city)}
                 >

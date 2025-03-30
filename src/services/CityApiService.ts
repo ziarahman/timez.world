@@ -48,6 +48,7 @@ interface City {
   latitude: number;
   longitude: number;
   timezone?: string;
+  id?: string;
 }
 
 export class CityApiService {
@@ -161,6 +162,61 @@ export class CityApiService {
     }
   }
 
+  private async getCoordinatesForCity(city: string): Promise<{ lat: number; lng: number }> {
+    try {
+      const provider = this.API_PROVIDERS.find(provider => provider.name === 'GeoDB Cities');
+      if (!provider) {
+        throw new Error('GeoDB Cities provider not found');
+      }
+
+      const response = await axios.get(provider.url, {
+        headers: provider.headers,
+        params: provider.params(city)
+      });
+
+      if (!response.data) {
+        throw new Error('No data found');
+      }
+
+      const cityData = response.data.data[0];
+      return {
+        lat: cityData.latitude,
+        lng: cityData.longitude
+      };
+    } catch (error) {
+      console.error('Error getting coordinates:', error);
+      throw error;
+    }
+  }
+
+  private async getTimezoneForCoordinates(lat: number, lng: number): Promise<string> {
+    try {
+      const provider = this.API_PROVIDERS.find(provider => provider.name === 'GeoDB Cities');
+      if (!provider) {
+        throw new Error('GeoDB Cities provider not found');
+      }
+
+      const response = await axios.get(provider.url, {
+        headers: provider.headers,
+        params: {
+          ...provider.params(''),
+          lat,
+          lng
+        }
+      });
+
+      if (!response.data) {
+        throw new Error('No data found');
+      }
+
+      const cityData = response.data.data[0];
+      return cityData.timezone;
+    } catch (error) {
+      console.error('Error getting timezone:', error);
+      throw error;
+    }
+  }
+
   /**
    * Fetches city data from a single provider.
    * @param provider The provider to fetch from
@@ -176,6 +232,7 @@ export class CityApiService {
         try {
           const providerResults = await this.fetchFromProvider(provider, query);
           results = results.concat(providerResults.data.map(city => ({
+            id: `${city.name}-${city.country}`.toLowerCase().replace(/[^a-z0-9]/g, '_'),
             name: city.name,
             country: city.country,
             latitude: city.latitude,
@@ -191,6 +248,17 @@ export class CityApiService {
 
       if (results.length === 0) {
         throw new Error(`No results found. Last error: ${providerError}`);
+      }
+
+      for (const result of results) {
+        if (!result.timezone) {
+          try {
+            const coordinates = await this.getCoordinatesForCity(result.name);
+            result.timezone = await this.getTimezoneForCoordinates(coordinates.lat, coordinates.lng);
+          } catch (error) {
+            console.error('Error getting timezone for city:', error);
+          }
+        }
       }
 
       return results;
