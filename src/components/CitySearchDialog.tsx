@@ -19,9 +19,11 @@ import {
   ToggleButton,
   Box,
   Typography,
-  CircularProgress
+  CircularProgress,
+  InputAdornment
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
+import { Cloud as ApiIcon } from '@mui/icons-material';
 import { getAvailableTimezones } from '../data/timezones';
 
 interface City {
@@ -66,24 +68,26 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
   // Load cities when dialog opens or region changes
   useEffect(() => {
     if (open) {
-      console.log('CitySearchDialog: useEffect triggered, open=', open, 'region=', selectedRegion, 'query=', searchQuery);
       setLoading(true);
       
       // If search query is empty, load initial static cities
       if (searchQuery.trim() === '') {
         try {
           const staticCitiesMap = cityService.getStaticCities();
-          console.log('CitySearchDialog: Fetched staticCitiesMap:', staticCitiesMap);
           let initialCities = Array.from(staticCitiesMap.values());
 
           // Filter by region if a specific region is selected
           if (selectedRegion !== 'all') {
+            // Get the timezone prefix for the selected region
+            const regionPrefix = selectedRegion === 'americas' ? 'America/' : 
+                               selectedRegion === 'oceania' ? 'Australia/' : 
+                               `${selectedRegion.charAt(0).toUpperCase()}${selectedRegion.slice(1)}/`;
+            
             initialCities = initialCities.filter(city => 
-              city.timezone.startsWith(selectedRegion)
+              city.timezone.startsWith(regionPrefix)
             );
           }
           
-          console.log('CitySearchDialog: Setting initialCities:', initialCities);
           setResults(initialCities);
           setApiResults([]); // Clear API results
           setApiError(null);
@@ -138,12 +142,16 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
           // Add timezone information to API results
           const apiResultsWithTimezones = apiData.map(city => ({
             ...city,
-            // Correct: Pass the actual timezone property if available from API,
-            // otherwise, it might need fetching or defaulting
-            timezone: city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown' // Assuming API provides timezone
+            timezone: city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown'
           }));
 
-          setApiResults(apiResultsWithTimezones);
+          // Ensure unique IDs by adding a timestamp
+          const uniqueApiResults = apiResultsWithTimezones.map(city => ({
+            ...city,
+            id: `${city.id || city.name}-${city.country}-${Date.now()}`
+          }));
+
+          setApiResults(uniqueApiResults);
           setApiError(null);
         } catch (error) {
           console.error('API search failed:', {
@@ -176,21 +184,17 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
   };
 
   const handleSelect = (city: City) => {
-    // Ensure the selected city conforms to the Timezone type
-    const timezoneCity: Timezone = {
-      // Use the city's actual ID if available, otherwise construct one
-      id: city.id || `${city.city}/${city.country}`, // Fallback ID construction
+    onCitySelect({
+      id: city.id || `${city.city}/${city.country}`,
       name: `${city.name}, ${city.country}`,
-      city: city.city || city.name, // Use city.city if available, else city.name
+      city: city.city || city.name,
       country: city.country,
-      // Correct: Pass the actual timezone string to formatTimezone
-      timezone: city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown', // Assuming city object has timezone
+      timezone: city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown',
       latitude: city.latitude,
       longitude: city.longitude,
-      population: city.population || 0, // Default population if missing
-      offset: city.offset ?? 0, // Use nullish coalescing for offset
-    };
-    onCitySelect(timezoneCity);
+      population: city.population || 0,
+      offset: city.offset ?? 0,
+    });
     onClose();
   };
 
@@ -207,14 +211,13 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
       <DialogContent>
         <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
           <FormControl sx={{ minWidth: 120 }}>
-            <InputLabel>Region</InputLabel>
             <Select
               value={selectedRegion}
               onChange={(e) => {
                 setSelectedRegion(e.target.value as string);
-                handleSearch(searchQuery);
+                // Clear search query when changing region
+                setSearchQuery('');
               }}
-              label="Region"
             >
               {regions.map((region) => (
                 <MenuItem key={region.id} value={region.id}>
@@ -229,82 +232,63 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
             onChange={handleLiveLookupChange}
             sx={{ textTransform: 'none' }}
           >
-            <SearchIcon sx={{ mr: 1 }} />
+            <ApiIcon sx={{ mr: 1 }} />
             Live Lookup
           </ToggleButton>
         </Box>
         
         <TextField
           fullWidth
-          label="Search for a city"
+          variant="outlined"
+          placeholder="Search for a city..."
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
           InputProps={{
             startAdornment: (
-              <SearchIcon />
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
             ),
           }}
         />
 
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
             <CircularProgress />
           </Box>
         ) : (
           <>
             {apiError && (
-              <Typography color="error" sx={{ mt: 2 }}>
+              <Typography color="error" variant="body2" align="center">
                 {apiError}
               </Typography>
             )}
-            
-            {results.length > 0 && (
-              <List>
-                {results.map((city) => (
-                  <ListItem
-                    key={`${city.name}-${city.country}`}
-                    secondaryAction={
-                      <Button
-                        onClick={() => handleSelect(city)}
-                        size="small"
-                        variant="outlined"
-                      >
-                        Add
-                      </Button>
-                    }
-                  >
-                    <ListItemText
-                      primary={`${city.name}, ${city.country}`}
-                      secondary={city.timezone}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            )}
-            
-            {apiResults.length > 0 && (
-              <List>
-                {apiResults.map((city) => (
-                  <ListItem
-                    key={`${city.name}-${city.country}`}
-                    secondaryAction={
-                      <Button
-                        onClick={() => handleSelect(city)}
-                        size="small"
-                        variant="outlined"
-                      >
-                        Add
-                      </Button>
-                    }
-                  >
-                    <ListItemText
-                      primary={`${city.name}, ${city.country}`}
-                      secondary={city.timezone}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            )}
+            <List>
+              {results.map((city) => (
+                <ListItem
+                  key={city.id}
+                  button
+                  onClick={() => handleSelect(city)}
+                >
+                  <ListItemText
+                    primary={`${city.city}, ${city.country}`}
+                    secondary={city.timezone}
+                  />
+                </ListItem>
+              ))}
+              {apiResults.map((city) => (
+                <ListItem
+                  key={city.id}
+                  button
+                  onClick={() => handleSelect(city)}
+                >
+                  <ListItemText
+                    primary={`${city.city}, ${city.country}`}
+                    secondary={city.timezone}
+                  />
+                </ListItem>
+              ))}
+            </List>
           </>
         )}
       </DialogContent>
@@ -317,6 +301,5 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
 
 // Helper function to format timezone IDs to match IANA format
 function formatTimezone(timezone: string): string {
-  // Convert to lowercase and replace spaces with underscores
-  return timezone.toLowerCase().replace(/ /g, '_');
+  return timezone;
 }
