@@ -79,8 +79,13 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
 
           // Filter by region if a specific region is selected
           if (selectedRegion !== 'all') {
+            // Get the timezone prefix for the selected region
+            const regionPrefix = selectedRegion === 'americas' ? 'America/' : 
+                               selectedRegion === 'oceania' ? 'Australia/' : 
+                               `${selectedRegion.charAt(0).toUpperCase()}${selectedRegion.slice(1)}/`;
+            
             initialCities = initialCities.filter(city => 
-              city.timezone.startsWith(selectedRegion)
+              city.timezone.startsWith(regionPrefix)
             );
           }
           
@@ -199,100 +204,88 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
         Search & Add Additional Cities
       </DialogTitle>
       <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <FormControl fullWidth>
-              <InputLabel>Region</InputLabel>
-              <Select
-                value={selectedRegion}
-                onChange={(e) => {
-                  setSelectedRegion(e.target.value as string);
-                  // Clear search query when changing region
-                  setSearchQuery('');
-                }}
-                label="Region"
-              >
-                {regions.map((region) => (
-                  <MenuItem key={region.id} value={region.id}>
-                    {region.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth>
-              <InputLabel>Live Lookup</InputLabel>
-              <Select
-                value={liveLookup ? 'enabled' : 'disabled'}
-                onChange={(e) => handleLiveLookupChange()}
-                label="Live Lookup"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <ApiIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value="disabled">Disabled</MenuItem>
-                <MenuItem value="enabled">Enabled</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Search for a city..."
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-              <CircularProgress />
-            </Box>
-          ) : (
-            <>
-              {apiError && (
-                <Typography color="error" variant="body2" align="center">
-                  {apiError}
-                </Typography>
-              )}
-              <List>
-                {results.map((city) => (
-                  <ListItem
-                    key={`${city.city}-${city.country}`}
-                    button
-                    onClick={() => handleSelect(city)}
-                  >
-                    <ListItemText
-                      primary={`${city.city}, ${city.country}`}
-                      secondary={city.timezone}
-                    />
-                  </ListItem>
-                ))}
-                {apiResults.map((city) => (
-                  <ListItem
-                    key={`${city.city}-${city.country}-api`}
-                    button
-                    onClick={() => handleSelect(city)}
-                  >
-                    <ListItemText
-                      primary={`${city.city}, ${city.country}`}
-                      secondary={city.timezone}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </>
-          )}
+        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+          <FormControl sx={{ minWidth: 120 }}>
+            <Select
+              value={selectedRegion}
+              onChange={(e) => {
+                setSelectedRegion(e.target.value as string);
+                // Clear search query when changing region
+                setSearchQuery('');
+              }}
+            >
+              {regions.map((region) => (
+                <MenuItem key={region.id} value={region.id}>
+                  {region.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <ToggleButton
+            value="live"
+            selected={liveLookup}
+            onChange={handleLiveLookupChange}
+            sx={{ textTransform: 'none' }}
+          >
+            <ApiIcon sx={{ mr: 1 }} />
+            Live Lookup
+          </ToggleButton>
         </Box>
+        
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Search for a city..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <>
+            {apiError && (
+              <Typography color="error" variant="body2" align="center">
+                {apiError}
+              </Typography>
+            )}
+            <List>
+              {results.map((city) => (
+                <ListItem
+                  key={`${city.city}-${city.country}`}
+                  button
+                  onClick={() => handleSelect(city)}
+                >
+                  <ListItemText
+                    primary={`${city.city}, ${city.country}`}
+                    secondary={city.timezone}
+                  />
+                </ListItem>
+              ))}
+              {apiResults.map((city) => (
+                <ListItem
+                  key={`${city.city}-${city.country}-api`}
+                  button
+                  onClick={() => handleSelect(city)}
+                >
+                  <ListItemText
+                    primary={`${city.city}, ${city.country}`}
+                    secondary={city.timezone}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
