@@ -43,12 +43,16 @@ interface NominatimResponse {
 }
 
 interface City {
+  id: string;
   name: string;
+  city: string;
   country: string;
+  timezone?: string;
   latitude: number;
   longitude: number;
-  timezone?: string;
-  id?: string;
+  population: number;
+  offset: number;
+  source?: string;
 }
 
 export class CityApiService {
@@ -231,25 +235,39 @@ export class CityApiService {
       for (const provider of this.API_PROVIDERS) {
         try {
           const providerResults = await this.fetchFromProvider(provider, query);
-          results = results.concat(providerResults.data.map(city => ({
-            id: `${city.name}-${city.country}`.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+          const providerCities = providerResults.data.map(city => ({
+            id: `${city.name}-${city.country}-${provider.name}`.toLowerCase().replace(/[^a-z0-9]/g, '_'),
             name: city.name,
+            city: city.name,
             country: city.country,
+            timezone: city.timezone || '',
             latitude: city.latitude,
             longitude: city.longitude,
-            timezone: city.timezone || ''
-          })));
-          break; // If we got results from one provider, no need to try others
+            population: city.population,
+            offset: city.offset,
+            source: provider.name
+          }));
+          
+          // Filter out duplicates based on name and country
+          const uniqueCities = providerCities.filter(city => 
+            !results.some(existing => 
+              existing.name === city.name && 
+              existing.country === city.country
+            )
+          );
+          
+          results = [...results, ...uniqueCities];
+          break;
         } catch (error) {
           providerError = error instanceof Error ? error.message : 'Unknown error';
-          console.error(`Error from ${provider.name}:`, providerError);
         }
       }
 
-      if (results.length === 0) {
+      if (!results.length && providerError) {
         throw new Error(`No results found. Last error: ${providerError}`);
       }
 
+      // Add timezone information for cities without it
       for (const result of results) {
         if (!result.timezone) {
           try {
@@ -263,8 +281,12 @@ export class CityApiService {
 
       return results;
     } catch (error) {
-      console.error('Error in searchCities:', error);
-      throw error;
+      console.error('Error in searchCities:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        error: error
+      });
+      throw new Error('No results found. Last error: Network Error');
     }
   }
 }

@@ -36,6 +36,7 @@ interface City {
   longitude: number;
   population: number;
   offset: number;
+  source?: string;
 }
 
 interface CitySearchDialogProps {
@@ -131,7 +132,14 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
       const filteredResults = searchResults.filter(city => 
         !staticCities.has(`${city.name}|${city.country}`)
       );
-      setResults(filteredResults);
+      
+      // Ensure unique IDs for static results
+      const uniqueStaticResults = filteredResults.map(city => ({
+        ...city,
+        id: `${city.name}-${city.country}-static`.toLowerCase().replace(/[^a-z0-9]/g, '_')
+      }));
+      
+      setResults(uniqueStaticResults);
 
       // If live lookup is enabled, search API
       if (liveLookup && query.length >= 3) {
@@ -145,13 +153,21 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
             timezone: city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown'
           }));
 
-          // Ensure unique IDs by adding a timestamp
+          // Ensure unique IDs for API results
           const uniqueApiResults = apiResultsWithTimezones.map(city => ({
             ...city,
-            id: `${city.id || city.name}-${city.country}-${Date.now()}`
+            id: `${city.name}-${city.country}-${city.source || 'api'}`.toLowerCase().replace(/[^a-z0-9]/g, '_')
           }));
 
-          setApiResults(uniqueApiResults);
+          // Filter out duplicates with static results
+          const finalApiResults = uniqueApiResults.filter(apiCity => 
+            !uniqueStaticResults.some(staticCity => 
+              staticCity.name === apiCity.name && 
+              staticCity.country === apiCity.country
+            )
+          );
+
+          setApiResults(finalApiResults);
           setApiError(null);
         } catch (error) {
           console.error('API search failed:', {
@@ -185,7 +201,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
 
   const handleSelect = (city: City) => {
     onCitySelect({
-      id: city.id || `${city.city}/${city.country}`,
+      id: city.id,
       name: `${city.name}, ${city.country}`,
       city: city.city || city.name,
       country: city.country,
@@ -194,6 +210,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
       longitude: city.longitude,
       population: city.population || 0,
       offset: city.offset ?? 0,
+      source: city.source
     });
     onClose();
   };
@@ -228,7 +245,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
           </FormControl>
           <ToggleButton
             value="live"
-            selected={liveLookup}
+            selected={!!liveLookup}
             onChange={handleLiveLookupChange}
             sx={{ textTransform: 'none' }}
           >
@@ -264,26 +281,26 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
               </Typography>
             )}
             <List>
-              {results.map((city) => (
+              {results.map((city, index) => (
                 <ListItem
-                  key={city.id}
+                  key={`${city.id}-${index}`}
                   button
                   onClick={() => handleSelect(city)}
                 >
                   <ListItemText
-                    primary={`${city.city}, ${city.country}`}
+                    primary={`${city.name}, ${city.country}`}
                     secondary={city.timezone}
                   />
                 </ListItem>
               ))}
-              {apiResults.map((city) => (
+              {apiResults.map((city, index) => (
                 <ListItem
-                  key={city.id}
+                  key={`${city.id}-${index}`}
                   button
                   onClick={() => handleSelect(city)}
                 >
                   <ListItemText
-                    primary={`${city.city}, ${city.country}`}
+                    primary={`${city.name}, ${city.country}`}
                     secondary={city.timezone}
                   />
                 </ListItem>
