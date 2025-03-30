@@ -1,15 +1,22 @@
 import { Box, Typography, Paper, Grid, CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { injectSpeedInsights } from '@vercel/speed-insights';
 
 export default function SpeedInsightsComponent() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => {
+    // Only initialize Speed Insights in production
+    if (process.env.NODE_ENV === 'production') {
+      injectSpeedInsights();
       setLoading(false);
-    }, 1000);
+    }
   }, []);
+
+  // Only render in production
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
 
   if (loading) {
     return (
