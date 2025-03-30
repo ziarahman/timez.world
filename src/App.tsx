@@ -102,10 +102,13 @@ function App() {
         const localTimezone: Timezone = {
           id: localZone,
           name: localZone,
-          offset: DateTime.local().offset,
           city: zoneParts[zoneParts.length - 1].replace(/_/g, ' '),
           country: zoneParts[0].replace(/_/g, ' '),
-          population: 0
+          timezone: localZone,
+          latitude: 0,
+          longitude: 0,
+          population: 0,
+          offset: DateTime.local().offset
         }
         setTimezones([localTimezone])
       }

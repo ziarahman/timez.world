@@ -1,222 +1,344 @@
 import { getAvailableTimezones } from '../data/timezones';
-import { City } from '../types';
+import { City, Timezone } from '../types';
+import axios from 'axios';
 
-type Region = 'asia' | 'europe' | 'americas' | 'africa' | 'oceania';
-
-interface CityData {
-  cities: City[];
-  lastUpdated: number;
+interface DynamicCityData {
+  id: string;
+  city: string;
+  country: string;
+  name: string;
+  offset: number;
+  population: number;
+  timezone: string;
+  latitude?: number;
+  longitude?: number;
+  lastUpdated?: number;
 }
 
-class CityService {
-  private loadedRegions: Set<Region> = new Set();
-  private cityCache: Map<string, City> = new Map();
-  private staticCities: Set<string>;
-  private readonly STORAGE_KEY = 'worldtimez_cities';
+export class CityService {
+  protected staticCities: Map<string, City> = new Map();
+  protected dynamicCities: Map<string, DynamicCityData> = new Map();
+  protected cityCache: Map<string, City> = new Map();
+  protected searchCache: Map<string, City[]> = new Map();
+  protected cacheAccessTimes: Map<string, number> = new Map(); // Track access times
+  protected lastSyncTime: number = 0;
+  protected syncInterval: NodeJS.Timeout | null = null;
+  protected staticCitiesLoaded: boolean = false;
+  protected maxCacheSize: number = 10; // Default max cache size
 
   constructor() {
-    // Create a set of static cities for quick lookup
-    this.staticCities = new Set(
-      getAvailableTimezones().map(city => `${city.city}|${city.country}`)
-    );
+    // Initialize static cities
+    this.initializeStaticCities();
     
-    // Load saved cities from localStorage
-    const savedCities = localStorage.getItem(this.STORAGE_KEY);
-    if (savedCities) {
-      try {
-        const data: CityData = JSON.parse(savedCities);
-        // Only use saved data if it's less than 7 days old
-        if (data.lastUpdated > Date.now() - 7 * 24 * 60 * 60 * 1000) {
-          data.cities.forEach(city => {
-            const key = `${city.name}|${city.country}`;
-            if (!this.staticCities.has(key)) {
-              // Format timezone before adding to cache
-              const formattedTimezone = formatTimezone(city.timezone);
-              this.cityCache.set(key, {
-                ...city,
-                timezone: formattedTimezone
-              });
-            }
-          });
-        }
-      } catch (error) {
-        console.error('Error loading saved cities:', error);
-      }
-    }
+    // Start periodic sync
+    this.startPeriodicSync();
   }
 
-  private async loadRegion(region: Region): Promise<City[]> {
-    if (this.loadedRegions.has(region)) {
-      return [];
+  protected startPeriodicSync(): void {
+    // Clear existing interval if any
+    if (this.syncInterval) {
+      clearInterval(this.syncInterval);
     }
 
+    // Sync every 5 minutes
+    this.syncInterval = setInterval(() => {
+      this.syncDynamicCities()
+        .catch(error => console.error('Failed to sync dynamic cities:', error));
+    }, 5 * 60 * 1000);
+
+    // Initial sync
+    this.syncDynamicCities()
+      .catch(error => console.error('Initial sync failed:', error));
+  }
+
+  protected async syncDynamicCities(): Promise<void> {
     try {
-      const response = await fetch(`/data/cities/${region}.json`);
-      if (!response.ok) {
-        throw new Error(`Failed to load ${region} cities`);
+      const response = await axios.get('https://api.example.com/cities');
+      if (!response || !response.data || !response.data.cities || !Array.isArray(response.data.cities)) {
+        throw new Error('Invalid API response');
+      }
+      
+      // Validate each city object in the response
+      const cities = response.data.cities.filter((city: DynamicCityData) => 
+        city &&
+        typeof city.id === 'string' &&
+        typeof city.city === 'string' &&
+        typeof city.country === 'string' &&
+        typeof city.name === 'string' &&
+        typeof city.offset === 'number' &&
+        typeof city.population === 'number' &&
+        typeof city.timezone === 'string'
+      );
+
+      if (cities.length === 0) {
+        throw new Error('No valid cities found in API response');
+      }
+      
+      // Update dynamic cities
+      const updatedCities = new Map<string, DynamicCityData>();
+      for (const city of cities) {
+        updatedCities.set(city.id, {
+          ...city,
+          lastUpdated: Date.now()
+        });
+      }
+      
+      // Update dynamic cities and clear cache
+      this.dynamicCities = updatedCities;
+      this.lastSyncTime = Date.now();
+      this.searchCache.clear();
+      this.cacheAccessTimes.clear();
+    } catch (error) {
+      console.error('Failed to sync dynamic cities:', error);
+      throw error;
+    }
+  }
+
+  protected initializeStaticCities(): void {
+    const cities = getAvailableTimezones();
+    if (!cities) return;
+
+    // Clear cache when cities are re-initialized
+    this.searchCache.clear();
+    this.cacheAccessTimes.clear();
+
+    cities.forEach((city: Timezone) => {
+      const key = `${city.city}|${city.country}`;
+      this.staticCities.set(key, city);
+    });
+    this.staticCitiesLoaded = true;
+  }
+
+  async searchCities(query: string, region?: string, limit = 10): Promise<City[]> {
+    try {
+      const normalizedQuery = query.toLowerCase().trim();
+      const cacheKey = `${normalizedQuery}|${region || ''}`;
+      let sorted = this.searchCache.get(cacheKey);
+
+      if (!sorted) {
+        // Cache miss
+        const allCities: City[] = [
+          ...Array.from(this.staticCities.values()),
+          ...Array.from(this.dynamicCities.values()).map(c => ({
+            id: c.id,
+            city: c.city,
+            country: c.country,
+            name: c.name,
+            offset: c.offset,
+            population: c.population,
+            timezone: c.timezone,
+            latitude: c.latitude || 0,
+            longitude: c.longitude || 0
+          }))
+        ];
+
+        // Filter logic remains the same
+        const results = allCities.filter(city => city && (
+          (city.name && city.name.toLowerCase().includes(normalizedQuery)) &&
+          (region ? city.country.toLowerCase() === region.toLowerCase() : true)
+        ));
+
+        // Sort by population descending
+        sorted = results.sort((a, b) => b.population - a.population);
+
+        // Implement proper LRU cache eviction
+        if (this.searchCache.size >= this.maxCacheSize) {
+          // Find the least recently used key
+          let oldestKey = '';
+          let oldestTime = Date.now();
+          for (const [key, time] of this.cacheAccessTimes) {
+            if (time < oldestTime) {
+              oldestKey = key;
+              oldestTime = time;
+            }
+          }
+
+          // Remove the least recently used entry
+          if (oldestKey) {
+            this.searchCache.delete(oldestKey);
+            this.cacheAccessTimes.delete(oldestKey);
+          }
+        }
+
+        // Add the new entry
+        this.searchCache.set(cacheKey, sorted);
+        this.cacheAccessTimes.set(cacheKey, Date.now());
+      } else {
+        // Cache hit - update access time
+        this.cacheAccessTimes.set(cacheKey, Date.now());
       }
 
-      const cities: City[] = await response.json();
-      
-      // Add to cache and filter out static cities
-      cities.forEach(city => {
-        const key = `${city.name}|${city.country}`;
-        if (!this.staticCities.has(key)) {
-          // Format timezone before adding to cache
-          const formattedTimezone = formatTimezone(city.timezone);
-          this.cityCache.set(key, {
-            ...city,
-            timezone: formattedTimezone
-          });
-        }
-      });
-
-      this.loadedRegions.add(region);
-      return cities;
+      return sorted.slice(0, limit);
     } catch (error) {
-      console.error(`Error loading ${region} cities:`, error);
+      console.error('Search failed:', error);
       return [];
     }
   }
 
-  async searchCities(query: string, region: string = 'all', limit = 50): Promise<City[]> {
-    const normalizedQuery = query.toLowerCase();
-    
-    // Load specific region or all regions
-    if (region === 'all') {
-      if (this.loadedRegions.size === 0) {
-        await Promise.all([
-          this.loadRegion('asia'),
-          this.loadRegion('europe'),
-          this.loadRegion('americas'),
-          this.loadRegion('africa'),
-          this.loadRegion('oceania')
-        ]);
-      }
-    } else if (!this.loadedRegions.has(region as Region)) {
-      await this.loadRegion(region as Region);
-    }
-
-    // Search through cached cities
-    const results: City[] = [];
-    for (const city of this.cityCache.values()) {
-      // Filter by region if specified
-      if (region !== 'all') {
-        const continentMap = {
-          'asia': ['Asia'],
-          'europe': ['Europe'],
-          'americas': ['America', 'Canada'],
-          'africa': ['Africa'],
-          'oceania': ['Australia', 'Pacific']
-        };
-        
-        const continentPrefixes = continentMap[region as Region];
-        const matchesRegion = continentPrefixes.some(prefix => 
-          city.timezone.startsWith(prefix)
-        );
-        
-        if (!matchesRegion) {
-          continue;
-        }
-      }
-
-      // Filter by search query if provided
-      if (query.length >= 2 && 
-          !city.name.toLowerCase().includes(normalizedQuery) &&
-          !city.country.toLowerCase().includes(normalizedQuery)) {
-        continue;
-      }
-
-      results.push(city);
-      if (results.length >= limit) {
-        break;
-      }
-    }
-
-    // Sort by population
-    return results.sort((a, b) => b.population - a.population);
-  }
-
-  addCity(city: City): void {
-    const key = `${city.name}|${city.country}`;
-    if (!this.staticCities.has(key)) {
-      // Format the timezone ID to match IANA format
-      const formattedTimezone = formatTimezone(city.timezone);
-      
-      this.cityCache.set(key, {
-        ...city,
-        timezone: formattedTimezone
-      });
-      
-      // Save to localStorage
-      const cities = Array.from(this.cityCache.values());
-      const data: CityData = {
-        cities,
-        lastUpdated: Date.now()
-      };
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
-    }
-  }
-
-  getLoadedCityCount(): number {
-    return this.cityCache.size;
+  async loadCities(): Promise<void> {
+    if (this.staticCitiesLoaded) return;
+    this.initializeStaticCities();
   }
 
   getTotalCities(): number {
-    // Count static cities
-    const staticCount = this.staticCities.size;
+    try {
+      const staticCount = this.staticCities.size;
+      const dynamicCount = this.dynamicCities.size;
+      return staticCount + dynamicCount;
+    } catch (error) {
+      console.error('Failed to get total cities count:', error);
+      return 0;
+    }
+  }
+
+  // Public getters and setters for testing
+  getCityCache(): Map<string, City> {
+    return this.cityCache;
+  }
+
+  setCityCache(cityCache: Map<string, City>): void {
+    this.cityCache = cityCache;
+  }
+
+  getSearchCache(): Map<string, City[]> {
+    return this.searchCache;
+  }
+
+  setSearchCache(searchCache: Map<string, City[]>): void {
+    this.searchCache = searchCache;
+    this.cacheAccessTimes.clear();
+  }
+
+  getStaticCities(): Map<string, City> {
+    return this.staticCities;
+  }
+
+  setStaticCities(staticCities: Map<string, City>): void {
+    this.staticCities = staticCities;
+    // Clear cache when cities are updated
+    this.searchCache.clear();
+    this.cacheAccessTimes.clear();
+  }
+
+  isStaticCitiesLoaded(): boolean {
+    return this.staticCitiesLoaded;
+  }
+
+  setStaticCitiesLoaded(staticCitiesLoaded: boolean): void {
+    this.staticCitiesLoaded = staticCitiesLoaded;
+  }
+  
+  getDynamicCities(): Map<string, DynamicCityData> {
+    return this.dynamicCities;
+  }
+  
+  setDynamicCities(dynamicCities: Map<string, DynamicCityData>): void {
+    this.dynamicCities = dynamicCities;
+  }
+  
+  getMaxCacheSize(): number {
+    return this.maxCacheSize;
+  }
+  
+  setMaxCacheSize(maxCacheSize: number): void {
+    this.maxCacheSize = maxCacheSize;
+  }
+
+  // Add method to invalidate cache for specific city
+  invalidateCacheForCity(city: City): void {
+    // Invalidate all cache entries that might contain this city
+    const keysToDelete = Array.from(this.searchCache.keys()).filter(key => {
+      const [query, region] = key.split('|');
+      const lowerQuery = query.toLowerCase();
+      const matchesQuery = city.city.toLowerCase().includes(lowerQuery) ||
+                          city.country.toLowerCase().includes(lowerQuery);
+      const matchesRegion = !region || city.timezone.startsWith(region);
+      return matchesQuery && matchesRegion;
+    });
+
+    keysToDelete.forEach(key => {
+      this.searchCache.delete(key);
+      this.cacheAccessTimes.delete(key);
+    });
+  }
+
+  // Add method to force sync dynamic cities
+  async forceSync(): Promise<void> {
+    await this.syncDynamicCities();
+  }
+
+  // Add method to get last sync time
+  getLastSyncTime(): number {
+    return this.lastSyncTime;
+  }
+
+  // Add method to get dynamic city by ID
+  getDynamicCity(id: string): DynamicCityData | undefined {
+    return this.dynamicCities.get(id);
+  }
+
+  // Add method to clear sync interval
+  clearSyncInterval(): void {
+    if (this.syncInterval) {
+      clearInterval(this.syncInterval);
+      this.syncInterval = null;
+    }
+  }
+}
+
+export class DefaultCityService extends CityService {
+  async searchCities(query: string): Promise<City[]> {
+    if (!query.trim()) {
+      return [];
+    }
     
-    // Count dynamically added cities
-    const dynamicCount = Array.from(this.cityCache.keys())
-      .filter(key => !this.staticCities.has(key))
-      .length;
+    const lowerQuery = query.toLowerCase();
+    console.log('Searching for:', lowerQuery);
+    console.log('Cache contents:', this.searchCache);
+    
+    // Check cache first
+    const cachedResults = this.searchCache.get(lowerQuery);
+    if (cachedResults) {
+      console.log('Cache hit for:', lowerQuery);
+      // Update access time
+      this.cacheAccessTimes.set(lowerQuery, Date.now());
+      return cachedResults;
+    }
+    
+    // If not in cache, search static cities
+    const results = Array.from(this.staticCities.values())
+      .filter(city => 
+        city.city.toLowerCase().includes(lowerQuery) || 
+        city.country.toLowerCase().includes(lowerQuery)
+      );
+      
+    // Store in cache
+    this.searchCache.set(lowerQuery, results);
+    
+    // Implement proper LRU cache eviction
+    if (this.searchCache.size >= this.maxCacheSize) {
+      // Find the least recently used key
+      let oldestKey = '';
+      let oldestTime = Date.now();
+      for (const [key, time] of this.cacheAccessTimes) {
+        if (time < oldestTime) {
+          oldestKey = key;
+          oldestTime = time;
+        }
+      }
 
-    return staticCount + dynamicCount;
-  }
+      // Remove the least recently used entry
+      if (oldestKey) {
+        this.searchCache.delete(oldestKey);
+        this.cacheAccessTimes.delete(oldestKey);
+      }
+    }
 
-  clearCache(): void {
-    this.loadedRegions.clear();
-    this.cityCache.clear();
-    localStorage.removeItem(this.STORAGE_KEY);
+    this.cacheAccessTimes.set(lowerQuery, Date.now()); // Add the new key to the cache access times
+
+    console.log('Cache miss for:', lowerQuery, 'Storing:', results);
+    return results;
   }
 }
 
-// Helper function to format timezone IDs to match IANA format
-function formatTimezone(timezone: string): string {
-  // First check if it's already a valid IANA timezone
-  const validIANA = timezone.match(/^[A-Za-z]+\/[A-Za-z0-9_]+$/);
-  if (validIANA) {
-    return timezone;
-  }
-
-  // Try to match against known continent/city format
-  const continentMap = {
-    'asia': 'Asia',
-    'europe': 'Europe',
-    'americas': 'America',
-    'africa': 'Africa',
-    'oceania': 'Australia'
-  };
-
-  // Try to match the city name against known cities
-  const knownCities = {
-    'dhaka': 'Dhaka',
-    'sylhet': 'Dhaka', // Sylhet is in the same timezone as Dhaka
-    // Add more known cities as needed
-  };
-
-  // Split the timezone into parts
-  const parts = timezone.toLowerCase().split('_');
-  const continent = parts[0];
-  const city = parts[1] || parts[0];
-
-  // Get the proper continent name
-  const properContinent = continentMap[continent] || continent.charAt(0).toUpperCase() + continent.slice(1);
-  // Get the proper city name
-  const properCity = knownCities[city] || city.charAt(0).toUpperCase() + city.slice(1);
-
-  // Return in IANA format
-  return `${properContinent}/${properCity}`;
-}
-
-export const cityService = new CityService();
+export const cityService = new DefaultCityService();

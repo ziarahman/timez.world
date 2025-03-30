@@ -3,19 +3,15 @@ export interface Timezone {
   name: string;      // Formatted name
   city: string;      // Primary city name
   country: string;   // Country name
+  timezone: string;  // IANA timezone ID
+  latitude: number;
+  longitude: number;
   population: number;// City population
   offset: number;    // Current UTC offset
 }
 
-export interface City {
-  name: string;      // City name
-  city: string;      // City name (for API compatibility)
-  country: string;   // Country name
-  timezone: string;  // IANA timezone ID
-  latitude: number;  // Latitude coordinate
-  longitude: number; // Longitude coordinate
-  population: number;// City population
-  offset: number;    // Current UTC offset
+export interface City extends Timezone {
+  // City inherits all properties from Timezone
 }
 
 // CityInfo is used internally in the timezone data
