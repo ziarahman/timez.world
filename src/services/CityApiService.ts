@@ -173,6 +173,12 @@ export class CityApiService {
         throw new Error('GeoDB Cities provider not found');
       }
 
+      // Check if API key is available
+      if (!provider.headers['X-RapidAPI-Key']) {
+        console.warn('No API key available for GeoDB Cities');
+        throw new Error('No API key available');
+      }
+
       const response = await axios.get(provider.url, {
         headers: provider.headers,
         params: provider.params(city)
@@ -188,7 +194,11 @@ export class CityApiService {
         lng: cityData.longitude
       };
     } catch (error) {
-      console.error('Error getting coordinates:', error);
+      console.error('Error getting coordinates:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        error: error
+      });
       throw error;
     }
   }
@@ -198,6 +208,12 @@ export class CityApiService {
       const provider = this.API_PROVIDERS.find(provider => provider.name === 'GeoDB Cities');
       if (!provider) {
         throw new Error('GeoDB Cities provider not found');
+      }
+
+      // Check if API key is available
+      if (!provider.headers['X-RapidAPI-Key']) {
+        console.warn('No API key available for GeoDB Cities');
+        throw new Error('No API key available');
       }
 
       const response = await axios.get(provider.url, {
@@ -216,17 +232,15 @@ export class CityApiService {
       const cityData = response.data.data[0];
       return cityData.timezone;
     } catch (error) {
-      console.error('Error getting timezone:', error);
+      console.error('Error getting timezone:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        error: error
+      });
       throw error;
     }
   }
 
-  /**
-   * Fetches city data from a single provider.
-   * @param provider The provider to fetch from
-   * @param query The query to search for
-   * @returns A promise resolving to the city data
-   */
   async searchCities(query: string): Promise<City[]> {
     try {
       let results: City[] = [];
@@ -234,6 +248,12 @@ export class CityApiService {
 
       for (const provider of this.API_PROVIDERS) {
         try {
+          // Skip providers without API keys
+          if (!provider.enabled) {
+            console.log(`Skipping disabled provider: ${provider.name}`);
+            continue;
+          }
+
           const providerResults = await this.fetchFromProvider(provider, query);
           const providerCities = providerResults.data.map(city => ({
             id: `${city.name}-${city.country}-${provider.name}`.toLowerCase().replace(/[^a-z0-9]/g, '_'),
@@ -260,6 +280,7 @@ export class CityApiService {
           break;
         } catch (error) {
           providerError = error instanceof Error ? error.message : 'Unknown error';
+          console.error(`Error from ${provider.name}:`, providerError);
         }
       }
 
