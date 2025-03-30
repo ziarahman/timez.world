@@ -1,4 +1,4 @@
-import { Timezone, CityInfo } from '../types';
+import axios from 'axios';
 
 interface ProviderConfig {
   name: string;
@@ -42,14 +42,22 @@ interface NominatimResponse {
   };
 }
 
+interface City {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  timezone?: string;
+}
+
 export class CityApiService {
   private static instance: CityApiService;
   private readonly API_PROVIDERS: ProviderConfig[] = [
     {
       name: 'GeoDB Cities',
-      url: 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities',
+      url: import.meta.env.VITE_GEO_DB_API_URL || 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities',
       headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_GEO_DB_API_KEY || '',
+        'X-RapidAPI-Key': import.meta.env.VITE_GEO_DB_API_KEY || '',
         'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
       },
       params: (query: string) => ({
@@ -63,22 +71,22 @@ export class CityApiService {
     },
     {
       name: 'OpenWeatherMap',
-      url: 'http://api.openweathermap.org/geo/1.0/direct',
+      url: import.meta.env.VITE_OPENWEATHER_API_URL || 'http://api.openweathermap.org/geo/1.0/direct',
       headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_OPENWEATHER_API_KEY || '',
+        'X-RapidAPI-Key': import.meta.env.VITE_OPENWEATHER_API_KEY || '',
         'X-RapidAPI-Host': 'api.openweathermap.org'
       },
       params: (query: string) => ({
         q: query,
         limit: '10',
-        appid: process.env.REACT_APP_OPENWEATHER_API_KEY || ''
+        appid: import.meta.env.VITE_OPENWEATHER_API_KEY || ''
       }),
       enabled: true,
       rateLimitReset: 0
     },
     {
       name: 'Nominatim',
-      url: 'https://nominatim.openstreetmap.org/search',
+      url: import.meta.env.VITE_NOMINATIM_API_URL || 'https://nominatim.openstreetmap.org/search',
       headers: {
         'User-Agent': 'worldtimez-app'
       },
@@ -109,21 +117,20 @@ export class CityApiService {
         throw new Error(`Provider ${provider.name} is temporarily disabled`);
       }
 
-      const response = await fetch(`${provider.url}?${new URLSearchParams(provider.params(query))}`, {
-        headers: provider.headers
+      const response = await axios.get(provider.url, {
+        headers: provider.headers,
+        params: provider.params(query)
       });
 
-      if (!response.ok) {
-        throw new Error(`Provider ${provider.name} returned status ${response.status}`);
+      if (!response.data) {
+        throw new Error(`Provider ${provider.name} returned no data`);
       }
 
-      const data = await response.json();
-      
       if (provider.name === 'GeoDB Cities') {
-        return data as CityApiResponse;
+        return response.data as CityApiResponse;
       } else if (provider.name === 'OpenWeatherMap') {
         return {
-          data: (data as OpenWeatherResponse[]).map(city => ({
+          data: (response.data as OpenWeatherResponse[]).map(city => ({
             name: city.name,
             country: city.sys.country,
             timezone: '',
@@ -135,7 +142,7 @@ export class CityApiService {
         };
       } else if (provider.name === 'Nominatim') {
         return {
-          data: (data as NominatimResponse[]).map(city => ({
+          data: (response.data as NominatimResponse[]).map(city => ({
             name: city.display_name.split(',')[0],
             country: city.display_name.split(',').pop() || '',
             timezone: '',
@@ -154,39 +161,26 @@ export class CityApiService {
     }
   }
 
-  // Helper function to get timezone for coordinates (potentially unused)
-  /* private async getTimezoneForCoordinates(latitude: number, longitude: number): Promise<string | null> {
-    // Implementation to call a timezone API (e.g., Google Time Zone API, timezonedb)
-    // This requires an API key and handling potential costs/rate limits
-    // Example placeholder:
-    console.warn('getTimezoneForCoordinates is not implemented');
-    return null; 
-  } */
-
   /**
    * Fetches city data from a single provider.
    * @param provider The provider to fetch from
    * @param query The query to search for
    * @returns A promise resolving to the city data
    */
-  async searchCities(query: string): Promise<Timezone[]> {
+  async searchCities(query: string): Promise<City[]> {
     try {
-      let results: Timezone[] = [];
+      let results: City[] = [];
       let providerError: string | null = null;
 
       for (const provider of this.API_PROVIDERS) {
         try {
           const providerResults = await this.fetchFromProvider(provider, query);
           results = results.concat(providerResults.data.map(city => ({
-            id: city.timezone || '',
-            name: `${city.name}, ${city.country}`,
-            city: city.name,
+            name: city.name,
             country: city.country,
-            timezone: city.timezone || '',
             latitude: city.latitude,
             longitude: city.longitude,
-            population: city.population,
-            offset: city.offset
+            timezone: city.timezone || ''
           })));
           break; // If we got results from one provider, no need to try others
         } catch (error) {

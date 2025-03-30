@@ -20,7 +20,6 @@ import {
   Box,
   Typography,
   CircularProgress,
-  IconButton,
   InputAdornment
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
