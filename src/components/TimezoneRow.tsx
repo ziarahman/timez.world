@@ -7,11 +7,9 @@ import {
   ButtonBase, 
   useTheme,
   Paper,
-  Tooltip,
-  Stack
+  Tooltip
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import HomeIcon from '@mui/icons-material/Home'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 

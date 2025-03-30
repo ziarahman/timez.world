@@ -10,16 +10,15 @@ export interface Timezone {
   offset: number;    // Current UTC offset
 }
 
-export interface City extends Timezone {
-  // City inherits all properties from Timezone
-}
-
-// CityInfo is used internally in the timezone data
 export interface CityInfo {
   name: string;
   country: string;
   population: number;
-  timezone?: string; // Optional IANA timezone identifier
+  timezone: string;
+  latitude: number;
+  longitude: number;
+  offset: number;
+  id: string;        // IANA timezone ID
 }
 
 export interface TimeSlot {
