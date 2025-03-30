@@ -175,7 +175,15 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
             stack: error instanceof Error ? error.stack : undefined,
             error: error
           });
-          setApiError(`API search failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          
+          // Handle specific error cases
+          if (error instanceof Error && error.message.includes('No API key available')) {
+            setApiError('API key is missing. Please check your environment variables.');
+          } else if (error instanceof Error && error.message.includes('401')) {
+            setApiError('API authentication failed. Please check your API key.');
+          } else {
+            setApiError('API search failed. Please try again later.');
+          }
         }
       }
     } catch (error) {
@@ -186,7 +194,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
       });
       setResults([]);
       setApiResults([]);
-      setApiError(`Search failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setApiError('Search failed. Please try again later.');
     } finally {
       setLoading(false);
     }
