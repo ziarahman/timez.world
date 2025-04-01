@@ -201,6 +201,28 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
               ))}
             </Select>
           </FormControl>
+          <ToggleButtonGroup
+            value={liveLookup ? 'live' : 'static'}
+            exclusive
+            onChange={handleLiveLookupToggle}
+          >
+            <ToggleButton
+              value="live"
+              selected={liveLookup}
+              sx={{ 
+                textTransform: 'none',
+                '&.Mui-selected': {
+                  color: 'primary.main',
+                  '& .MuiSvgIcon-root': {
+                    color: 'primary.main'
+                  }
+                }
+              }}
+            >
+              <ApiIcon sx={{ mr: 1 }} />
+              Live Lookup
+            </ToggleButton>
+          </ToggleButtonGroup>
         </Box>
 
         {loading && (
