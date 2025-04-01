@@ -144,8 +144,9 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
                       onClick={handleDialogOpen}
                       size="small"
                       sx={{ ml: 1 }}
+                      aria-label="Add custom city"
                     >
-                      <AddIcon onClick={() => console.log('AddIcon clicked')} />
+                      <AddIcon />
                     </IconButton>
                   </InputAdornment>
                 </>

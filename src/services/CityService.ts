@@ -56,8 +56,7 @@ export class CityService {
     this.cacheAccessTimes.clear();
 
     cities.forEach((city: Timezone) => {
-      const key = `${city.city}|${city.country}`;
-      this.staticCities.set(key, city);
+      this.staticCities.set(city.timezone, city);
     });
     this.staticCitiesLoaded = true;
   }

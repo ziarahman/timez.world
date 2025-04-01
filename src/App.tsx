@@ -25,7 +25,6 @@ import { DateTimePicker } from '@mui/x-date-pickers'
 import TimezonePicker from './components/TimezonePicker'
 import SortableTimezoneList from './components/SortableTimezoneList'
 import { Timezone, getTimezoneUniqueId } from './types'
-import { getAvailableTimezones } from './data/timezones'
 import AnalyticsComponent from './components/Analytics'
 import SpeedInsightsComponent from './components/SpeedInsights'
 
@@ -59,12 +58,7 @@ function App() {
     localStorage.getItem('theme') as 'light' | 'dark' || (prefersDarkSystem ? 'dark' : 'light')
   )
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false)
-  const [totalCities, setTotalCities] = useState(0)
 
-  useEffect(() => {
-    const cities = getAvailableTimezones()
-    setTotalCities(cities.length)
-  }, [])
 
   // Clear localStorage if there are any invalid timezone IDs
   useEffect(() => {
@@ -98,12 +92,11 @@ function App() {
     if (timezones.length === 0) {
       const localZone = DateTime.local().zoneName
       if (localZone) {
-        const zoneParts = localZone.split('/')
         const localTimezone: Timezone = {
           id: localZone,
-          name: localZone,
-          city: zoneParts[zoneParts.length - 1].replace(/_/g, ' '),
-          country: zoneParts[0].replace(/_/g, ' '),
+          name: localZone.split('/').pop()?.replace(/_/g, ' ') || localZone,
+          city: localZone.split('/').pop()?.replace(/_/g, ' ') || localZone,
+          country: localZone.split('/')[0]?.replace(/_/g, ' ') || '',
           timezone: localZone,
           latitude: 0,
           longitude: 0,
@@ -113,7 +106,7 @@ function App() {
         setTimezones([localTimezone])
       }
     }
-  }, [])
+  }, [timezones.length])
 
   // Save theme preference
   useEffect(() => {
