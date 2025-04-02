@@ -240,9 +240,9 @@ const middleEastCities: Record<string, CityInfoWithTimezone[]> = {
     { name: 'Bursa', country: 'Turkey', population: 1965000, timezone: 'Asia/Turkey' },
     { name: 'Antalya', country: 'Turkey', population: 1512000, timezone: 'Asia/Turkey' },
   ],
-  'Asia/Israel': [
-    { name: 'Tel Aviv', country: 'Israel', population: 443900, timezone: 'Asia/Israel' },
-    { name: 'Jerusalem', country: 'Israel', population: 882700, timezone: 'Asia/Israel' },
+  'Asia/Jerusalem': [
+    { name: 'Tel Aviv', country: 'Israel', population: 443900, timezone: 'Asia/Jerusalem' },
+    { name: 'Jerusalem', country: 'Israel', population: 882700, timezone: 'Asia/Jerusalem' },
   ],
   'Asia/Palestine': [
     { name: 'Gaza', country: 'Palestine', population: 570000, timezone: 'Asia/Palestine' },
@@ -360,7 +360,7 @@ export const getAvailableTimezones = (): Timezone[] => {
     ...middleEastCities['Asia/Iraq'],
     ...middleEastCities['Asia/Iran'],
     ...middleEastCities['Asia/Turkey'],
-    ...middleEastCities['Asia/Israel'],
+    ...middleEastCities['Asia/Jerusalem'],
     ...middleEastCities['Asia/Palestine'],
     ...middleEastCities['Asia/Egypt'],
     ...middleEastCities['Asia/Sudan'],
