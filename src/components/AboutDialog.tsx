@@ -55,7 +55,7 @@ export default function AboutDialog({ open, onClose }: AboutDialogProps) {
           '& img': { display: 'block', my: 2 }
         }}>
           <Typography paragraph>
-            Made with ❤️ by <Link href="https://github.com/ziarahman" target="_blank" rel="noopener">Zia Rahman</Link> + <Link href="https://en.wikipedia.org/wiki/Vibe_coding" target="_blank" rel="noopener">Vibe Coding</Link> with AI 🤖 using <Link href="https://windsurf.ai" target="_blank" rel="noopener">Windsurf</Link>.
+            Made with ❤️ by <Link href="https://github.com/ziarahman" target="_blank" rel="noopener">Zia Rahman</Link> + <Link href="https://en.wikipedia.org/wiki/Vibe_coding" target="_blank" rel="noopener">Vibe Coding</Link> with AI 🤖 using <Link href="https://windsurf.ai" target="_blank" rel="noopener">Windsurf</Link> & <Link href="https://github.com/features/copilot" target="_blank" rel="noopener">GitHub Copilot</Link>.
           </Typography>
           <Typography paragraph>
             <Link href="https://github.com/ziarahman/worldtimez/issues" target="_blank" rel="noopener">Issue Tracker in Github</Link>
