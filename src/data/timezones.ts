@@ -654,6 +654,85 @@ const europeanCities: Record<string, CityInfoWithTimezone[]> = {
   ],
 }
 
+// GMT/UTC timezones
+const gmtTimezones: Record<string, CityInfoWithTimezone[]> = {
+  'Etc/GMT+12': [
+    { name: 'GMT-12', country: 'N/A', population: 0, timezone: 'Etc/GMT+12' },
+  ],
+  'Etc/GMT+11': [
+    { name: 'GMT-11', country: 'N/A', population: 0, timezone: 'Etc/GMT+11' },
+  ],
+  'Etc/GMT+10': [
+    { name: 'GMT-10', country: 'N/A', population: 0, timezone: 'Etc/GMT+10' },
+  ],
+  'Etc/GMT+9': [
+    { name: 'GMT-9', country: 'N/A', population: 0, timezone: 'Etc/GMT+9' },
+  ],
+  'Etc/GMT+8': [
+    { name: 'GMT-8', country: 'N/A', population: 0, timezone: 'Etc/GMT+8' },
+  ],
+  'Etc/GMT+7': [
+    { name: 'GMT-7', country: 'N/A', population: 0, timezone: 'Etc/GMT+7' },
+  ],
+  'Etc/GMT+6': [
+    { name: 'GMT-6', country: 'N/A', population: 0, timezone: 'Etc/GMT+6' },
+  ],
+  'Etc/GMT+5': [
+    { name: 'GMT-5', country: 'N/A', population: 0, timezone: 'Etc/GMT+5' },
+  ],
+  'Etc/GMT+4': [
+    { name: 'GMT-4', country: 'N/A', population: 0, timezone: 'Etc/GMT+4' },
+  ],
+  'Etc/GMT+3': [
+    { name: 'GMT-3', country: 'N/A', population: 0, timezone: 'Etc/GMT+3' },
+  ],
+  'Etc/GMT+2': [
+    { name: 'GMT-2', country: 'N/A', population: 0, timezone: 'Etc/GMT+2' },
+  ],
+  'Etc/GMT+1': [
+    { name: 'GMT-1', country: 'N/A', population: 0, timezone: 'Etc/GMT+1' },
+  ],
+  'Etc/GMT': [
+    { name: 'GMT/UTC', country: 'N/A', population: 0, timezone: 'Etc/GMT' },
+  ],
+  'Etc/GMT-1': [
+    { name: 'GMT+1', country: 'N/A', population: 0, timezone: 'Etc/GMT-1' },
+  ],
+  'Etc/GMT-2': [
+    { name: 'GMT+2', country: 'N/A', population: 0, timezone: 'Etc/GMT-2' },
+  ],
+  'Etc/GMT-3': [
+    { name: 'GMT+3', country: 'N/A', population: 0, timezone: 'Etc/GMT-3' },
+  ],
+  'Etc/GMT-4': [
+    { name: 'GMT+4', country: 'N/A', population: 0, timezone: 'Etc/GMT-4' },
+  ],
+  'Etc/GMT-5': [
+    { name: 'GMT+5', country: 'N/A', population: 0, timezone: 'Etc/GMT-5' },
+  ],
+  'Etc/GMT-6': [
+    { name: 'GMT+6', country: 'N/A', population: 0, timezone: 'Etc/GMT-6' },
+  ],
+  'Etc/GMT-7': [
+    { name: 'GMT+7', country: 'N/A', population: 0, timezone: 'Etc/GMT-7' },
+  ],
+  'Etc/GMT-8': [
+    { name: 'GMT+8', country: 'N/A', population: 0, timezone: 'Etc/GMT-8' },
+  ],
+  'Etc/GMT-9': [
+    { name: 'GMT+9', country: 'N/A', population: 0, timezone: 'Etc/GMT-9' },
+  ],
+  'Etc/GMT-10': [
+    { name: 'GMT+10', country: 'N/A', population: 0, timezone: 'Etc/GMT-10' },
+  ],
+  'Etc/GMT-11': [
+    { name: 'GMT+11', country: 'N/A', population: 0, timezone: 'Etc/GMT-11' },
+  ],
+  'Etc/GMT-12': [
+    { name: 'GMT+12', country: 'N/A', population: 0, timezone: 'Etc/GMT-12' },
+  ],
+};
+
 // Get all available timezones with their current offsets
 export const getAvailableTimezones = (): Timezone[] => {
   // Combine all city arrays
@@ -706,6 +785,7 @@ export const getAvailableTimezones = (): Timezone[] => {
     ...middleEastCities['Asia/Libya'],
     ...Object.values(oceaniaCities).flat(),
     ...Object.values(europeanCities).flat(),
+    ...Object.values(gmtTimezones).flat(), // Include GMT/UTC timezones
   ];
 
   // Convert CityInfo to Timezone format
