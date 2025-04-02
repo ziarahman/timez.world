@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-18.x-blue)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
-[![Material-UI](https://img.shields.io.bade/MUI-5.x-blue)](https://mui.com/)
+[![Material-UI](https://img.shields.io/badge/MUI-5.x-blue)](https://mui.com/)
 
 Worldtimez is a modern, user-friendly timezone comparison application built with React and Material-UI. It allows users to easily compare times across different timezones with an intuitive drag-and-drop interface.
 

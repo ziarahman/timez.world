@@ -290,6 +290,46 @@ const middleEastCities: Record<string, CityInfoWithTimezone[]> = {
   ],
 }
 
+// European cities by timezone
+const europeanCities: Record<string, CityInfoWithTimezone[]> = {
+  'Europe/London': [
+    { name: 'London', country: 'United Kingdom', population: 8982000, timezone: 'Europe/London' },
+    { name: 'Birmingham', country: 'United Kingdom', population: 1141816, timezone: 'Europe/London' },
+    { name: 'Manchester', country: 'United Kingdom', population: 553230, timezone: 'Europe/London' },
+    { name: 'Basingstoke', country: 'United Kingdom', population: 113776, timezone: 'Europe/London' },
+  ],
+  'Europe/Paris': [
+    { name: 'Paris', country: 'France', population: 2148000, timezone: 'Europe/Paris' },
+    { name: 'Marseille', country: 'France', population: 861635, timezone: 'Europe/Paris' },
+    { name: 'Lyon', country: 'France', population: 513275, timezone: 'Europe/Paris' },
+  ],
+  'Europe/Berlin': [
+    { name: 'Berlin', country: 'Germany', population: 3769000, timezone: 'Europe/Berlin' },
+    { name: 'Hamburg', country: 'Germany', population: 1841000, timezone: 'Europe/Berlin' },
+    { name: 'Munich', country: 'Germany', population: 1472000, timezone: 'Europe/Berlin' },
+  ],
+  'Europe/Warsaw': [
+    { name: 'Warsaw', country: 'Poland', population: 1793579, timezone: 'Europe/Warsaw' },
+    { name: 'Kraków', country: 'Poland', population: 779115, timezone: 'Europe/Warsaw' },
+    { name: 'Łódź', country: 'Poland', population: 672185, timezone: 'Europe/Warsaw' },
+  ],
+  'Europe/Madrid': [
+    { name: 'Madrid', country: 'Spain', population: 3266000, timezone: 'Europe/Madrid' },
+    { name: 'Barcelona', country: 'Spain', population: 1620000, timezone: 'Europe/Madrid' },
+    { name: 'Valencia', country: 'Spain', population: 791413, timezone: 'Europe/Madrid' },
+  ],
+  'Europe/Rome': [
+    { name: 'Rome', country: 'Italy', population: 2873000, timezone: 'Europe/Rome' },
+    { name: 'Milan', country: 'Italy', population: 1378689, timezone: 'Europe/Rome' },
+    { name: 'Naples', country: 'Italy', population: 962589, timezone: 'Europe/Rome' },
+  ],
+  'Europe/Moscow': [
+    { name: 'Moscow', country: 'Russia', population: 12506468, timezone: 'Europe/Moscow' },
+    { name: 'Saint Petersburg', country: 'Russia', population: 5383890, timezone: 'Europe/Moscow' },
+    { name: 'Novosibirsk', country: 'Russia', population: 1620162, timezone: 'Europe/Moscow' },
+  ],
+}
+
 // Get all available timezones with their current offsets
 export const getAvailableTimezones = (): Timezone[] => {
   // Combine all city arrays
@@ -335,6 +375,7 @@ export const getAvailableTimezones = (): Timezone[] => {
     ...middleEastCities['Asia/Algeria'],
     ...middleEastCities['Asia/Tunisia'],
     ...middleEastCities['Asia/Libya'],
+    ...Object.values(europeanCities).flat(),
   ];
 
   // Convert CityInfo to Timezone format
