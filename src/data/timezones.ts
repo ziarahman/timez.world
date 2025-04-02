@@ -240,13 +240,6 @@ const asianCities: Record<string, CityInfoWithTimezone[]> = {
     { name: 'Busan', country: 'South Korea', population: 3448737, timezone: 'Asia/Seoul' },
     { name: 'Incheon', country: 'South Korea', population: 2957026, timezone: 'Asia/Seoul' },
   ],
-  'Asia/Shanghai': [
-    { name: 'Shanghai', country: 'China', population: 26317104, timezone: 'Asia/Shanghai' },
-    { name: 'Beijing', country: 'China', population: 21893095, timezone: 'Asia/Shanghai' },
-    { name: 'Guangzhou', country: 'China', population: 18676605, timezone: 'Asia/Shanghai' },
-    { name: 'Shenzhen', country: 'China', population: 17500000, timezone: 'Asia/Shanghai' },
-    { name: 'Chengdu', country: 'China', population: 16330000, timezone: 'Asia/Shanghai' },
-  ],
   'Asia/Bangkok': [
     { name: 'Bangkok', country: 'Thailand', population: 10539000, timezone: 'Asia/Bangkok' },
     { name: 'Chiang Mai', country: 'Thailand', population: 127240, timezone: 'Asia/Bangkok' },
@@ -405,48 +398,48 @@ const middleEastCities: Record<string, CityInfoWithTimezone[]> = {
     { name: 'Tel Aviv', country: 'Israel', population: 443900, timezone: 'Asia/Jerusalem' },
     { name: 'Jerusalem', country: 'Israel', population: 882700, timezone: 'Asia/Jerusalem' },
   ],
-  'Asia/Palestine': [
-    { name: 'Gaza', country: 'Palestine', population: 570000, timezone: 'Asia/Palestine' },
+  'Asia/Gaza': [
+    { name: 'Gaza', country: 'Palestine', population: 570000, timezone: 'Asia/Gaza' },
   ],
-  'Asia/Egypt': [
+  'Africa/Cairo': [
     { name: 'Cairo', country: 'Egypt', population: 10852000, timezone: 'Africa/Cairo' },
     { name: 'Alexandria', country: 'Egypt', population: 5200000, timezone: 'Africa/Cairo' },
     { name: 'Giza', country: 'Egypt', population: 4775000, timezone: 'Africa/Cairo' },
   ],
-  'Asia/Sudan': [
+  'Africa/Khartoum': [
     { name: 'Khartoum', country: 'Sudan', population: 5124600, timezone: 'Africa/Khartoum' },
   ],
-  'Asia/Somalia': [
+  'Africa/Mogadishu': [
     { name: 'Mogadishu', country: 'Somalia', population: 2587181, timezone: 'Africa/Mogadishu' },
   ],
-  'Asia/Yemen': [
-    { name: 'Sanaa', country: 'Yemen', population: 4607500, timezone: 'Asia/Yemen' },
+  'Asia/Aden': [
+    { name: 'Sanaa', country: 'Yemen', population: 4607500, timezone: 'Asia/Aden' },
   ],
-  'Asia/Eritrea': [
+  'Africa/Asmara': [
     { name: 'Asmara', country: 'Eritrea', population: 1023000, timezone: 'Africa/Asmara' },
   ],
-  'Asia/Djibouti': [
+  'Africa/Djibouti': [
     { name: 'Djibouti', country: 'Djibouti', population: 623891, timezone: 'Africa/Djibouti' },
   ],
-  'Asia/Kenya': [
+  'Africa/Nairobi': [
     { name: 'Nairobi', country: 'Kenya', population: 4550000, timezone: 'Africa/Nairobi' },
   ],
-  'Asia/Uganda': [
+  'Africa/Kampala': [
     { name: 'Kampala', country: 'Uganda', population: 1659000, timezone: 'Africa/Kampala' },
   ],
-  'Asia/Tanzania': [
+  'Africa/Dar_es_Salaam': [
     { name: 'Dar es Salaam', country: 'Tanzania', population: 6794000, timezone: 'Africa/Dar_es_Salaam' },
   ],
-  'Asia/Morocco': [
+  'Africa/Casablanca': [
     { name: 'Casablanca', country: 'Morocco', population: 3359818, timezone: 'Africa/Casablanca' },
   ],
-  'Asia/Algeria': [
+  'Africa/Algiers': [
     { name: 'Algiers', country: 'Algeria', population: 3518000, timezone: 'Africa/Algiers' },
   ],
-  'Asia/Tunisia': [
+  'Africa/Tunis': [
     { name: 'Tunis', country: 'Tunisia', population: 728000, timezone: 'Africa/Tunis' },
   ],
-  'Asia/Libya': [
+  'Africa/Tripoli': [
     { name: 'Tripoli', country: 'Libya', population: 1110000, timezone: 'Africa/Tripoli' },
   ],
 }
@@ -657,79 +650,79 @@ const europeanCities: Record<string, CityInfoWithTimezone[]> = {
 // GMT/UTC timezones
 const gmtTimezones: Record<string, CityInfoWithTimezone[]> = {
   'Etc/GMT+12': [
-    { name: 'GMT-12', country: 'N/A', population: 0, timezone: 'Etc/GMT+12' },
+    { name: 'GMT-12', country: 'TZ', population: 0, timezone: 'Etc/GMT+12' },
   ],
   'Etc/GMT+11': [
-    { name: 'GMT-11', country: 'N/A', population: 0, timezone: 'Etc/GMT+11' },
+    { name: 'GMT-11', country: 'TZ', population: 0, timezone: 'Etc/GMT+11' },
   ],
   'Etc/GMT+10': [
-    { name: 'GMT-10', country: 'N/A', population: 0, timezone: 'Etc/GMT+10' },
+    { name: 'GMT-10', country: 'TZ', population: 0, timezone: 'Etc/GMT+10' },
   ],
   'Etc/GMT+9': [
-    { name: 'GMT-9', country: 'N/A', population: 0, timezone: 'Etc/GMT+9' },
+    { name: 'GMT-9', country: 'TZ', population: 0, timezone: 'Etc/GMT+9' },
   ],
   'Etc/GMT+8': [
-    { name: 'GMT-8', country: 'N/A', population: 0, timezone: 'Etc/GMT+8' },
+    { name: 'GMT-8', country: 'TZ', population: 0, timezone: 'Etc/GMT+8' },
   ],
   'Etc/GMT+7': [
-    { name: 'GMT-7', country: 'N/A', population: 0, timezone: 'Etc/GMT+7' },
+    { name: 'GMT-7', country: 'TZ', population: 0, timezone: 'Etc/GMT+7' },
   ],
   'Etc/GMT+6': [
-    { name: 'GMT-6', country: 'N/A', population: 0, timezone: 'Etc/GMT+6' },
+    { name: 'GMT-6', country: 'TZ', population: 0, timezone: 'Etc/GMT+6' },
   ],
   'Etc/GMT+5': [
-    { name: 'GMT-5', country: 'N/A', population: 0, timezone: 'Etc/GMT+5' },
+    { name: 'GMT-5', country: 'TZ', population: 0, timezone: 'Etc/GMT+5' },
   ],
   'Etc/GMT+4': [
-    { name: 'GMT-4', country: 'N/A', population: 0, timezone: 'Etc/GMT+4' },
+    { name: 'GMT-4', country: 'TZ', population: 0, timezone: 'Etc/GMT+4' },
   ],
   'Etc/GMT+3': [
-    { name: 'GMT-3', country: 'N/A', population: 0, timezone: 'Etc/GMT+3' },
+    { name: 'GMT-3', country: 'TZ', population: 0, timezone: 'Etc/GMT+3' },
   ],
   'Etc/GMT+2': [
-    { name: 'GMT-2', country: 'N/A', population: 0, timezone: 'Etc/GMT+2' },
+    { name: 'GMT-2', country: 'TZ', population: 0, timezone: 'Etc/GMT+2' },
   ],
   'Etc/GMT+1': [
-    { name: 'GMT-1', country: 'N/A', population: 0, timezone: 'Etc/GMT+1' },
+    { name: 'GMT-1', country: 'TZ', population: 0, timezone: 'Etc/GMT+1' },
   ],
   'Etc/GMT': [
-    { name: 'GMT/UTC', country: 'N/A', population: 0, timezone: 'Etc/GMT' },
+    { name: 'GMT/UTC', country: 'TZ', population: 0, timezone: 'Etc/GMT' },
   ],
   'Etc/GMT-1': [
-    { name: 'GMT+1', country: 'N/A', population: 0, timezone: 'Etc/GMT-1' },
+    { name: 'GMT+1', country: 'TZ', population: 0, timezone: 'Etc/GMT-1' },
   ],
   'Etc/GMT-2': [
-    { name: 'GMT+2', country: 'N/A', population: 0, timezone: 'Etc/GMT-2' },
+    { name: 'GMT+2', country: 'TZ', population: 0, timezone: 'Etc/GMT-2' },
   ],
   'Etc/GMT-3': [
-    { name: 'GMT+3', country: 'N/A', population: 0, timezone: 'Etc/GMT-3' },
+    { name: 'GMT+3', country: 'TZ', population: 0, timezone: 'Etc/GMT-3' },
   ],
   'Etc/GMT-4': [
-    { name: 'GMT+4', country: 'N/A', population: 0, timezone: 'Etc/GMT-4' },
+    { name: 'GMT+4', country: 'TZ', population: 0, timezone: 'Etc/GMT-4' },
   ],
   'Etc/GMT-5': [
-    { name: 'GMT+5', country: 'N/A', population: 0, timezone: 'Etc/GMT-5' },
+    { name: 'GMT+5', country: 'TZ', population: 0, timezone: 'Etc/GMT-5' },
   ],
   'Etc/GMT-6': [
-    { name: 'GMT+6', country: 'N/A', population: 0, timezone: 'Etc/GMT-6' },
+    { name: 'GMT+6', country: 'TZ', population: 0, timezone: 'Etc/GMT-6' },
   ],
   'Etc/GMT-7': [
-    { name: 'GMT+7', country: 'N/A', population: 0, timezone: 'Etc/GMT-7' },
+    { name: 'GMT+7', country: 'TZ', population: 0, timezone: 'Etc/GMT-7' },
   ],
   'Etc/GMT-8': [
-    { name: 'GMT+8', country: 'N/A', population: 0, timezone: 'Etc/GMT-8' },
+    { name: 'GMT+8', country: 'TZ', population: 0, timezone: 'Etc/GMT-8' },
   ],
   'Etc/GMT-9': [
-    { name: 'GMT+9', country: 'N/A', population: 0, timezone: 'Etc/GMT-9' },
+    { name: 'GMT+9', country: 'TZ', population: 0, timezone: 'Etc/GMT-9' },
   ],
   'Etc/GMT-10': [
-    { name: 'GMT+10', country: 'N/A', population: 0, timezone: 'Etc/GMT-10' },
+    { name: 'GMT+10', country: 'TZ', population: 0, timezone: 'Etc/GMT-10' },
   ],
   'Etc/GMT-11': [
-    { name: 'GMT+11', country: 'N/A', population: 0, timezone: 'Etc/GMT-11' },
+    { name: 'GMT+11', country: 'TZ', population: 0, timezone: 'Etc/GMT-11' },
   ],
   'Etc/GMT-12': [
-    { name: 'GMT+12', country: 'N/A', population: 0, timezone: 'Etc/GMT-12' },
+    { name: 'GMT+12', country: 'TZ', population: 0, timezone: 'Etc/GMT-12' },
   ],
 };
 
@@ -769,20 +762,20 @@ export const getAvailableTimezones = (): Timezone[] => {
     ...middleEastCities['Asia/Iran'],
     ...middleEastCities['Asia/Turkey'],
     ...middleEastCities['Asia/Jerusalem'],
-    ...middleEastCities['Asia/Palestine'],
-    ...middleEastCities['Asia/Egypt'],
-    ...middleEastCities['Asia/Sudan'],
-    ...middleEastCities['Asia/Somalia'],
-    ...middleEastCities['Asia/Yemen'],
-    ...middleEastCities['Asia/Eritrea'],
-    ...middleEastCities['Asia/Djibouti'],
-    ...middleEastCities['Asia/Kenya'],
-    ...middleEastCities['Asia/Uganda'],
-    ...middleEastCities['Asia/Tanzania'],
-    ...middleEastCities['Asia/Morocco'],
-    ...middleEastCities['Asia/Algeria'],
-    ...middleEastCities['Asia/Tunisia'],
-    ...middleEastCities['Asia/Libya'],
+    ...middleEastCities['Asia/Gaza'],
+    ...middleEastCities['Africa/Cairo'],
+    ...middleEastCities['Africa/Khartoum'],
+    ...middleEastCities['Africa/Mogadishu'],
+    ...middleEastCities['Asia/Aden'],
+    ...middleEastCities['Africa/Asmara'],
+    ...middleEastCities['Africa/Djibouti'],
+    ...middleEastCities['Africa/Nairobi'],
+    ...middleEastCities['Africa/Kampala'],
+    ...middleEastCities['Africa/Dar_es_Salaam'],
+    ...middleEastCities['Africa/Casablanca'],
+    ...middleEastCities['Africa/Algiers'],
+    ...middleEastCities['Africa/Tunis'],
+    ...middleEastCities['Africa/Tripoli'],
     ...Object.values(oceaniaCities).flat(),
     ...Object.values(europeanCities).flat(),
     ...Object.values(gmtTimezones).flat(), // Include GMT/UTC timezones
@@ -808,6 +801,9 @@ export const formatTimezoneName = (timezone: Timezone): string => {
   const offsetSign = timezone.offset >= 0 ? '+' : '-';
   const offsetHoursStr = Math.floor(offsetHours / 60);
   const offsetMinutesStr = offsetHours % 60;
-  
-  return `${timezone.name} (${offsetSign}${offsetHoursStr}:${offsetMinutesStr.toString().padStart(2, '0')})`;
-}
+
+  // Only show country if it exists and is not empty
+  const countryDisplay = timezone.country ? `, ${timezone.country}` : '';
+
+  return `${timezone.name}${countryDisplay} (${offsetSign}${offsetHoursStr}:${offsetMinutesStr.toString().padStart(2, '0')})`;
+};
