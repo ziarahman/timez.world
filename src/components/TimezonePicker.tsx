@@ -8,6 +8,7 @@ import {
   Typography,
   ListItem,
   ListItemText,
+  Tooltip,
 } from '@mui/material';
 import PublicIcon from '@mui/icons-material/Public';
 import AddIcon from '@mui/icons-material/Add';
@@ -133,20 +134,24 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
               ...params.InputProps,
               startAdornment: (
                 <InputAdornment position="start">
-                  <PublicIcon sx={{ color: 'action.active' }} />
+                  <Tooltip title="Search cities">
+                    <PublicIcon sx={{ color: 'action.active' }} />
+                  </Tooltip>
                 </InputAdornment>
               ),
               endAdornment: (
                 <>
                   {params.InputProps.endAdornment}
                   <InputAdornment position="end">
-                    <IconButton
-                      onClick={handleDialogOpen}
-                      size="small"
-                      sx={{ ml: 1 }}
-                    >
-                      <AddIcon onClick={() => console.log('AddIcon clicked')} />
-                    </IconButton>
+                    <Tooltip title="Add new timezone">
+                      <IconButton
+                        onClick={handleDialogOpen}
+                        size="small"
+                        sx={{ ml: 1 }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Tooltip>
                   </InputAdornment>
                 </>
               )

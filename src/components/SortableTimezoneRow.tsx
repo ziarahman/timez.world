@@ -156,7 +156,9 @@ export default function SortableTimezoneRow({
             {...listeners}
             sx={{ mr: 1, cursor: 'grab' }}
           >
-            <DragIndicatorIcon fontSize="small" />
+            <Tooltip title="Drag to reorder">
+              <DragIndicatorIcon fontSize="small" />
+            </Tooltip>
           </IconButton>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
@@ -222,25 +224,33 @@ export default function SortableTimezoneRow({
             key={slot.key}
             data-selected={slot.isSelected}
             onClick={() => onTimeSelect(slot.dateTime)}
-            sx={{
-              px: 1,
-              py: 0.5,
-              borderRadius: 1,
-              fontSize: '0.75rem',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              bgcolor: slot.isSelected ? 'primary.main' : 'transparent',
-              color: slot.isSelected ? 'primary.contrastText' : 'text.primary',
-              '&:hover': {
-                bgcolor: slot.isSelected 
-                  ? 'primary.dark' 
-                  : theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
-                    : 'rgba(0, 0, 0, 0.08)',
-              }
-            }}
           >
-            {slot.hour.toString().padStart(2, '0')}:{slot.minute.toString().padStart(2, '0')} {slot.period}
+            <Tooltip 
+              title={`Select ${slot.hour.toString().padStart(2, '0')}:${slot.minute.toString().padStart(2, '0')} ${slot.period}`}
+              placement="top"
+            >
+              <Box
+                sx={{
+                  px: 1,
+                  py: 0.5,
+                  borderRadius: 1,
+                  fontSize: '0.75rem',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  bgcolor: slot.isSelected ? 'primary.main' : 'transparent',
+                  color: slot.isSelected ? 'primary.contrastText' : 'text.primary',
+                  '&:hover': {
+                    bgcolor: slot.isSelected 
+                      ? 'primary.dark' 
+                      : theme.palette.mode === 'dark' 
+                        ? 'rgba(255, 255, 255, 0.1)' 
+                        : 'rgba(0, 0, 0, 0.08)',
+                  }
+                }}
+              >
+                {slot.hour.toString().padStart(2, '0')}:{slot.minute.toString().padStart(2, '0')} {slot.period}
+              </Box>
+            </Tooltip>
           </Box>
         ))}
       </Box>
