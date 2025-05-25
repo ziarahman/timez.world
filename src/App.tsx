@@ -76,7 +76,7 @@ function App() {
         // Instead, check if the ID doesn't match the expected IANA format (e.g., Continent/City)
         const hasInvalidId = tzs.some((tz: Timezone) => {
           // Valid IDs should have at least one '/' character and only contain alphanumeric, '/', and '_' characters
-          return !tz.id || !/^[A-Za-z]+\/[A-Za-z0-9_]+$/.test(tz.id)
+          return !tz.id || !/^[A-Za-z_+-]+\/[A-Za-z0-9_+-]+(?:\/[A-Za-z0-9_+-]+)*$/.test(tz.id)
         })
         if (hasInvalidId) {
           console.log('Invalid timezone IDs found, clearing storage')
@@ -96,24 +96,52 @@ function App() {
   // Add user's local timezone if no timezones exist
   useEffect(() => {
     if (timezones.length === 0) {
-      const localZone = DateTime.local().zoneName
-      if (localZone) {
-        const zoneParts = localZone.split('/')
-        const localTimezone: Timezone = {
-          id: localZone,
-          name: localZone,
-          city: zoneParts[zoneParts.length - 1].replace(/_/g, ' '),
-          country: zoneParts[0].replace(/_/g, ' '),
-          timezone: localZone,
-          latitude: 0,
-          longitude: 0,
-          population: 0,
-          offset: DateTime.local().offset
+      const localZoneName = DateTime.local().zoneName;
+      if (localZoneName) {
+        const availableTimezones = getAvailableTimezones();
+        const matchedCitiesInZone = availableTimezones.filter(tz => tz.id === localZoneName || tz.timezone === localZoneName);
+        
+        let bestMatch: Timezone | null = null;
+        if (matchedCitiesInZone.length > 0) {
+          // Sort by population descending to pick the most prominent city
+          matchedCitiesInZone.sort((a, b) => (b.population || 0) - (a.population || 0));
+          bestMatch = matchedCitiesInZone[0];
         }
-        setTimezones([localTimezone])
+
+        let defaultTimezoneToAdd: Timezone;
+
+        if (bestMatch) {
+          defaultTimezoneToAdd = {
+            ...bestMatch, // Takes city, country, name, lat, long, pop from bestMatch
+            id: localZoneName, // Ensure IANA ID is used for ID
+            timezone: localZoneName, // Ensure IANA ID is used for timezone itself
+            offset: DateTime.local().offset, // Ensure current offset
+          };
+        } else {
+          // Fallback to naive parsing
+          const zoneParts = localZoneName.split('/');
+          const parsedCity = zoneParts[zoneParts.length - 1].replace(/_/g, ' ');
+          let parsedCountry = zoneParts.length > 1 ? zoneParts[0].replace(/_/g, ' ') : '';
+          if (parsedCountry.toLowerCase() === 'etc' || parsedCountry.toLowerCase().startsWith('gmt')) {
+              parsedCountry = ''; 
+          }
+
+          defaultTimezoneToAdd = {
+            id: localZoneName,
+            name: `${parsedCity}${parsedCountry ? ', ' + parsedCountry : ''}`.trim() || localZoneName,
+            city: parsedCity,
+            country: parsedCountry,
+            timezone: localZoneName,
+            latitude: 0, // Default
+            longitude: 0, // Default
+            population: 0, // Default
+            offset: DateTime.local().offset,
+          };
+        }
+        setTimezones([defaultTimezoneToAdd]);
       }
     }
-  }, [])
+  }, []); // Keep dependency array empty for one-time initial setup
 
   // Save theme preference
   useEffect(() => {

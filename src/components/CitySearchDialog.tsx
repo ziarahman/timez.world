@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { DateTime } from 'luxon'; // Make sure DateTime is imported at the top of the file
 import { Timezone } from '../types';
 import { cityService } from '../services/CityService';
 import { CityApiService } from '../services/CityApiService';
@@ -209,16 +210,28 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
   };
 
   const handleSelect = (city: City) => {
+    const ianaTimezoneId = city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown';
+    // Calculate the current offset using Luxon
+    let currentOffset = 0; // Default offset
+    if (ianaTimezoneId !== 'Etc/Unknown') {
+      const zone = DateTime.local().setZone(ianaTimezoneId);
+      if (zone.isValid) {
+        currentOffset = zone.offset;
+      } else {
+        console.warn(`Invalid timezone ID for offset calculation: ${ianaTimezoneId}`);
+      }
+    }
+
     onCitySelect({
-      id: city.id,
+      id: ianaTimezoneId,
       name: `${city.name}, ${city.country}`,
       city: city.city || city.name,
       country: city.country,
-      timezone: city.timezone ? formatTimezone(city.timezone) : 'Etc/Unknown',
+      timezone: ianaTimezoneId,
       latitude: city.latitude,
       longitude: city.longitude,
       population: city.population || 0,
-      offset: city.offset ?? 0,
+      offset: currentOffset, // Use the newly calculated offset
       source: city.source
     });
     onClose();
