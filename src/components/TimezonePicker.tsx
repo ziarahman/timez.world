@@ -63,36 +63,13 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         options={options}
         getOptionLabel={(option) => `${option.city}, ${option.country}`}
         filterOptions={(options, { inputValue }) => {
-          // If no input, show top 10 cities from each region
-          if (!inputValue) {
-            // Group cities by region and get top 10 from each
-            const regions = ['Asia', 'Europe', 'Americas', 'Africa', 'Oceania'];
-            const groupedCities = regions.map(region => {
-              // Filter cities by region (using country name)
-              const regionCities = options.filter(city => 
-                city.country.toLowerCase().includes(region.toLowerCase())
-              );
-              // Sort by population and take top 10
-              return regionCities.sort((a, b) => b.population - a.population).slice(0, 10);
-            });
-            // Flatten the array of arrays
-            return groupedCities.flat();
+          // If input is empty or has 1 character, show default list (first 15 cities)
+          if (inputValue.length < 2) {
+            return options.slice(0, 15); 
           }
           
+          // If input has 2 or more characters, apply existing filtering logic
           const searchTerm = inputValue.toLowerCase().trim();
-          if (searchTerm.length < 2) {
-            // If less than 2 characters, show top 10 cities from each region
-            const regions = ['Asia', 'Europe', 'Americas', 'Africa', 'Oceania'];
-            const groupedCities = regions.map(region => {
-              const regionCities = options.filter(city => 
-                city.country.toLowerCase().includes(region.toLowerCase())
-              );
-              return regionCities.sort((a, b) => b.population - a.population).slice(0, 10);
-            });
-            return groupedCities.flat();
-          }
-          
-          // Show cities that match the search term
           return options.filter(option => 
             option.city.toLowerCase().includes(searchTerm) ||
             option.country.toLowerCase().includes(searchTerm)
