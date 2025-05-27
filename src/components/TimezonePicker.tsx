@@ -63,9 +63,12 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         options={options}
         getOptionLabel={(option) => `${option.city}, ${option.country}`}
         filterOptions={(options, { inputValue }) => {
-          // If input is empty or has 1 character, show default list (first 15 cities)
+          // If input is empty or has 1 character, show top 5 most populous cities
           if (inputValue.length < 2) {
-            return options.slice(0, 15); 
+            // Sort all options by population in descending order and take the top 5
+            return options
+              .sort((a, b) => b.population - a.population)
+              .slice(0, 5);
           }
           
           // If input has 2 or more characters, apply existing filtering logic
