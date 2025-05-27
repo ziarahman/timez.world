@@ -62,15 +62,50 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         onInputChange={(_, newValue) => setInputValue(newValue)}
         options={options}
         getOptionLabel={(option) => `${option.city}, ${option.country}`}
-        filterOptions={(options, { inputValue }) => {
-          // If input is empty or has 1 character, show top 5 most populous cities
+        filterOptions={(options: readonly Timezone[], { inputValue }: { inputValue: string }) => {
           if (inputValue.length < 2) {
-            // Sort all options by population in descending order and take the top 5
-            return options
-              .sort((a, b) => b.population - a.population)
-              .slice(0, 5);
+            const targetRegionMap: { [key: string]: string } = {
+              Asia: 'Asia',
+              America: 'Americas',
+              Europe: 'Europe',
+              Africa: 'Africa',
+              Australia: 'Oceania',
+              Pacific: 'Oceania',
+              // Antarctica is a valid IANA prefix, but not in the target regions
+              // Etc is also valid, but not geographical
+            };
+
+            const getRegionFromId = (id: string): string | null => {
+              const prefix = id.split('/')[0];
+              return targetRegionMap[prefix] || null;
+            };
+
+            const regionalTopCities: Timezone[] = [];
+            // Use a Set to ensure each target region is processed once
+            const processedTargetRegions = new Set<string>(); 
+
+            // Iterate over the *values* of targetRegionMap to get unique target region names
+            Object.values(targetRegionMap).forEach(targetRegionName => {
+              if (processedTargetRegions.has(targetRegionName)) {
+                return; 
+              }
+
+              const citiesInRegion = options.filter(option => {
+                const region = getRegionFromId(option.id);
+                return region === targetRegionName;
+              });
+
+              const top5ForRegion = citiesInRegion
+                .sort((a, b) => b.population - a.population)
+                .slice(0, 5);
+              
+              regionalTopCities.push(...top5ForRegion);
+              processedTargetRegions.add(targetRegionName);
+            });
+            
+            return regionalTopCities;
           }
-          
+
           // If input has 2 or more characters, apply existing filtering logic
           const searchTerm = inputValue.toLowerCase().trim();
           return options.filter(option => 
