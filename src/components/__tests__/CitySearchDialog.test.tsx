@@ -9,9 +9,35 @@ import { Timezone } from '../../types';
 jest.mock('../../services/CityService');
 jest.mock('../../services/CityApiService');
 
-// Mock Luxon DateTime specifically for these tests
-// Store original DateTime
-const OriginalDateTime = jest.requireActual('luxon').DateTime;
+// Mock Luxon's DateTime behavior for offset calculation
+jest.mock('luxon', () => {
+  const ActualLuxon = jest.requireActual('luxon');
+  return {
+    ...ActualLuxon,
+    DateTime: {
+      ...ActualLuxon.DateTime,
+      local: jest.fn(() => ({
+        setZone: jest.fn((zoneId: string) => {
+          if (zoneId === 'Europe/Amsterdam') {
+            return { isValid: true, offset: 60 };
+          }
+          if (zoneId === 'Etc/Unknown') {
+            return { isValid: true, offset: 0 };
+          }
+          if (zoneId === 'Invalid/Zone_Test') {
+            return { isValid: false, offset: NaN };
+          }
+          if (zoneId === 'Europe/London') { // For the API city test
+            return { isValid: true, offset: 0 };
+          }
+          // Fallback for any other zone, try to use actual logic if needed or provide a default
+          const actualDt = ActualLuxon.DateTime.local().setZone(zoneId);
+          return { isValid: actualDt.isValid, offset: actualDt.offset };
+        }),
+      })),
+    },
+  };
+});
 
 describe('CitySearchDialog Component', () => {
   let mockOnClose: jest.Mock;
@@ -26,8 +52,8 @@ describe('CitySearchDialog Component', () => {
     latitude: 52.37,
     longitude: 4.89,
     population: 821752,
-    offset: 0, // This will be recalculated
-    source: 'static'
+    offset: 0 // This will be recalculated
+    // No source property for a truly static city from local service perspective
   };
 
   const mockCityUnknownZone = {
@@ -64,41 +90,20 @@ describe('CitySearchDialog Component', () => {
     // Reset service mocks
     (cityService.searchCities as jest.Mock).mockResolvedValue([mockCityAmsterdam]);
     (cityService.getStaticCities as jest.Mock).mockReturnValue(new Map([[mockCityAmsterdam.id, mockCityAmsterdam]]));
+    (cityService.addDynamicCity as jest.Mock) = jest.fn(); // Mock addDynamicCity
     
     const mockApiServiceInstance = {
       searchCities: jest.fn().mockResolvedValue([]),
     };
     (CityApiService.getInstance as jest.Mock) = jest.fn().mockReturnValue(mockApiServiceInstance);
-
-
-    // Mock Luxon's DateTime.local().setZone().offset
-    // Default mock for valid zone
-    jest.spyOn(DateTime, 'local').mockImplementation(() => {
-      const dt = OriginalDateTime.local(); // Use real DateTime for other properties if needed
-      return {
-        ...dt,
-        setZone: jest.fn((zoneId: string) => {
-          if (zoneId === 'Europe/Amsterdam') {
-            return { ...dt, isValid: true, offset: 60 }; // GMT+1 for Amsterdam (example)
-          }
-          if (zoneId === 'Etc/Unknown') {
-            return { ...dt, isValid: true, offset: 0 }; // Offset for Etc/Unknown
-          }
-           if (zoneId === 'Invalid/Zone_Test') {
-            return { ...dt, isValid: false, offset: NaN }; // Simulate invalid zone
-          }
-          // Fallback for other zones if any are used in tests
-          return { ...dt, isValid: true, offset: 120 }; 
-        }),
-      } as any; // Use 'any' to simplify complex mock type
-    });
     
     // Suppress console.warn for invalid timezone ID during tests
     jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   afterEach(() => {
-    jest.restoreAllMocks(); // Restore all mocks, including DateTime
+    // jest.restoreAllMocks(); // May not be needed if not using jest.spyOn for DateTime
+    jest.clearAllMocks(); // Clear all mock call counts etc.
   });
 
   test('renders and allows searching for a city', async () => {
@@ -136,8 +141,8 @@ describe('CitySearchDialog Component', () => {
     expect(mockOnCitySelect).toHaveBeenCalledTimes(1);
     const selectedTimezoneArg = mockOnCitySelect.mock.calls[0][0] as Timezone;
 
-    expect(selectedTimezoneArg.id).toBe('Europe/Amsterdam'); // Should be IANA ID
-    expect(selectedTimezoneArg.timezone).toBe('Europe/Amsterdam'); // Should be IANA ID
+    expect(selectedTimezoneArg.id).toBe(mockCityAmsterdam.id);
+    expect(selectedTimezoneArg.timezone).toBe('Europe/Amsterdam'); // This remains IANA ID
     expect(selectedTimezoneArg.name).toBe('Amsterdam, Netherlands');
     expect(selectedTimezoneArg.city).toBe('Amsterdam');
     expect(selectedTimezoneArg.country).toBe('Netherlands');
@@ -160,7 +165,7 @@ describe('CitySearchDialog Component', () => {
     expect(mockOnCitySelect).toHaveBeenCalledTimes(1);
     const selectedTimezoneArg = mockOnCitySelect.mock.calls[0][0] as Timezone;
 
-    expect(selectedTimezoneArg.id).toBe('Etc/Unknown');
+    expect(selectedTimezoneArg.id).toBe(mockCityUnknownZone.id);
     expect(selectedTimezoneArg.timezone).toBe('Etc/Unknown');
     expect(selectedTimezoneArg.offset).toBe(0); // Default offset for Etc/Unknown
     expect(mockOnClose).toHaveBeenCalledTimes(1);
@@ -181,9 +186,16 @@ describe('CitySearchDialog Component', () => {
     expect(mockOnCitySelect).toHaveBeenCalledTimes(1);
     const selectedTimezoneArg = mockOnCitySelect.mock.calls[0][0] as Timezone;
 
-    expect(selectedTimezoneArg.id).toBe('Invalid/Zone_Test'); // Uses the (invalid) ID provided
+    expect(selectedTimezoneArg.id).toBe(mockCityInvalidZone.id);
     expect(selectedTimezoneArg.timezone).toBe('Invalid/Zone_Test');
     expect(selectedTimezoneArg.offset).toBe(0); // Default offset due to invalid zone
+    // jest.spyOn(console, 'warn').mockImplementation(() => {}); was removed, so re-enable or check if console output is an issue
+    // For now, let's assume the console.warn is expected if the mock for it is not active.
+    // If console.warn was re-enabled by clearing mocks, this check might be needed.
+    // However, the primary focus is the ID. Let's ensure console.warn is properly handled if it causes issues.
+    // For this change, I'll assume the console.warn mock in beforeEach is active or restored if needed.
+    // The main point is to fix selectedTimezoneArg.id.
+    // The console.warn spy should be active from beforeEach.
     expect(console.warn).toHaveBeenCalledWith("Invalid timezone ID for offset calculation: Invalid/Zone_Test");
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
@@ -209,23 +221,12 @@ describe('CitySearchDialog Component', () => {
 
 
     // Mock API service to return London
-    const mockApiServiceInstance = CityApiService.getInstance();
+    const mockApiServiceInstance = CityApiService.getInstance(); // Ensure this instance is used
     (mockApiServiceInstance.searchCities as jest.Mock).mockResolvedValue([mockApiCity]);
 
 
-    // Mock DateTime.local().setZone() for Europe/London
-     jest.spyOn(DateTime, 'local').mockImplementation(() => {
-      const dt = OriginalDateTime.local();
-      return {
-        ...dt,
-        setZone: jest.fn((zoneId: string) => {
-          if (zoneId === 'Europe/London') {
-            return { ...dt, isValid: true, offset: 0 }; // GMT for London (example, could be 60 in summer)
-          }
-          return { ...dt, isValid: false, offset: NaN }; 
-        }),
-      } as any;
-    });
+    // The module mock for Luxon should cover Europe/London based on its definition.
+    // No need for specific spyOn here if module mock is comprehensive.
 
     render(
       <CitySearchDialog open={true} onClose={mockOnClose} onCitySelect={mockOnCitySelect} />
@@ -248,11 +249,53 @@ describe('CitySearchDialog Component', () => {
 
     expect(mockOnCitySelect).toHaveBeenCalledTimes(1);
     const selectedTimezoneArg = mockOnCitySelect.mock.calls[0][0] as Timezone;
+    const expectedApiId = 'london_united_kingdom_api'; // Generated ID
 
-    expect(selectedTimezoneArg.id).toBe('Europe/London');
+    expect(selectedTimezoneArg.id).toBe(expectedApiId);
     expect(selectedTimezoneArg.timezone).toBe('Europe/London');
     expect(selectedTimezoneArg.offset).toBe(0); // Mocked offset for Europe/London
     expect(selectedTimezoneArg.source).toBe('api');
+
+    // Verify addDynamicCity was called for API city
+    expect(cityService.addDynamicCity).toHaveBeenCalledTimes(1);
+    expect(cityService.addDynamicCity).toHaveBeenCalledWith(expect.objectContaining({
+      id: expectedApiId, // Ensure the ID passed to addDynamicCity is the generated one
+      name: 'London, United Kingdom',
+      source: 'api'
+    }));
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
+  });
+
+  test('handleSelect does NOT call addDynamicCity for static city', async () => {
+    // Ensure cityService.searchCities returns our static city for the test
+    (cityService.searchCities as jest.Mock).mockResolvedValue([mockCityAmsterdam]);
+    // For initial load if needed, or direct search:
+    (cityService.getStaticCities as jest.Mock).mockReturnValue(new Map([[mockCityAmsterdam.id, mockCityAmsterdam]]));
+
+
+    render(
+      <CitySearchDialog open={true} onClose={mockOnClose} onCitySelect={mockOnCitySelect} />
+    );
+
+    // Search for the static city to ensure it's displayed via search logic
+    const searchInput = screen.getByPlaceholderText('Search for a city...');
+    fireEvent.change(searchInput, { target: { value: 'Amsterdam' } });
+
+    await waitFor(() => {
+        const cityItem = screen.getByText(`${mockCityAmsterdam.name}, ${mockCityAmsterdam.country}`);
+        expect(cityItem).toBeInTheDocument();
+        fireEvent.click(cityItem);
+    });
+
+    expect(mockOnCitySelect).toHaveBeenCalledTimes(1);
+    const selectedTimezoneArg = mockOnCitySelect.mock.calls[0][0] as Timezone;
+
+    // Check that the selected city is indeed the static one (no source or source is 'static')
+    expect(selectedTimezoneArg.id).toBe(mockCityAmsterdam.id);
+    expect(selectedTimezoneArg.source).toBeUndefined();
+
+    // Verify addDynamicCity was NOT called
+    expect(cityService.addDynamicCity).not.toHaveBeenCalled();
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 });

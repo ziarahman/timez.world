@@ -39,12 +39,30 @@ export class CityService {
     return Promise.resolve();
   }
 
-  public addCity(city: Timezone): void {
+  public addStaticCity(city: Timezone): void {
     // Add city to static cities
     this.staticCities.set(city.id, city);
     // Clear cache
     this.searchCache.clear();
     this.cacheAccessTimes.clear();
+  }
+
+  public addDynamicCity(city: Timezone): void {
+    const dynamicCityData: DynamicCityData = {
+      id: city.id,
+      city: city.city,
+      country: city.country,
+      name: city.name,
+      offset: city.offset,
+      population: city.population,
+      timezone: city.timezone,
+      latitude: city.latitude,
+      longitude: city.longitude,
+      lastUpdated: Date.now() // Add a timestamp
+    };
+    this.dynamicCities.set(city.id, dynamicCityData);
+    // Invalidate relevant cache entries
+    this.invalidateCacheForCity(city);
   }
 
   protected initializeStaticCities(): void {
@@ -240,57 +258,11 @@ export class CityService {
 }
 
 export class DefaultCityService extends CityService {
-  async searchCities(query: string): Promise<Timezone[]> {
-    if (!query.trim()) {
-      return [];
-    }
-    
-    const lowerQuery = query.toLowerCase();
-    console.log('Searching for:', lowerQuery);
-    console.log('Cache contents:', this.searchCache);
-    
-    // Check cache first
-    const cachedResults = this.searchCache.get(lowerQuery);
-    if (cachedResults) {
-      console.log('Cache hit for:', lowerQuery);
-      // Update access time
-      this.cacheAccessTimes.set(lowerQuery, Date.now());
-      return cachedResults;
-    }
-    
-    // If not in cache, search static cities
-    const results = Array.from(this.staticCities.values())
-      .filter(city => 
-        city.name.toLowerCase().includes(lowerQuery) || 
-        city.country.toLowerCase().includes(lowerQuery)
-      );
-      
-    // Store in cache
-    this.searchCache.set(lowerQuery, results);
-    
-    // Implement proper LRU cache eviction
-    if (this.searchCache.size >= this.maxCacheSize) {
-      // Find the least recently used key
-      let oldestKey = '';
-      let oldestTime = Date.now();
-      for (const [key, time] of this.cacheAccessTimes) {
-        if (time < oldestTime) {
-          oldestKey = key;
-          oldestTime = time;
-        }
-      }
-
-      // Remove the least recently used entry
-      if (oldestKey) {
-        this.searchCache.delete(oldestKey);
-        this.cacheAccessTimes.delete(oldestKey);
-      }
-    }
-
-    this.cacheAccessTimes.set(lowerQuery, Date.now()); // Add the new key to the cache access times
-
-    console.log('Cache miss for:', lowerQuery, 'Storing:', results);
-    return results;
+  async searchCities(query: string, region?: string, limit = 10): Promise<Timezone[]> {
+    // Simply call the parent's searchCities method, which handles caching and
+    // searching both static and dynamic cities.
+    // The parent's searchCities method also handles the region and limit parameters.
+    return super.searchCities(query, region, limit);
   }
 }
 

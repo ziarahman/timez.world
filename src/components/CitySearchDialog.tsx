@@ -222,18 +222,25 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
       }
     }
 
-    onCitySelect({
-      id: ianaTimezoneId,
+    const cityToAdd: Timezone = {
+      id: city.id, // Use the unique ID from the search result
       name: `${city.name}, ${city.country}`,
       city: city.city || city.name,
       country: city.country,
-      timezone: ianaTimezoneId,
+      timezone: ianaTimezoneId, // This is the IANA timezone string
       latitude: city.latitude,
       longitude: city.longitude,
       population: city.population || 0,
-      offset: currentOffset, // Use the newly calculated offset
+      offset: currentOffset,
       source: city.source
-    });
+    };
+
+    // If the city is from an API source, add it to dynamic cities
+    if (city.source) {
+      cityService.addDynamicCity(cityToAdd);
+    }
+
+    onCitySelect(cityToAdd);
     onClose();
   };
 
