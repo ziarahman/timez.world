@@ -8,9 +8,18 @@ module.exports = {
   },
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: 'tsconfig.json'
+      tsconfig: 'tsconfig.json',
+      // AST transformers to handle import.meta.env
+      astTransformers: {
+        before: [
+          {
+            path: 'ts-jest-mock-import-meta',
+            options: { metaObjectReplacement: { env: { VITE_GEO_DB_API_URL: 'mocked-api-url-for-jest' } } }
+          }
+        ]
+      }
     }]
   },
-  testMatch: ['**/__tests__/**/*.test.ts'],
+  testMatch: ['**/__tests__/**/*.test.[jt]s?(x)'],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts']
 };

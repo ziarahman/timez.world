@@ -1,441 +1,193 @@
 import { DefaultCityService } from '../CityService';
 import { Timezone } from '../../types';
-import { getAvailableTimezones } from '../../data/timezones';
-import axios from 'axios';
 
-jest.mock('axios');
-const mockAxios = axios as jest.Mocked<typeof axios>;
+// Mock getAvailableTimezones
+// Define mock data directly inside the factory due to Jest hoisting
+jest.mock('../../data/timezones', () => {
+  const mockStaticCity1_Hoisted: Timezone = { id: 'static1', name: 'Static City One, SC', city: 'Static City One', country: 'SC', timezone: 'Etc/GMT+1', population: 100000, offset: -60, latitude: 1, longitude: 1 };
+  const mockStaticCity2_Hoisted: Timezone = { id: 'static2', name: 'Static City Two, ST', city: 'Static City Two', country: 'ST', timezone: 'Etc/GMT+2', population: 200000, offset: -120, latitude: 2, longitude: 2 };
+  return {
+    getAvailableTimezones: jest.fn(() => [
+      mockStaticCity1_Hoisted,
+      mockStaticCity2_Hoisted,
+    ]),
+  };
+});
 
-jest.mock('../../data/timezones', () => ({
-  getAvailableTimezones: jest.fn().mockReturnValue([
-    { 
-      id: 'Asia/Dhaka',
-      name: 'Dhaka, Bangladesh',
-      city: 'Dhaka',
-      country: 'Bangladesh',
-      timezone: 'Asia/Dhaka',
-      latitude: 23.8103,
-      longitude: 90.4125,
-      population: 21000000,
-      offset: 6
-    },
-    { 
-      id: 'Asia/Kolkata',
-      name: 'Kolkata, India',
-      city: 'Kolkata',
-      country: 'India',
-      timezone: 'Asia/Kolkata',
-      latitude: 22.5726,
-      longitude: 88.3639,
-      population: 14850000,
-      offset: 5.5
-    }
-  ])
-}));
-
-// Define a local mock for DynamicCityData as it's not exported from types.ts
-interface DynamicCityData {
-  id: string;
-  city: string;
-  country: string;
-  name: string;
-  offset: number;
-  population: number;
-  timezone: string;
-  latitude?: number;
-  longitude?: number;
-  lastUpdated?: number;
-}
-
-class TestableCityService extends DefaultCityService {
-  public get internalStaticCities(): Map<string, Timezone> {
-    return this.staticCities;
-  }
-  public get internalDynamicCities(): Map<string, DynamicCityData> {
-    return this.dynamicCities;
-  }
-  public get internalCityCache(): Map<string, Timezone> {
-    return this.cityCache;
-  }
-  public get internalSearchCache(): Map<string, Timezone[]> {
-    return this.searchCache;
-  }
-  public get internalCacheAccessTimes(): Map<string, number> {
-    return this.cacheAccessTimes;
-  }
-  public get internalSyncInterval(): NodeJS.Timeout | null {
-    return this.syncInterval;
-  }
-  public set internalSyncInterval(interval: NodeJS.Timeout | null) {
-    this.syncInterval = interval;
-  }
-  public get internalLastSyncTime(): number {
-    return this.lastSyncTime;
-  }
-  public set internalLastSyncTime(time: number) {
-    this.lastSyncTime = time;
-  }
-
-  public initializeStaticCitiesPublic(): void {
-    super.initializeStaticCities();
-  }
-
-  public syncDynamicCitiesPublic(): Promise<void> {
-    return super.syncDynamicCities();
-  }
-
-  public startPeriodicSyncPublic(): void {
-    super.startPeriodicSync();
-  }
-
-  public isStaticCitiesLoadedPublic(): boolean {
-    return this.isStaticCitiesLoaded();
-  }
-}
-
-const mockStaticCity: Timezone = {
-  id: 'Asia/Delhi',
-  city: 'Delhi',
-  country: 'India',
-  name: 'Delhi, India',
-  offset: 5.5,
-  population: 19000000,
-  timezone: 'Asia/Kolkata',
-  latitude: 28.6139,
-  longitude: 77.209
-};
-
-describe('CityService', () => {
-  let service: TestableCityService;
+describe('CityService and DefaultCityService', () => {
+  let cityService: DefaultCityService;
+  // Reference the hoisted mock data for use in tests if needed, or redefine for clarity
+  const mockStaticCity1: Timezone = { id: 'static1', name: 'Static City One, SC', city: 'Static City One', country: 'SC', timezone: 'Etc/GMT+1', population: 100000, offset: -60, latitude: 1, longitude: 1 };
+  const mockStaticCity2: Timezone = { id: 'static2', name: 'Static City Two, ST', city: 'Static City Two', country: 'ST', timezone: 'Etc/GMT+2', population: 200000, offset: -120, latitude: 2, longitude: 2 };
+  let invalidateCacheSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    service = new TestableCityService();
-    // Re-initialize mocks if needed by specific tests, but constructor handles initial load
+    // Reset mocks and service instance before each test
+    (require('../../data/timezones').getAvailableTimezones as jest.Mock).mockClear();
+
+    // Re-instantiate service to ensure clean state
+    cityService = new DefaultCityService();
+
+    // Spy on invalidateCacheForCity from the base class prototype if possible,
+    // or on the instance if direct access to base class methods is difficult.
+    // For simplicity, if CityService methods are called via 'this', spy on the instance.
+    // Note: This spy is on the DefaultCityService instance, but it calls the parent method.
+    invalidateCacheSpy = jest.spyOn(cityService as any, 'invalidateCacheForCity');
   });
 
-  describe('constructor', () => {
-    it('should initialize with default empty maps', () => {
-      const freshService = new TestableCityService(); 
-      expect(freshService.internalStaticCities.size).toBe(0);
-      expect(freshService.internalDynamicCities.size).toBe(0);
-      expect(freshService.internalCityCache.size).toBe(0);
-      expect(freshService.internalSearchCache.size).toBe(0);
-      expect(freshService.internalCacheAccessTimes.size).toBe(0);
-    });
-
-    it('should load available timezones into staticCities on construction', () => {
-        const freshService = new TestableCityService();
-        expect(getAvailableTimezones).toHaveBeenCalled();
-        expect(freshService.internalStaticCities.size).toBe(2);
-        expect(freshService.internalStaticCities.get('Asia/Dhaka')).toBeDefined();
-      });
+  afterEach(() => {
+    // Restore the spy after each test
+    invalidateCacheSpy.mockRestore();
   });
 
-  describe('searchCities', () => {
-    it('should return empty array when query is empty', async () => {
-      const result = await service.searchCities('');
-      expect(result).toEqual([]);
+  describe('addDynamicCity', () => {
+    const dynamicCity: Timezone = {
+      id: 'dynamic1',
+      name: 'Dynamic City One, DC',
+      city: 'Dynamic City One',
+      country: 'DC',
+      timezone: 'Etc/GMT+3',
+      population: 50000,
+      offset: -180,
+      latitude: 3,
+      longitude: 3,
+      source: 'api'
+    };
+
+    it('should add a city to dynamicCities and invalidate cache', () => {
+      cityService.addDynamicCity(dynamicCity);
+
+      expect(cityService.getDynamicCities().size).toBe(1);
+      const retrievedCity = cityService.getDynamicCity('dynamic1');
+      expect(retrievedCity).toBeDefined();
+      expect(retrievedCity?.name).toBe('Dynamic City One, DC');
+      expect(retrievedCity?.lastUpdated).toBeDefined(); // Check for timestamp
+      expect(invalidateCacheSpy).toHaveBeenCalledWith(dynamicCity);
     });
 
-    it('should return matching cities when query matches', async () => {
-      service.internalStaticCities.set('Delhi|India', mockStaticCity);
+    it('should overwrite an existing dynamic city with the same ID', () => {
+      cityService.addDynamicCity(dynamicCity);
+      const updatedDynamicCity = { ...dynamicCity, name: 'Updated Dynamic City', population: 60000 };
+      cityService.addDynamicCity(updatedDynamicCity);
 
-      const result = await service.searchCities('Delhi');
-      expect(result).toEqual([mockStaticCity]);
-    });
-
-    describe('Cache Behavior', () => {
-      it('should handle cache hit for repeated queries', async () => {
-        const mockCity: Timezone = {
-          id: 'Asia/Kolkata',
-          name: 'Delhi, India',
-          city: 'Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        };
-
-        service.setSearchCache(new Map());
-        service.internalStaticCities.set('Delhi|India', mockCity);
-        const firstResult = await service.searchCities('delhi');
-        expect(firstResult).toEqual([mockCity]);
-
-        const secondResult = await service.searchCities('delhi');
-        expect(secondResult).toEqual([mockCity]);
-      });
-
-      it('should handle cache miss for new queries', async () => {
-        const mockCity: Timezone = {
-          id: 'Asia/Kolkata',
-          name: 'Delhi, India',
-          city: 'Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        };
-
-        service.setSearchCache(new Map([['mumbai|undefined', [mockCity]]]));
-        service.internalStaticCities.set('Delhi|India', mockCity);
-
-        const result = await service.searchCities('delhi');
-        expect(result).toEqual([mockCity]);
-      });
-
-      it('should invalidate cache for updated data', async () => {
-        const mockCity = {
-          id: 'Asia/Kolkata',
-          name: 'Delhi, India',
-          city: 'Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        };
-
-        service.setSearchCache(new Map([['delhi|undefined', [mockCity]]]));
-        service.internalStaticCities.set('Delhi|India', mockCity);
-
-        const updatedCity = { ...mockCity, population: 20000000 };
-        service.internalStaticCities.set('Delhi|India', updatedCity);
-        
-        service.setSearchCache(new Map());
-
-        const result = await service.searchCities('delhi');
-        expect(result).toEqual([updatedCity]);
-      });
-
-      it('should construct cache key with region', async () => {
-        const mockCity: Timezone = {
-          id: 'Asia/Kolkata',
-          name: 'Delhi, India',
-          city: 'Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        };
-
-        const cacheMap = new Map<string, Timezone[]>([['delhi|Asia', [mockCity]]]);
-        service.setSearchCache(cacheMap);
-        service.internalStaticCities.set('Delhi|India', mockCity);
-
-        const result = await service.searchCities('delhi', 'Asia');
-        expect(result).toEqual([mockCity]);
-      });
-
-      it('should handle cache size limits and eviction', async () => {
-        const mockCity1: Timezone = {
-          id: 'Asia/Kolkata',
-          name: 'Delhi, India',
-          city: 'Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        };
-
-        const mockCity2: Timezone = {
-          id: 'America/New_York',
-          name: 'New York, USA',
-          city: 'New York',
-          country: 'USA',
-          timezone: 'America/New_York',
-          latitude: 40.7128,
-          longitude: -74.0060,
-          population: 8405837,
-          offset: -5
-        };
-
-        service.setSearchCache(new Map());
-        
-        service.internalStaticCities.set('Delhi|India', mockCity1);
-        service.internalStaticCities.set('NewYork|USA', mockCity2);
-        service.internalStaticCities.set('Tokyo|Japan', {
-          id: 'Asia/Tokyo',
-          name: 'Tokyo, Japan',
-          city: 'Tokyo',
-          country: 'Japan',
-          timezone: 'Asia/Tokyo',
-          latitude: 35.6895,
-          longitude: 139.6917,
-          population: 13000000,
-          offset: 9
-        });
-        
-        await service.searchCities('delhi');
-        
-        await service.searchCities('newyork');
-        
-        await service.searchCities('tokyo');
-        
-        expect(service.internalSearchCache.size).toBe(2);
-        expect(service.internalSearchCache.has('delhi|undefined')).toBe(false);
-        expect(service.internalSearchCache.has('newyork|undefined')).toBe(true);
-        expect(service.internalSearchCache.has('tokyo|undefined')).toBe(true);
-      });
-
-      it('should use search cache when available', async () => {
-        const mockCity: Timezone = {
-          id: 'Asia/Kolkata',
-          name: 'Delhi, India',
-          city: 'Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        };
-  
-        service.internalStaticCities.set('Delhi|India', mockCity);
-        const cacheMap = new Map<string, Timezone[]>([['delhi|undefined', [mockCity]]]);
-        service.setSearchCache(cacheMap);
-
-        const result = await service.searchCities('delhi'); // Should hit cache
-        expect(result).toEqual([mockCity]);
-      });
-
-      it('should handle partial matches', async () => {
-        const mockCity: Timezone = {
-          id: 'Asia/Kolkata',
-          name: 'New Delhi, India',
-          city: 'New Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        };
-        service.internalStaticCities.set('New Delhi|India', mockCity);
-
-        const result = await service.searchCities('Delhi');
-        expect(result).toEqual([mockCity]);
-      });
-
-      it('should handle special characters in query', async () => {
-        const mockCity: Timezone = {
-          id: 'America/Sao_Paulo',
-          name: 'São Paulo, Brazil',
-          city: 'São Paulo',
-          country: 'Brazil',
-          timezone: 'America/Sao_Paulo',
-          latitude: -23.5505,
-          longitude: -46.6333,
-          population: 12000000,
-          offset: -3
-        };
-        service.internalStaticCities.set('São Paulo|Brazil', mockCity);
-
-        const result = await service.searchCities('São');
-        expect(result).toEqual([mockCity]);
-      });
-    });
-
-    it('should handle special characters in query', async () => {
-      const mockCity: Timezone = {
-        id: 'America/Sao_Paulo',
-        name: 'São Paulo, Brazil',
-        city: 'São Paulo',
-        country: 'Brazil',
-        timezone: 'America/Sao_Paulo',
-        latitude: -23.5505,
-        longitude: -46.6333,
-        population: 12000000,
-        offset: -3
-      };
-      service.internalStaticCities.set('São Paulo|Brazil', mockCity);
-
-      const result = await service.searchCities('São');
-      expect(result).toEqual([mockCity]);
+      expect(cityService.getDynamicCities().size).toBe(1);
+      expect(cityService.getDynamicCity('dynamic1')?.name).toBe('Updated Dynamic City');
+      expect(cityService.getDynamicCity('dynamic1')?.population).toBe(60000);
+      expect(invalidateCacheSpy).toHaveBeenCalledTimes(2); // Called for each add
     });
   });
 
-  describe('loadCities', () => {
-    it('should load cities and set staticCitiesLoaded to true', async () => {
-      await service.loadCities();
-      expect(service.isStaticCitiesLoadedPublic()).toBe(true);
-      // Should reflect the number of cities from the mocked getAvailableTimezones
-      expect(service.internalStaticCities.size).toBe(2); 
-    });
-  });
+  describe('searchCities (via DefaultCityService)', () => {
+    const dynamicCityForSearch: Timezone = { id: 'dynamicSearch1', name: 'Dynamic Search City, DS', city: 'Dynamic Search City', country: 'DS', timezone: 'Etc/GMT+4', population: 75000, offset: -240, latitude: 4, longitude: 4, source: 'api' };
 
-  describe('initializeStaticCities', () => {
-    it('should initialize static cities from available timezones', () => {
-      const mockCities: Timezone[] = [
-        { 
-          id: 'Asia/Kolkata',
-          name: 'Delhi, India',
-          city: 'Delhi',
-          country: 'India',
-          timezone: 'Asia/Kolkata',
-          latitude: 28.6139,
-          longitude: 77.2090,
-          population: 19000000,
-          offset: 5.5
-        },
-        { 
-          id: 'America/New_York',
-          name: 'New York, USA',
-          city: 'New York',
-          country: 'USA',
-          timezone: 'America/New_York',
-          latitude: 40.7128,
-          longitude: -74.0060,
-          population: 8405837,
-          offset: -5
-        }
-      ];
-      (getAvailableTimezones as jest.Mock).mockReturnValue(mockCities);
+    beforeEach(() => {
+      // Static cities are loaded by mock in constructor
+      // Add a dynamic city for search tests
+      cityService.addDynamicCity(dynamicCityForSearch);
+    });
+
+    it('should find static cities by query', async () => {
+      const results = await cityService.searchCities('Static City One');
+      expect(results.length).toBe(1);
+      expect(results[0].id).toBe('static1');
+    });
+
+    it('should find dynamic cities by query', async () => {
+      const results = await cityService.searchCities('Dynamic Search City');
+      expect(results.length).toBe(1);
+      expect(results[0].id).toBe('dynamicSearch1');
+    });
+
+    it('should find both static and dynamic cities with a general query', async () => {
+      const results = await cityService.searchCities('City'); // Matches "Static City One", "Static City Two", "Dynamic Search City"
+      expect(results.length).toBe(3);
+      expect(results.some(c => c.id === 'static1')).toBe(true);
+      expect(results.some(c => c.id === 'static2')).toBe(true);
+      expect(results.some(c => c.id === 'dynamicSearch1')).toBe(true);
+    });
+
+    it('should return empty array for no match', async () => {
+      const results = await cityService.searchCities('NonExistentCityName');
+      expect(results.length).toBe(0);
+    });
+
+    it('should filter by region, including dynamic cities', async () => {
+      // Assuming mockStaticCity1 is 'SC' country and dynamicCityForSearch is 'DS' country
+      // And base CityService search logic correctly filters by country for region (this is a simplification)
+      // For more accurate region test, timezones should be used (e.g., 'Europe/London')
+      // The current base searchCities filters by city.country matching region string.
+
+      const resultsSC = await cityService.searchCities('City', 'SC');
+      expect(resultsSC.length).toBe(1);
+      expect(resultsSC.find(c => c.id === 'static1')).toBeDefined();
+
+      const resultsDS = await cityService.searchCities('City', 'DS');
+      expect(resultsDS.length).toBe(1);
+      expect(resultsDS.find(c => c.id === 'dynamicSearch1')).toBeDefined();
+
+      const resultsST = await cityService.searchCities('City', 'ST');
+      expect(resultsST.length).toBe(1);
+      expect(resultsST.find(c => c.id === 'static2')).toBeDefined();
+
+      const resultsNonExistentRegion = await cityService.searchCities('City', 'NonExistentRegion');
+      expect(resultsNonExistentRegion.length).toBe(0);
+    });
+
+    it('should use cache for repeated queries (static and dynamic)', async () => {
+      // First search - should populate cache
+      await cityService.searchCities('City');
+      const searchCache = cityService.getSearchCache(); // Accessing for test verification
+      const initialCacheKey = 'city|'; // Default region is empty string
+      expect(searchCache.has(initialCacheKey)).toBe(true);
+      const cachedResults = searchCache.get(initialCacheKey);
+      expect(cachedResults?.length).toBe(3);
+
+      // To verify cache is USED, we'd ideally spy on the filter/map logic within searchCities,
+      // but that's too implementation-specific. Instead, we check if access time is updated.
+      const accessTimes = (cityService as any).cacheAccessTimes as Map<string, number>;
+      const initialTime = accessTimes.get(initialCacheKey) || 0;
+
+      // Second search - should use cache
+      await new Promise(resolve => setTimeout(resolve, 10)); // Ensure time progresses
+      const results = await cityService.searchCities('City');
+      expect(results.length).toBe(3); // Same results
       
-      service.internalStaticCities.clear();
-      service.initializeStaticCitiesPublic();
-      expect(service.internalStaticCities.size).toBe(2);
+      const newTime = accessTimes.get(initialCacheKey) || 0;
+      expect(newTime).toBeGreaterThan(initialTime); // Access time updated
     });
+
+    it('should respect the limit parameter', async () => {
+        const results = await cityService.searchCities('City', undefined, 1);
+        expect(results.length).toBe(1);
+      });
   });
 
   describe('getTotalCities', () => {
-    it('should return total count of static and dynamic cities', () => {
-      service.internalStaticCities.clear();
-      service.internalDynamicCities.clear();
-      
-      service.internalStaticCities.set('Delhi|India', mockStaticCity);
-      
-      service.internalDynamicCities.set('Tokyo|Japan', {
-        id: 'Asia/Tokyo',
-        city: 'Tokyo',
-        country: 'Japan',
-        name: 'Tokyo, Japan',
-        offset: 9,
-        population: 13000000,
-        timezone: 'Asia/Tokyo',
-        latitude: 35.6895,
-        longitude: 139.6917
-      });
-      
-      expect(service.getTotalCities()).toBe(2);
+    it('should return count of static cities initially', () => {
+      // Based on the mock, 2 static cities are loaded
+      expect(cityService.getTotalCities()).toBe(2);
     });
-  });
 
-  describe('Total Cities', () => {
-    it('should count both static and dynamic cities', async () => {
-      // Test only static cities count as dynamic cities are not implemented here
-      const total = service.getTotalCities();
-      // Should equal the number of static cities loaded by the mock
-      expect(total).toBe(2); 
+    it('should return correct count after adding a dynamic city', () => {
+      const initialCount = cityService.getTotalCities(); // Should be 2
+      const dynamicCity: Timezone = { id: 'dynamicTotal1', name: 'Dynamic Total City, DT', city: 'Dynamic Total City', country: 'DT', timezone: 'Etc/GMT+5', population: 10000, offset: -300, latitude: 5, longitude: 5, source: 'api' };
+      cityService.addDynamicCity(dynamicCity);
+      expect(cityService.getTotalCities()).toBe(initialCount + 1);
     });
+
+    it('should return correct count after adding multiple dynamic cities', () => {
+        const initialCount = cityService.getTotalCities(); // Should be 2
+        cityService.addDynamicCity({ id: 'd1', name: 'D1', city: 'D1', country: 'D', timezone: 'TZ', population: 1, offset: 0, latitude: 0, longitude: 0, source: 'api' });
+        cityService.addDynamicCity({ id: 'd2', name: 'D2', city: 'D2', country: 'D', timezone: 'TZ', population: 1, offset: 0, latitude: 0, longitude: 0, source: 'api' });
+        expect(cityService.getTotalCities()).toBe(initialCount + 2);
+      });
+
+    it('should not change count if adding dynamic city with existing ID', () => {
+        const dynamicCity: Timezone = { id: 'dynamicTotal1', name: 'Dynamic Total City, DT', city: 'Dynamic Total City', country: 'DT', timezone: 'Etc/GMT+5', population: 10000, offset: -300, latitude: 5, longitude: 5, source: 'api' };
+        cityService.addDynamicCity(dynamicCity);
+        const countAfterFirstAdd = cityService.getTotalCities();
+        cityService.addDynamicCity({ ...dynamicCity, name: "Updated Name" }); // Same ID
+        expect(cityService.getTotalCities()).toBe(countAfterFirstAdd);
+      });
   });
 });
