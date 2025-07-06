@@ -103,11 +103,33 @@ export class CityService {
           }))
         ];
 
-        // Filter logic remains the same
-        const results = allCities.filter(city => city && (
-          (city.name && city.name.toLowerCase().includes(normalizedQuery)) &&
-          (region ? city.country.toLowerCase() === region.toLowerCase() : true)
-        ));
+        // Determine region prefix if a known region is provided
+        let regionPrefix: string | null = null;
+        if (region) {
+          const r = region.toLowerCase();
+          if (r === 'americas') {
+            regionPrefix = 'America/';
+          } else if (r === 'oceania') {
+            regionPrefix = 'Australia/';
+          } else if (['asia', 'europe', 'africa'].includes(r)) {
+            regionPrefix = `${r.charAt(0).toUpperCase()}${r.slice(1)}/`;
+          }
+        }
+
+        const results = allCities.filter(city => {
+          if (!city || !(city.name && city.name.toLowerCase().includes(normalizedQuery))) {
+            return false;
+          }
+          if (!region) {
+            return true;
+          }
+
+          if (regionPrefix) {
+            return city.timezone.startsWith(regionPrefix);
+          }
+
+          return city.country.toLowerCase() === region.toLowerCase();
+        });
 
         // Sort by population descending
         sorted = results.sort((a, b) => b.population - a.population);
@@ -223,7 +245,18 @@ export class CityService {
       const lowerQuery = query.toLowerCase();
       const matchesQuery = city.name.toLowerCase().includes(lowerQuery) ||
                           city.country.toLowerCase().includes(lowerQuery);
-      const matchesRegion = !region || city.timezone.startsWith(region);
+      let regionPrefix: string | null = null;
+      if (region) {
+        const r = region.toLowerCase();
+        if (r === 'americas') {
+          regionPrefix = 'America/';
+        } else if (r === 'oceania') {
+          regionPrefix = 'Australia/';
+        } else if (['asia', 'europe', 'africa'].includes(r)) {
+          regionPrefix = `${r.charAt(0).toUpperCase()}${r.slice(1)}/`;
+        }
+      }
+      const matchesRegion = !region || (regionPrefix ? city.timezone.startsWith(regionPrefix) : city.country.toLowerCase() === region.toLowerCase());
       return matchesQuery && matchesRegion;
     });
 

@@ -96,7 +96,7 @@ describe('TimezoneRow Component', () => {
     render(
       <TimezoneRow
         timezone={mockTimezoneNY}
-        selectedDateTime={baseSelectedTime}
+        selectedTime={baseSelectedTime}
         onTimeSelect={mockOnTimeSelect}
         onDelete={mockOnDelete}
         isDraggable={false}
@@ -119,7 +119,7 @@ describe('TimezoneRow Component', () => {
     render(
       <TimezoneRow
         timezone={mockTimezoneGMT10}
-        selectedDateTime={baseSelectedTime}
+        selectedTime={baseSelectedTime}
         onTimeSelect={mockOnTimeSelect}
         onDelete={mockOnDelete}
         isDraggable={false}
@@ -143,7 +143,7 @@ describe('TimezoneRow Component', () => {
     render(
       <TimezoneRow
         timezone={mockTimezoneBuenosAires}
-        selectedDateTime={baseSelectedTime}
+        selectedTime={baseSelectedTime}
         onTimeSelect={mockOnTimeSelect}
         onDelete={mockOnDelete}
         isDraggable={false}
@@ -162,7 +162,7 @@ describe('TimezoneRow Component', () => {
     render(
       <TimezoneRow
         timezone={mockTimezoneNY}
-        selectedDateTime={baseSelectedTime}
+        selectedTime={baseSelectedTime}
         onTimeSelect={mockOnTimeSelect}
         onDelete={mockOnDelete}
         isDraggable={false}
@@ -179,7 +179,7 @@ describe('TimezoneRow Component', () => {
     render(
       <TimezoneRow
         timezone={mockTimezoneInvalid}
-        selectedDateTime={baseSelectedTime}
+        selectedTime={baseSelectedTime}
         onTimeSelect={mockOnTimeSelect}
         onDelete={mockOnDelete}
         isDraggable={false}
@@ -207,7 +207,7 @@ describe('TimezoneRow Component', () => {
     render(
       <TimezoneRow
         timezone={mockTimezoneNY}
-        selectedDateTime={baseSelectedTime}
+        selectedTime={baseSelectedTime}
         onTimeSelect={mockOnTimeSelect}
         onDelete={mockOnDelete}
         isDraggable={false}
