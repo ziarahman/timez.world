@@ -76,7 +76,7 @@ export class CityApiService {
     },
     {
       name: 'OpenWeatherMap',
-      url: import.meta.env.VITE_OPENWEATHER_API_URL || 'http://api.openweathermap.org/geo/1.0/direct',
+      url: import.meta.env.VITE_OPENWEATHER_API_URL || 'https://api.openweathermap.org/geo/1.0/direct',
       headers: {
         'X-RapidAPI-Key': import.meta.env.VITE_OPENWEATHER_API_KEY || '',
         'X-RapidAPI-Host': 'api.openweathermap.org'
@@ -307,7 +307,11 @@ export class CityApiService {
         stack: error instanceof Error ? error.stack : undefined,
         error: error
       });
-      throw new Error('No results found. Last error: Network Error');
+      // Preserve the original error if available for better diagnostics
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('No results found.');
     }
   }
 }

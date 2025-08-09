@@ -26,36 +26,45 @@ export default function TimezoneRow({
   onTimeSelect, 
   onDelete
 }: TimezoneRowProps) {
-  // Convert selected time to this timezone
-  const localTime = selectedTime.setZone(timezone.id)
-  const currentDate = localTime.toFormat('ccc, MMM d')
+  // Normalize selected time to a Luxon DateTime instance
+  const baseSelectedTime = (selectedTime && typeof (selectedTime as any).toUTC === 'function')
+    ? (selectedTime as DateTime)
+    : DateTime.now()
 
-  // Get reference time in UTC
-  const utcTime = selectedTime.toUTC()
+  // Convert selected time to this timezone
+  const localTime = baseSelectedTime.setZone(timezone.id)
+  const isZoneValid = localTime.isValid
+  const currentDate = isZoneValid ? localTime.toFormat('ccc, MMM d') : 'Invalid DateTime'
+
+  // Get reference time in UTC (use setZone to avoid env-specific toUTC issues)
+  const utcTime = baseSelectedTime.setZone('utc')
 
   // Generate time slots centered around the selected time
-  const timeSlots = Array.from({ length: 24 }, (_, i) => {
-    // Calculate offset from UTC hour (-12 to +11)
-    const hourOffset = i - 12
-    // Add offset to UTC time to get the time slot
-    const utcSlotTime = utcTime.plus({ hours: hourOffset })
-    // Convert UTC time to local timezone
-    const localSlotTime = utcSlotTime.setZone(timezone.id)
-    
-    if (!localSlotTime.isValid) {
-      console.error(`Invalid time for timezone ${timezone.id}:`, { utcSlotTime, hourOffset })
-      return null
-    }
-    
-    return {
-      hour: localSlotTime.hour,
-      minute: 0,
-      period: localSlotTime.toFormat('a'),
-      dateTime: localSlotTime,
-      isSelected: hourOffset === 0,
-      key: localSlotTime.toFormat('HH:mm')
-    }
-  }).filter((slot): slot is NonNullable<typeof slot> => slot !== null)
+  const timeSlots = isZoneValid
+    ? Array.from({ length: 24 }, (_, i) => {
+        const hourOffset = i - 12
+        const utcSlotTime = utcTime.plus({ hours: hourOffset })
+        const localSlotTime = utcSlotTime.setZone(timezone.id)
+        
+        if (!localSlotTime.isValid) {
+          console.error(`Invalid time for timezone ${timezone.id}:`, { utcSlotTime, hourOffset })
+          return null
+        }
+        
+        return {
+          hour: localSlotTime.hour,
+          minute: 0,
+          period: localSlotTime.toFormat('a'),
+          dateTime: localSlotTime,
+          isSelected: hourOffset === 0,
+          key: localSlotTime.toFormat('HH:mm')
+        }
+      }).filter((slot): slot is NonNullable<typeof slot> => slot !== null)
+    : []
+
+  if (!isZoneValid) {
+    console.error(`unsupported zone '${timezone.id}'`, { timezone })
+  }
 
   const theme = useTheme()
 
@@ -78,8 +87,13 @@ export default function TimezoneRow({
         <Box sx={{ flex: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-              {timezone.city}, {timezone.country}
+              {timezone.name}
             </Typography>
+            {timezone.city !== timezone.name && (
+              <Typography variant="caption" color="text.secondary">
+                {timezone.city}
+              </Typography>
+            )}
             <Typography variant="caption" color="text.secondary">
               {timezone.id} (UTC{timezone.offset >= 0 ? '+' : '-'}
               {Math.floor(Math.abs(timezone.offset) / 60).toString().padStart(2, '0')}:
@@ -102,6 +116,7 @@ export default function TimezoneRow({
           </Typography>
           <Tooltip title="Remove timezone">
             <IconButton
+              aria-label="Delete timezone"
               onClick={() => onDelete(timezone)}
               size="small"
               color="error"
@@ -144,10 +159,9 @@ export default function TimezoneRow({
           },
         }}
         ref={(el: HTMLDivElement | null) => {
-          if (el) {
-            // Find the selected time slot and scroll it into view
-            const selectedSlot = el.children[12] as HTMLElement // Middle slot (index 12 of 24)
-            if (selectedSlot) {
+          if (el && timeSlots.length >= 13) {
+            const selectedSlot = el.children[12] as HTMLElement
+            if (selectedSlot && typeof (selectedSlot as any).scrollIntoView === 'function') {
               selectedSlot.scrollIntoView({ 
                 behavior: 'smooth',
                 block: 'nearest',
@@ -157,10 +171,68 @@ export default function TimezoneRow({
           }
         }}
       >
-        {timeSlots.map((slot) => (
+        {isZoneValid ? (
+          timeSlots.map((slot) => (
+            <ButtonBase
+              key={slot.key}
+              onClick={() => onTimeSelect(slot.dateTime)}
+              sx={{
+                minWidth: '85px',
+                height: '48px',
+                py: 0.5,
+                px: 1,
+                borderRadius: 1,
+                textAlign: 'center',
+                transition: 'all 0.2s',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '2px',
+                ...(slot.isSelected && {
+                  backgroundColor: theme.palette.primary.main + '1A',
+                  color: theme.palette.primary.main,
+                  fontWeight: 500,
+                }),
+                '&:hover': {
+                  backgroundColor: slot.isSelected 
+                    ? theme.palette.primary.main + '33'
+                    : theme.palette.action.hover,
+                },
+              }}
+            >
+              <Typography 
+                variant="caption" 
+                component="div"
+                sx={{ 
+                  lineHeight: 1.2,
+                  fontWeight: slot.isSelected ? 600 : 400
+                }}
+              >
+                {slot.dateTime.toFormat('h:mm a').toLowerCase()}
+              </Typography>
+              {slot.dateTime.hour >= 6 && slot.dateTime.hour < 18 ? (
+                <WbSunnyIcon 
+                  sx={{ 
+                    fontSize: 16, 
+                    color: slot.isSelected ? 'primary.main' : 'warning.main',
+                    opacity: slot.isSelected ? 1 : 0.7
+                  }} 
+                />
+              ) : (
+                <DarkModeIcon 
+                  sx={{ 
+                    fontSize: 16, 
+                    color: slot.isSelected ? 'primary.main' : 'info.main',
+                    opacity: slot.isSelected ? 1 : 0.7
+                  }} 
+                />
+              )}
+            </ButtonBase>
+          ))
+        ) : (
           <ButtonBase
-            key={slot.key}
-            onClick={() => onTimeSelect(slot.dateTime)}
+            disabled
             sx={{
               minWidth: '85px',
               height: '48px',
@@ -168,53 +240,17 @@ export default function TimezoneRow({
               px: 1,
               borderRadius: 1,
               textAlign: 'center',
-              transition: 'all 0.2s',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '2px',
-              ...(slot.isSelected && {
-                backgroundColor: theme.palette.primary.main + '1A',
-                color: theme.palette.primary.main,
-                fontWeight: 500,
-              }),
-              '&:hover': {
-                backgroundColor: slot.isSelected 
-                  ? theme.palette.primary.main + '33'
-                  : theme.palette.action.hover,
-              },
+              backgroundColor: theme.palette.action.hover,
             }}
           >
-            <Typography 
-              variant="caption" 
-              component="div"
-              sx={{ 
-                lineHeight: 1.2,
-                fontWeight: slot.isSelected ? 600 : 400
-              }}
-            >
-              {slot.dateTime.toFormat('h:mm a')}
-            </Typography>
-            {slot.dateTime.hour >= 6 && slot.dateTime.hour < 18 ? (
-              <WbSunnyIcon 
-                sx={{ 
-                  fontSize: 16, 
-                  color: slot.isSelected ? 'primary.main' : 'warning.main',
-                  opacity: slot.isSelected ? 1 : 0.7
-                }} 
-              />
-            ) : (
-              <DarkModeIcon 
-                sx={{ 
-                  fontSize: 16, 
-                  color: slot.isSelected ? 'primary.main' : 'info.main',
-                  opacity: slot.isSelected ? 1 : 0.7
-                }} 
-              />
-            )}
+            <Typography variant="caption" component="div">--:--</Typography>
           </ButtonBase>
-        ))}
+        )}
       </Box>
     </Paper>
   )
