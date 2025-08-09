@@ -359,40 +359,40 @@ const middleEastCities: Record<string, CityInfoWithTimezone[]> = {
   'Asia/Bahrain': [
     { name: 'Manama', country: 'Bahrain', population: 217000, timezone: 'Asia/Bahrain' },
   ],
-  'Asia/Saudi_Arabia': [
-    { name: 'Riyadh', country: 'Saudi Arabia', population: 5250000, timezone: 'Asia/Saudi_Arabia' },
-    { name: 'Jeddah', country: 'Saudi Arabia', population: 3976000, timezone: 'Asia/Saudi_Arabia' },
-    { name: 'Mecca', country: 'Saudi Arabia', population: 1578000, timezone: 'Asia/Saudi_Arabia' },
-    { name: 'Medina', country: 'Saudi Arabia', population: 1182000, timezone: 'Asia/Saudi_Arabia' },
-    { name: 'Dammam', country: 'Saudi Arabia', population: 862000, timezone: 'Asia/Saudi_Arabia' },
+  'Asia/Riyadh': [
+    { name: 'Riyadh', country: 'Saudi Arabia', population: 5250000, timezone: 'Asia/Riyadh' },
+    { name: 'Jeddah', country: 'Saudi Arabia', population: 3976000, timezone: 'Asia/Riyadh' },
+    { name: 'Mecca', country: 'Saudi Arabia', population: 1578000, timezone: 'Asia/Riyadh' },
+    { name: 'Medina', country: 'Saudi Arabia', population: 1182000, timezone: 'Asia/Riyadh' },
+    { name: 'Dammam', country: 'Saudi Arabia', population: 862000, timezone: 'Asia/Riyadh' },
   ],
   'Asia/Kuwait': [
     { name: 'Kuwait City', country: 'Kuwait', population: 240000, timezone: 'Asia/Kuwait' },
   ],
-  'Asia/Oman': [
-    { name: 'Muscat', country: 'Oman', population: 1090000, timezone: 'Asia/Oman' },
+  'Asia/Muscat': [
+    { name: 'Muscat', country: 'Oman', population: 1090000, timezone: 'Asia/Muscat' },
   ],
-  'Asia/Jordan': [
-    { name: 'Amman', country: 'Jordan', population: 1100000, timezone: 'Asia/Jordan' },
+  'Asia/Amman': [
+    { name: 'Amman', country: 'Jordan', population: 1100000, timezone: 'Asia/Amman' },
   ],
-  'Asia/Lebanon': [
-    { name: 'Beirut', country: 'Lebanon', population: 2200000, timezone: 'Asia/Lebanon' },
+  'Asia/Beirut': [
+    { name: 'Beirut', country: 'Lebanon', population: 2200000, timezone: 'Asia/Beirut' },
   ],
-  'Asia/Syria': [
-    { name: 'Damascus', country: 'Syria', population: 2500000, timezone: 'Asia/Syria' },
+  'Asia/Damascus': [
+    { name: 'Damascus', country: 'Syria', population: 2500000, timezone: 'Asia/Damascus' },
   ],
-  'Asia/Iraq': [
-    { name: 'Baghdad', country: 'Iraq', population: 7565000, timezone: 'Asia/Iraq' },
+  'Asia/Baghdad': [
+    { name: 'Baghdad', country: 'Iraq', population: 7565000, timezone: 'Asia/Baghdad' },
   ],
-  'Asia/Iran': [
-    { name: 'Tehran', country: 'Iran', population: 8846000, timezone: 'Asia/Iran' },
+  'Asia/Tehran': [
+    { name: 'Tehran', country: 'Iran', population: 8846000, timezone: 'Asia/Tehran' },
   ],
-  'Asia/Turkey': [
-    { name: 'Istanbul', country: 'Turkey', population: 15519267, timezone: 'Asia/Turkey' },
-    { name: 'Ankara', country: 'Turkey', population: 5639076, timezone: 'Asia/Turkey' },
-    { name: 'Izmir', country: 'Turkey', population: 2937343, timezone: 'Asia/Turkey' },
-    { name: 'Bursa', country: 'Turkey', population: 1965000, timezone: 'Asia/Turkey' },
-    { name: 'Antalya', country: 'Turkey', population: 1512000, timezone: 'Asia/Turkey' },
+  'Europe/Istanbul': [
+    { name: 'Istanbul', country: 'Turkey', population: 15519267, timezone: 'Europe/Istanbul' },
+    { name: 'Ankara', country: 'Turkey', population: 5639076, timezone: 'Europe/Istanbul' },
+    { name: 'Izmir', country: 'Turkey', population: 2937343, timezone: 'Europe/Istanbul' },
+    { name: 'Bursa', country: 'Turkey', population: 1965000, timezone: 'Europe/Istanbul' },
+    { name: 'Antalya', country: 'Turkey', population: 1512000, timezone: 'Europe/Istanbul' },
   ],
   'Asia/Jerusalem': [
     { name: 'Tel Aviv', country: 'Israel', population: 443900, timezone: 'Asia/Jerusalem' },
@@ -752,15 +752,15 @@ export const getAvailableTimezones = (): Timezone[] => {
     ...middleEastCities['Asia/Dubai'],
     ...middleEastCities['Asia/Qatar'],
     ...middleEastCities['Asia/Bahrain'],
-    ...middleEastCities['Asia/Saudi_Arabia'],
+    ...middleEastCities['Asia/Riyadh'],
     ...middleEastCities['Asia/Kuwait'],
-    ...middleEastCities['Asia/Oman'],
-    ...middleEastCities['Asia/Jordan'],
-    ...middleEastCities['Asia/Lebanon'],
-    ...middleEastCities['Asia/Syria'],
-    ...middleEastCities['Asia/Iraq'],
-    ...middleEastCities['Asia/Iran'],
-    ...middleEastCities['Asia/Turkey'],
+    ...middleEastCities['Asia/Muscat'],
+    ...middleEastCities['Asia/Amman'],
+    ...middleEastCities['Asia/Beirut'],
+    ...middleEastCities['Asia/Damascus'],
+    ...middleEastCities['Asia/Baghdad'],
+    ...middleEastCities['Asia/Tehran'],
+    ...middleEastCities['Europe/Istanbul'],
     ...middleEastCities['Asia/Jerusalem'],
     ...middleEastCities['Asia/Gaza'],
     ...middleEastCities['Africa/Cairo'],
