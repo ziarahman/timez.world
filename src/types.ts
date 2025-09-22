@@ -4,6 +4,7 @@ export interface Timezone {
   city: string;      // Primary city name
   country: string;   // Country name
   timezone: string;  // IANA timezone ID
+  aliases: string[]; // Searchable aliases (IANA ID, abbreviations, offsets)
   latitude: number;
   longitude: number;
   population: number;// City population

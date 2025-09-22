@@ -25,7 +25,7 @@ import { DateTimePicker } from '@mui/x-date-pickers'
 import TimezonePicker from './components/TimezonePicker'
 import SortableTimezoneList from './components/SortableTimezoneList'
 import { Timezone, getTimezoneUniqueId } from './types'
-import { getAvailableTimezones } from './data/timezones'
+import { getAvailableTimezones, generateTimezoneAliases } from './data/timezones'
 import AnalyticsComponent from './components/Analytics'
 import SpeedInsightsComponent from './components/SpeedInsights'
 
@@ -36,7 +36,22 @@ const STORAGE_KEY = 'worldtimez_timezones'
 function loadSavedTimezones(): Timezone[] {
   try {
     const savedTimezones = localStorage.getItem(STORAGE_KEY)
-    return savedTimezones ? JSON.parse(savedTimezones) : []
+    if (!savedTimezones) {
+      return []
+    }
+
+    const parsed: Partial<Timezone>[] = JSON.parse(savedTimezones)
+    return parsed.map((timezone) => {
+      const timezoneId = timezone.timezone || timezone.id || ''
+      const aliases = Array.isArray((timezone as any).aliases) && (timezone as any).aliases.length > 0
+        ? (timezone as any).aliases
+        : (timezoneId ? generateTimezoneAliases(timezoneId) : [])
+
+      return {
+        ...timezone,
+        aliases,
+      } as Timezone
+    })
   } catch (error) {
     console.error('Error loading saved timezones:', error)
     return []
@@ -132,6 +147,7 @@ function App() {
             city: parsedCity,
             country: parsedCountry,
             timezone: localZoneName,
+            aliases: generateTimezoneAliases(localZoneName),
             latitude: 0, // Default
             longitude: 0, // Default
             population: 0, // Default
