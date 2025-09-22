@@ -25,53 +25,6 @@ const normalizeKeyword = (value: string): string =>
     .replace(/[‐‑‒–—−﹣－]/g, '-')
     .replace(/\s+/g, '');
 
-const getTimezoneAliases = (timezoneId?: string): string[] => {
-  if (!timezoneId) {
-    return [];
-  }
-
-  const aliases = new Set<string>();
-  const normalizedId = timezoneId.trim();
-
-  if (normalizedId === 'UTC' || normalizedId === 'Etc/UTC') {
-    ['UTC', 'GMT', 'UTC+0', 'UTC-0', 'UTC+00', 'UTC-00', 'UTC+00:00', 'UTC-00:00'].forEach(alias =>
-      aliases.add(alias)
-    );
-    return Array.from(aliases);
-  }
-
-  if (normalizedId === 'Etc/GMT') {
-    ['UTC', 'GMT', 'UTC+0', 'UTC-0', 'UTC+00', 'UTC-00', 'UTC+00:00', 'UTC-00:00', 'GMT+0', 'GMT-0'].forEach(alias =>
-      aliases.add(alias)
-    );
-    return Array.from(aliases);
-  }
-
-  const etcMatch = normalizedId.match(/^Etc\/GMT([+-])(\d{1,2})$/i);
-  if (!etcMatch) {
-    return [];
-  }
-
-  const [, sign, hours] = etcMatch;
-  const actualSign = sign === '-' ? '+' : '-';
-  const paddedHours = hours.padStart(2, '0');
-
-  [
-    `UTC${actualSign}${hours}`,
-    `UTC${actualSign}${paddedHours}`,
-    `UTC${actualSign}${hours}:00`,
-    `UTC${actualSign}${paddedHours}:00`,
-    `GMT${actualSign}${hours}`,
-    `GMT${actualSign}${paddedHours}`,
-    `GMT${actualSign}${hours}:00`,
-    `GMT${actualSign}${paddedHours}:00`,
-    'UTC',
-    'GMT'
-  ].forEach(alias => aliases.add(alias));
-
-  return Array.from(aliases);
-};
-
 const buildNormalizedKeywords = (option: Timezone): string[] => {
   const keywords = new Set<string>();
   const timezoneId = option.id || option.timezone;
@@ -87,11 +40,11 @@ const buildNormalizedKeywords = (option: Timezone): string[] => {
   addKeyword(option.name);
   addKeyword(option.timezone);
   addKeyword(option.id);
+  option.aliases?.forEach(addKeyword);
 
   if (timezoneId) {
     addKeyword(timezoneId.replace(/_/g, ' '));
     timezoneId.split(/[\/_]/).forEach(part => addKeyword(part));
-    getTimezoneAliases(timezoneId).forEach(addKeyword);
   }
 
   return Array.from(keywords);

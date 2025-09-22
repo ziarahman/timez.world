@@ -4,21 +4,23 @@ import { Timezone } from '../../types';
 // Mock getAvailableTimezones
 // Define mock data directly inside the factory due to Jest hoisting
 jest.mock('../../data/timezones', () => {
-  const mockStaticCity1_Hoisted: Timezone = { id: 'static1', name: 'Static City One, SC', city: 'Static City One', country: 'SC', timezone: 'Etc/GMT+1', population: 100000, offset: -60, latitude: 1, longitude: 1 };
-  const mockStaticCity2_Hoisted: Timezone = { id: 'static2', name: 'Static City Two, ST', city: 'Static City Two', country: 'ST', timezone: 'Etc/GMT+2', population: 200000, offset: -120, latitude: 2, longitude: 2 };
+  const actual = jest.requireActual('../../data/timezones');
+  const mockStaticCity1_Hoisted: Timezone = { id: 'static1', name: 'Static City One, SC', city: 'Static City One', country: 'SC', timezone: 'Etc/GMT+1', aliases: [], population: 100000, offset: -60, latitude: 1, longitude: 1 };
+  const mockStaticCity2_Hoisted: Timezone = { id: 'static2', name: 'Static City Two, ST', city: 'Static City Two', country: 'ST', timezone: 'Etc/GMT+2', aliases: [], population: 200000, offset: -120, latitude: 2, longitude: 2 };
   return {
     getAvailableTimezones: jest.fn(() => [
       mockStaticCity1_Hoisted,
       mockStaticCity2_Hoisted,
     ]),
+    generateTimezoneAliases: actual.generateTimezoneAliases,
   };
 });
 
 describe('CityService and DefaultCityService', () => {
   let cityService: DefaultCityService;
   // Reference the hoisted mock data for use in tests if needed, or redefine for clarity
-  const mockStaticCity1: Timezone = { id: 'static1', name: 'Static City One, SC', city: 'Static City One', country: 'SC', timezone: 'Etc/GMT+1', population: 100000, offset: -60, latitude: 1, longitude: 1 };
-  const mockStaticCity2: Timezone = { id: 'static2', name: 'Static City Two, ST', city: 'Static City Two', country: 'ST', timezone: 'Etc/GMT+2', population: 200000, offset: -120, latitude: 2, longitude: 2 };
+  const mockStaticCity1: Timezone = { id: 'static1', name: 'Static City One, SC', city: 'Static City One', country: 'SC', timezone: 'Etc/GMT+1', aliases: [], population: 100000, offset: -60, latitude: 1, longitude: 1 };
+  const mockStaticCity2: Timezone = { id: 'static2', name: 'Static City Two, ST', city: 'Static City Two', country: 'ST', timezone: 'Etc/GMT+2', aliases: [], population: 200000, offset: -120, latitude: 2, longitude: 2 };
   let invalidateCacheSpy: jest.SpyInstance;
 
   beforeEach(() => {
@@ -47,6 +49,7 @@ describe('CityService and DefaultCityService', () => {
       city: 'Dynamic City One',
       country: 'DC',
       timezone: 'Etc/GMT+3',
+      aliases: [],
       population: 50000,
       offset: -180,
       latitude: 3,
@@ -78,7 +81,7 @@ describe('CityService and DefaultCityService', () => {
   });
 
   describe('searchCities (via DefaultCityService)', () => {
-    const dynamicCityForSearch: Timezone = { id: 'dynamicSearch1', name: 'Dynamic Search City, DS', city: 'Dynamic Search City', country: 'DS', timezone: 'Etc/GMT+4', population: 75000, offset: -240, latitude: 4, longitude: 4, source: 'api' };
+    const dynamicCityForSearch: Timezone = { id: 'dynamicSearch1', name: 'Dynamic Search City, DS', city: 'Dynamic Search City', country: 'DS', timezone: 'Etc/GMT+4', aliases: [], population: 75000, offset: -240, latitude: 4, longitude: 4, source: 'api' };
 
     beforeEach(() => {
       // Static cities are loaded by mock in constructor
@@ -170,20 +173,20 @@ describe('CityService and DefaultCityService', () => {
 
     it('should return correct count after adding a dynamic city', () => {
       const initialCount = cityService.getTotalCities(); // Should be 2
-      const dynamicCity: Timezone = { id: 'dynamicTotal1', name: 'Dynamic Total City, DT', city: 'Dynamic Total City', country: 'DT', timezone: 'Etc/GMT+5', population: 10000, offset: -300, latitude: 5, longitude: 5, source: 'api' };
+      const dynamicCity: Timezone = { id: 'dynamicTotal1', name: 'Dynamic Total City, DT', city: 'Dynamic Total City', country: 'DT', timezone: 'Etc/GMT+5', aliases: [], population: 10000, offset: -300, latitude: 5, longitude: 5, source: 'api' };
       cityService.addDynamicCity(dynamicCity);
       expect(cityService.getTotalCities()).toBe(initialCount + 1);
     });
 
     it('should return correct count after adding multiple dynamic cities', () => {
         const initialCount = cityService.getTotalCities(); // Should be 2
-        cityService.addDynamicCity({ id: 'd1', name: 'D1', city: 'D1', country: 'D', timezone: 'TZ', population: 1, offset: 0, latitude: 0, longitude: 0, source: 'api' });
-        cityService.addDynamicCity({ id: 'd2', name: 'D2', city: 'D2', country: 'D', timezone: 'TZ', population: 1, offset: 0, latitude: 0, longitude: 0, source: 'api' });
+        cityService.addDynamicCity({ id: 'd1', name: 'D1', city: 'D1', country: 'D', timezone: 'TZ', aliases: [], population: 1, offset: 0, latitude: 0, longitude: 0, source: 'api' });
+        cityService.addDynamicCity({ id: 'd2', name: 'D2', city: 'D2', country: 'D', timezone: 'TZ', aliases: [], population: 1, offset: 0, latitude: 0, longitude: 0, source: 'api' });
         expect(cityService.getTotalCities()).toBe(initialCount + 2);
       });
 
     it('should not change count if adding dynamic city with existing ID', () => {
-        const dynamicCity: Timezone = { id: 'dynamicTotal1', name: 'Dynamic Total City, DT', city: 'Dynamic Total City', country: 'DT', timezone: 'Etc/GMT+5', population: 10000, offset: -300, latitude: 5, longitude: 5, source: 'api' };
+        const dynamicCity: Timezone = { id: 'dynamicTotal1', name: 'Dynamic Total City, DT', city: 'Dynamic Total City', country: 'DT', timezone: 'Etc/GMT+5', aliases: [], population: 10000, offset: -300, latitude: 5, longitude: 5, source: 'api' };
         cityService.addDynamicCity(dynamicCity);
         const countAfterFirstAdd = cityService.getTotalCities();
         cityService.addDynamicCity({ ...dynamicCity, name: "Updated Name" }); // Same ID

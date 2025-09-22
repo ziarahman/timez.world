@@ -1,4 +1,4 @@
-import { getAvailableTimezones } from '../data/timezones';
+import { getAvailableTimezones, generateTimezoneAliases } from '../data/timezones';
 import { Timezone } from '../types';
 
 interface DynamicCityData {
@@ -9,6 +9,7 @@ interface DynamicCityData {
   offset: number;
   population: number;
   timezone: string;
+  aliases: string[];
   latitude?: number;
   longitude?: number;
   lastUpdated?: number;
@@ -56,6 +57,9 @@ export class CityService {
       offset: city.offset,
       population: city.population,
       timezone: city.timezone,
+      aliases: city.aliases && city.aliases.length > 0
+        ? city.aliases
+        : generateTimezoneAliases(city.timezone),
       latitude: city.latitude,
       longitude: city.longitude,
       lastUpdated: Date.now() // Add a timestamp
@@ -98,6 +102,9 @@ export class CityService {
             offset: c.offset,
             population: c.population,
             timezone: c.timezone,
+            aliases: c.aliases && c.aliases.length > 0
+              ? c.aliases
+              : generateTimezoneAliases(c.timezone),
             latitude: c.latitude || 0,
             longitude: c.longitude || 0
           }))

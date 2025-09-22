@@ -1,21 +1,88 @@
-import { CityInfo } from '../types'
+import { DateTime } from 'luxon'
+import { CityInfo, Timezone } from '../types'
 
 // Interface for city information with timezone property
 interface CityInfoWithTimezone extends CityInfo {
   timezone: string; // Valid IANA timezone identifier
 }
 
-// Interface for Timezone
-interface Timezone {
-  id: string;
-  name: string;
-  city: string;
-  country: string;
-  timezone: string;
-  latitude: number;
-  longitude: number;
-  population: number;
-  offset: number;
+const WINTER_MONTH = 1
+const SUMMER_MONTH = 7
+
+const buildOffsetAliases = (offsetMinutes: number): string[] => {
+  if (!Number.isFinite(offsetMinutes)) {
+    return []
+  }
+
+  const aliases = new Set<string>()
+
+  if (offsetMinutes === 0) {
+    ;[
+      'UTC',
+      'GMT',
+      'UTC+0',
+      'UTC-0',
+      'UTC+00',
+      'UTC-00',
+      'UTC+00:00',
+      'UTC-00:00',
+      'GMT+0',
+      'GMT-0',
+      'GMT+00',
+      'GMT-00',
+      'GMT+00:00',
+      'GMT-00:00'
+    ].forEach(alias => aliases.add(alias))
+    return Array.from(aliases)
+  }
+
+  const sign = offsetMinutes >= 0 ? '+' : '-'
+  const absoluteMinutes = Math.abs(offsetMinutes)
+  const hours = Math.floor(absoluteMinutes / 60)
+  const minutes = absoluteMinutes % 60
+  const hourVariants = [hours.toString(), hours.toString().padStart(2, '0')]
+  const minuteString = minutes.toString().padStart(2, '0')
+
+  hourVariants.forEach(hour => {
+    aliases.add(`UTC${sign}${hour}`)
+    aliases.add(`GMT${sign}${hour}`)
+
+    const offsetWithColon = `${hour}:${minuteString}`
+    aliases.add(`UTC${sign}${offsetWithColon}`)
+    aliases.add(`GMT${sign}${offsetWithColon}`)
+  })
+
+  return Array.from(aliases)
+}
+
+export const generateTimezoneAliases = (timezoneId: string): string[] => {
+  const aliases = new Set<string>()
+
+  if (!timezoneId) {
+    return []
+  }
+
+  aliases.add(timezoneId)
+
+  const sampleDates = [
+    DateTime.fromObject({ year: DateTime.utc().year, month: WINTER_MONTH, day: 1 }, { zone: timezoneId }),
+    DateTime.fromObject({ year: DateTime.utc().year, month: SUMMER_MONTH, day: 1 }, { zone: timezoneId })
+  ]
+
+  sampleDates.forEach(dateTime => {
+    if (!dateTime.isValid) {
+      return
+    }
+
+    const abbreviation = dateTime.toFormat('ZZZZ')
+    if (abbreviation && abbreviation !== 'UTC' && abbreviation !== 'GMT') {
+      aliases.add(abbreviation.toUpperCase())
+    }
+
+    buildOffsetAliases(dateTime.offset).forEach(alias => aliases.add(alias))
+  })
+
+  return Array.from(aliases)
 }
 
 // Major cities from GeoNames database, sorted by population
@@ -794,6 +861,7 @@ export const getAvailableTimezones = (): Timezone[] => {
     city: city.name,
     country: city.country,
     timezone: city.timezone,
+    aliases: generateTimezoneAliases(city.timezone),
     latitude: 0, // TODO: Add real latitude data
     longitude: 0, // TODO: Add real longitude data
     population: city.population,

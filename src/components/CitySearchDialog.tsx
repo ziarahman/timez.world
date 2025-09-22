@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { Cloud as ApiIcon } from '@mui/icons-material';
-import { getAvailableTimezones } from '../data/timezones';
+import { getAvailableTimezones, generateTimezoneAliases } from '../data/timezones';
 
 interface City {
   id: string;
@@ -228,6 +228,7 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
       city: city.city || city.name,
       country: city.country,
       timezone: ianaTimezoneId, // This is the IANA timezone string
+      aliases: generateTimezoneAliases(ianaTimezoneId),
       latitude: city.latitude,
       longitude: city.longitude,
       population: city.population || 0,
