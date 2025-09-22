@@ -724,6 +724,12 @@ const gmtTimezones: Record<string, CityInfoWithTimezone[]> = {
   'Etc/GMT-12': [
     { name: 'GMT+12', country: 'TZ', population: 0, timezone: 'Etc/GMT-12' },
   ],
+  'Etc/GMT-13': [
+    { name: 'GMT+13', country: 'TZ', population: 0, timezone: 'Etc/GMT-13' },
+  ],
+  'Etc/GMT-14': [
+    { name: 'GMT+14', country: 'TZ', population: 0, timezone: 'Etc/GMT-14' },
+  ],
 };
 
 // Get all available timezones with their current offsets
