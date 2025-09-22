@@ -1,28 +1,28 @@
 import '@testing-library/jest-dom';
 
-// Mock Luxon DateTime
-jest.mock('luxon', () => ({
-  DateTime: {
-    now: jest.fn(() => ({
-      year: 2025,
-      month: 3,
-      day: 29,
-      hour: 19,
-      minute: 30,
-      second: 0,
-      zone: 'Asia/Singapore',
-      isValid: true,
-      setZone: jest.fn().mockReturnThis(),
-      toFormat: jest.fn().mockReturnValue('2025-03-29T19:30:00+08:00'),
-    })),
-    fromObject: jest.fn((obj) => ({
-      ...obj,
-      isValid: true,
-      setZone: jest.fn().mockReturnThis(),
-      toFormat: jest.fn().mockReturnValue('2025-03-29T19:30:00+08:00'),
-    })),
-  },
-}));
+// Provide deterministic Luxon behaviour while preserving full API support
+jest.mock('luxon', () => {
+  const actual = jest.requireActual('luxon');
+  const fixedNow = actual.DateTime.fromISO('2025-03-29T19:30:00+08:00');
+  const originalLocal = actual.DateTime.local.bind(actual.DateTime);
+  const originalFromObject = actual.DateTime.fromObject.bind(actual.DateTime);
+
+  actual.DateTime.now = jest.fn(() => fixedNow);
+  actual.DateTime.local = jest.fn((...args: any[]) => originalLocal(...args));
+  actual.DateTime.fromObject = jest.fn((config: any, options?: any) => originalFromObject(config, options));
+
+  return {
+    ...actual,
+    DateTime: actual.DateTime,
+  };
+});
+
+if (!HTMLElement.prototype.scrollIntoView) {
+  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+    value: jest.fn(),
+    configurable: true,
+  });
+}
 
 // Mock localStorage
 const localStorageMock = (() => {
