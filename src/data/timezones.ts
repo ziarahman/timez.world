@@ -79,6 +79,17 @@ export const generateTimezoneAliases = (timezoneId: string): string[] => {
       aliases.add(abbreviation.toUpperCase())
     }
 
+    const offsetNameShort = dateTime.offsetNameShort
+    if (offsetNameShort && offsetNameShort.toUpperCase() !== 'UTC' && offsetNameShort.toUpperCase() !== 'GMT') {
+      aliases.add(offsetNameShort.toUpperCase())
+    }
+
+    const offsetNameLong = dateTime.offsetNameLong
+    if (offsetNameLong) {
+      aliases.add(offsetNameLong)
+      aliases.add(offsetNameLong.toUpperCase())
+    }
+
     buildOffsetAliases(dateTime.offset).forEach(alias => aliases.add(alias))
   })
 
