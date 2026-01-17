@@ -12,6 +12,7 @@ import {
   TextField, 
   List, 
   ListItem, 
+  ListItemButton,
   ListItemText, 
   FormControl, 
   InputLabel, 
@@ -187,6 +188,9 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
             setApiError('API search failed. Please try again later.');
           }
         }
+      } else {
+        setApiResults([]);
+        setApiError(null);
       }
     } catch (error) {
       console.error('Search failed:', {
@@ -327,25 +331,31 @@ export default function CitySearchDialog({ open, onClose, onCitySelect }: CitySe
               {results.map((city, index) => (
                 <ListItem
                   key={`${city.id}-${index}`}
-                  button
-                  onClick={() => handleSelect(city)}
+                  disablePadding
                 >
-                  <ListItemText
-                    primary={`${city.name}, ${city.country}`}
-                    secondary={city.timezone}
-                  />
+                  <ListItemButton
+                    onClick={() => handleSelect(city)}
+                  >
+                    <ListItemText
+                      primary={`${city.name}, ${city.country}`}
+                      secondary={city.timezone}
+                    />
+                  </ListItemButton>
                 </ListItem>
               ))}
               {apiResults.map((city, index) => (
                 <ListItem
                   key={`${city.id}-${index}`}
-                  button
-                  onClick={() => handleSelect(city)}
+                  disablePadding
                 >
-                  <ListItemText
-                    primary={`${city.name}, ${city.country}`}
-                    secondary={city.timezone}
-                  />
+                  <ListItemButton
+                    onClick={() => handleSelect(city)}
+                  >
+                    <ListItemText
+                      primary={`${city.name}, ${city.country}`}
+                      secondary={city.timezone}
+                    />
+                  </ListItemButton>
                 </ListItem>
               ))}
             </List>

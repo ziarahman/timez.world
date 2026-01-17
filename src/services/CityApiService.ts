@@ -109,6 +109,20 @@ export class CityApiService {
 
   private constructor() {}
 
+  private requiresApiKey(provider: ProviderConfig): boolean {
+    return provider.name === 'GeoDB Cities' || provider.name === 'OpenWeatherMap';
+  }
+
+  private providerHasApiKey(provider: ProviderConfig): boolean {
+    if (provider.name === 'GeoDB Cities') {
+      return Boolean(provider.headers['X-RapidAPI-Key']);
+    }
+    if (provider.name === 'OpenWeatherMap') {
+      return Boolean(provider.params('')['appid']);
+    }
+    return true;
+  }
+
   public static getInstance(): CityApiService {
     if (!CityApiService.instance) {
       CityApiService.instance = new CityApiService();
@@ -253,6 +267,11 @@ export class CityApiService {
             console.log(`Skipping disabled provider: ${provider.name}`);
             continue;
           }
+          if (this.requiresApiKey(provider) && !this.providerHasApiKey(provider)) {
+            providerError = 'No API key available';
+            console.warn(`Skipping provider without API key: ${provider.name}`);
+            continue;
+          }
 
           const providerResults = await this.fetchFromProvider(provider, query);
           const providerCities = providerResults.data.map(city => ({
@@ -307,7 +326,10 @@ export class CityApiService {
         stack: error instanceof Error ? error.stack : undefined,
         error: error
       });
-      throw new Error('No results found. Last error: Network Error');
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('Network Error');
     }
   }
 }
