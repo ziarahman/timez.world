@@ -105,6 +105,7 @@ export default function TimezoneRow({
               onClick={() => onDelete(timezone)}
               size="small"
               color="error"
+              aria-label="Remove timezone"
               sx={{ 
                 padding: 0.5,
                 '&:hover': { 

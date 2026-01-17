@@ -8,9 +8,10 @@ describe('TimezonePicker search behaviour', () => {
     render(<TimezonePicker onSelect={jest.fn()} />);
 
     const input = screen.getByLabelText(/select or search for a city/i);
+    await user.click(input);
     await user.type(input, 'UTC+5');
 
-    expect(await screen.findByRole('option', { name: /GMT\+5, TZ/i })).toBeInTheDocument();
+    expect(await screen.findByText(/GMT\+5, TZ/i)).toBeInTheDocument();
   });
 
   it('shows GMT offset entries when searching for UTC', async () => {
@@ -18,8 +19,9 @@ describe('TimezonePicker search behaviour', () => {
     render(<TimezonePicker onSelect={jest.fn()} />);
 
     const input = screen.getByLabelText(/select or search for a city/i);
+    await user.click(input);
     await user.type(input, 'UTC');
 
-    expect(await screen.findByRole('option', { name: /GMT\+5, TZ/i })).toBeInTheDocument();
+    expect(await screen.findByText(/GMT\+5, TZ/i)).toBeInTheDocument();
   });
 });

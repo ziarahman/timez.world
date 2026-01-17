@@ -155,13 +155,12 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
         disablePortal={false}
         openOnFocus
         selectOnFocus
-        renderOption={(props, option) => {
+        renderOption={(props, option, state) => {
           // Calculate offset once per option
           const offset = option.offset || DateTime.local().setZone(option.id).toFormat('ZZ');
-          // Create a unique key using both city name and timezone ID
-          const key = `${option.city}-${option.country}-${option.id}`;
+          const { key, ...optionProps } = props;
           return (
-            <ListItem {...props} key={key}>
+            <ListItem {...optionProps} key={`${option.id}-${state.index}`} component="li">
               <ListItemText
                 primary={
                   <Typography variant="body1">
@@ -199,6 +198,7 @@ export default function TimezonePicker({ onSelect }: TimezonePickerProps) {
                         onClick={handleDialogOpen}
                         size="small"
                         sx={{ ml: 1 }}
+                        aria-label="Add new timezone"
                       >
                         <AddIcon />
                       </IconButton>
